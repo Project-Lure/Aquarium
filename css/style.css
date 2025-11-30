@@ -11,7 +11,7 @@
   z-index: 10;
 }
 
-/* 左・中央・右のレイアウト */
+/* 左・中央・右 */
 .header-left,
 .header-right {
   display: flex;
@@ -19,7 +19,7 @@
 }
 
 .header-center {
-  flex: 1;                 /* 中央が伸びて真ん中に来る */
+  flex: 1;
   text-align: center;
 }
 
@@ -30,27 +30,30 @@
 }
 
 .brand-icon {
-  width: 24px;
-  height: 24px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
 }
 
 /* 横長ロゴ */
 .header-logo {
-  max-height: 32px;        /* 大きさはここで調整 */
-  height: 32px;
+  max-height: 28px;
+  height: 28px;
   width: auto;
 }
 
-/* PC用ナビ */
+/* PC用ナビ（左にくっつく） */
+.header-nav {
+  margin-left: 12px;
+}
 .header-nav a {
-  margin-left: 16px;
+  margin-right: 12px;
   text-decoration: none;
   color: inherit;
 }
 
-/* 検索ボタン：デフォルト非表示、一覧だけ表示 */
+/* 検索ボタン：デフォルト非表示、一覧だけ表示（右側に置く） */
 .header-search-btn {
-  margin-left: 12px;
   padding: 4px 10px;
   cursor: pointer;
   display: none;
@@ -78,18 +81,18 @@
 
 /* スマホ表示 */
 @media (max-width: 768px) {
-  /* 中央ロゴを少し小さくして余裕を作る */
+  /* 中央ロゴは少しだけ小さく */
   .header-logo {
-    max-height: 28px;
-    height: 28px;
+    max-height: 24px;
+    height: 24px;
   }
 
-  /* 右側スペースが狭くなるので、リンクはドロップダウンに */
+  /* 左にぶら下がるドロップダウンメニュー */
   .header-nav {
     display: none;
     position: absolute;
     top: 48px;
-    right: 16px;
+    left: 16px;          /* ← 右ではなく左側に出す */
     background: #fff;
     border: 1px solid #ddd;
     flex-direction: column;
@@ -100,7 +103,6 @@
     margin: 4px 0;
   }
 }
-
 /* アーク表示 */
 .arc-section {
   margin-top: 16px;
