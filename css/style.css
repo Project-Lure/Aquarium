@@ -35,14 +35,14 @@
   border-radius: 50%;
 }
 
-/* 横長ロゴ */
+/* 横長ロゴ（PC・タブレット） */
 .header-logo {
   max-height: 100px;
   height: 100px;
   width: auto;
 }
 
-/* PC用ナビ（左にくっつく） */
+/* PC用ナビ（左） */
 .header-nav {
   margin-left: 12px;
 }
@@ -52,7 +52,7 @@
   color: inherit;
 }
 
-/* 検索ボタン：デフォルト非表示、一覧だけ表示（右側に置く） */
+/* 検索ボタン */
 .header-search-btn {
   padding: 4px 10px;
   cursor: pointer;
@@ -69,27 +69,20 @@
   cursor: pointer;
 }
 
-/* PC・タブレット用 */
-.header-logo {
-  max-height: 100px;
-  height: 100px;
-  width: auto;
-}
-
-/* スマホ用 */
+/* スマホ用 — ここからここまでが 1 つの @media */
 @media (max-width: 768px) {
+  /* ロゴ小さめ */
   .header-logo {
     max-height: 50px;
     height: 50px;
   }
-}
 
-  /* 左にぶら下がるドロップダウンメニュー */
+  /* 左に縦メニューを出す */
   .header-nav {
     display: none;
     position: absolute;
     top: 48px;
-    left: 16px;          /* ← 右ではなく左側に出す */
+    left: 16px;
     background: #fff;
     border: 1px solid #ddd;
     flex-direction: column;
@@ -99,7 +92,23 @@
   .header-nav a {
     margin: 4px 0;
   }
+
+  /* PC時のみ表示にしていたナビはスマホでは非表示 */
+  .header-menu-btn {
+    display: inline-block;
+  }
 }
+
+/* PC表示 */
+@media (min-width: 769px) {
+  .header-nav {
+    display: flex;
+  }
+  .header-menu-btn {
+    display: none;
+  }
+}
+
 /* アーク表示 */
 .arc-section {
   margin-top: 16px;
