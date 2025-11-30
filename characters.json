@@ -1,0 +1,16 @@
+[
+  {
+    "code": "000",
+    "title": "彩に蕩れる",
+    "imageUrl": "images/characters/000.png",
+
+    "arc": {
+      "ex": "G",
+      "core": "P"
+    },
+
+    "theme": "無職",
+    "mainColorLabel": "透明",
+    "colors": []
+  }
+]

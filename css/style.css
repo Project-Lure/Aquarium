@@ -1,0 +1,69 @@
+/* ヘッダー全体 */
+.site-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 16px;
+    border-bottom: 1px solid #ddd;
+    background: #fff;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.header-nav a {
+    margin-left: 16px;
+}
+
+/* ハンバーガー */
+.header-menu-btn {
+    font-size: 20px;
+}
+
+/* PC */
+@media (min-width: 769px) {
+    .header-nav {
+        display: flex;
+    }
+
+    .header-menu-btn {
+        display: none;
+    }
+}
+
+/* スマホ */
+@media (max-width: 768px) {
+    .header-nav {
+        display: none;
+        position: absolute;
+        top: 48px;
+        right: 16px;
+        background: #fff;
+        border: 1px solid #ddd;
+        flex-direction: column;
+    }
+}
+
+.arc-section {
+  margin-top: 16px;
+}
+
+.arc-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+
+.arc-label {
+  font-weight: 600;
+}
+
+.arc-icon {
+  font-size: 20px;
+}
+
+.arc-name {
+  font-size: 14px;
+  opacity: 0.8;
+}

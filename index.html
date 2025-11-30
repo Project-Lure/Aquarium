@@ -1,28 +1,24 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aquarium – Character List</title>
+<body class="page-index">
 
-    <!-- CSS読み込み -->
-    <link rel="stylesheet" href="css/style.css">
-</head>
+    <div id="header-container"></div>
+    <script src="js/loadHeader.js"></script>
 
-<body>
-
-    <header>
-        <h1>Aquarium</h1>
-        <p>Project Lure – Character Exhibition</p>
-    </header>
-
-    <!-- カード一覧を入れる箱 -->
+    <!-- ここから本体 -->
     <main>
         <div id="card-list"></div>
     </main>
 
-    <!-- JS読み込み -->
-    <script src="js/index.js"></script>
+    <!-- 検索ポップアップ（後で貼る） -->
+    <div id="search-overlay">
+        <div id="search-modal">
+            <div id="search-header">
+                <span>キャラクター検索</span>
+                <button id="search-close">×</button>
+            </div>
 
+            <input id="search-input" type="text" placeholder="検索">
+
+            <div id="search-results"></div>
+        </div>
+    </div>
 </body>
-</html>
