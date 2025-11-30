@@ -1,49 +1,50 @@
 /* ヘッダー全体 */
 .site-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 8px 16px;
-    border-bottom: 1px solid #ddd;
-    background: #fff;
-    position: sticky;
-    top: 0;
-    z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 16px;
+  border-bottom: 1px solid #ddd;
+  background: #fff;
+  position: sticky;
+  top: 0;
+  z-index: 10;
 }
 
 .header-nav a {
-    margin-left: 16px;
+  margin-left: 16px;
 }
 
 /* ハンバーガー */
 .header-menu-btn {
-    font-size: 20px;
+  font-size: 20px;
 }
 
 /* PC */
 @media (min-width: 769px) {
-    .header-nav {
-        display: flex;
-    }
+  .header-nav {
+    display: flex;
+  }
 
-    .header-menu-btn {
-        display: none;
-    }
+  .header-menu-btn {
+    display: none;
+  }
 }
 
 /* スマホ */
 @media (max-width: 768px) {
-    .header-nav {
-        display: none;
-        position: absolute;
-        top: 48px;
-        right: 16px;
-        background: #fff;
-        border: 1px solid #ddd;
-        flex-direction: column;
-    }
+  .header-nav {
+    display: none;
+    position: absolute;
+    top: 48px;
+    right: 16px;
+    background: #fff;
+    border: 1px solid #ddd;
+    flex-direction: column;
+  }
 }
 
+/* アーク表示 */
 .arc-section {
   margin-top: 16px;
 }
@@ -66,4 +67,30 @@
 .arc-name {
   font-size: 14px;
   opacity: 0.8;
+}
+
+/* カード一覧まわり */
+#card-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 16px;
+  padding: 16px;
+}
+
+.card {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #fff;
+  padding-bottom: 8px;
+}
+
+/* 画像の縦横比はそのまま、横幅だけ揃える */
+.card-image img {
+  width: 100%;
+  height: auto;
+  display: block;
 }
