@@ -37,8 +37,8 @@
 
 /* 横長ロゴ */
 .header-logo {
-  max-height: 40px;
-  height: 40px;
+  max-height: 100px;
+  height: 100px;
   width: auto;
 }
 
@@ -69,23 +69,20 @@
   cursor: pointer;
 }
 
-/* PC表示 */
-@media (min-width: 769px) {
-  .header-nav {
-    display: flex;
-  }
-  .header-menu-btn {
-    display: none;   /* PCではハンバーガー隠す */
-  }
+/* PC・タブレット用 */
+.header-logo {
+  max-height: 100px;
+  height: 100px;
+  width: auto;
 }
 
-/* スマホ表示 */
+/* スマホ用 */
 @media (max-width: 768px) {
-  /* 中央ロゴは少しだけ小さく */
   .header-logo {
-    max-height: 24px;
-    height: 24px;
+    max-height: 50px;
+    height: 50px;
   }
+}
 
   /* 左にぶら下がるドロップダウンメニュー */
   .header-nav {
