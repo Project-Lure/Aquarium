@@ -37,7 +37,8 @@
 
 /* 横長ロゴ */
 .header-logo {
-  max-height: auto;
+  max-height: 40px;
+  height: 40px;
   width: auto;
 }
 
