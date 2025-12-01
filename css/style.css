@@ -94,9 +94,9 @@ body {
 }
 
 /* =========================
-   スマホ表示（〜480px）
+   スマホ表示（〜768px）
    ========================= */
-@media (max-width: 480px) {
+@media (max-width: 768px) {
   /* ドロップダウンメニュー */
   .header-nav {
     display: none;
@@ -120,9 +120,9 @@ body {
 }
 
 /* =========================
-   PC表示（481px〜）
+   PC表示（769px〜）
    ========================= */
-@media (min-width: 481px) {
+@media (min-width: 769px) {
   .header-nav {
     display: flex;
   }
