@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 <img src="${imgPath}" alt="${c.title}">
               </div>
               <div class="card-meta">
-                <div class="card-title">${c.code}_${c.title}</div>
+                <div class="card-title">${c.title}</div>
               </div>
             </div>
           `;
