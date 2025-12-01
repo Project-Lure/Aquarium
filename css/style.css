@@ -1,15 +1,22 @@
 /* =========================
-   ヘッダー全体
+   ヘッダー全体（固定＆高さ一定）
    ========================= */
 .site-header {
+  position: fixed;          /* 画面上に固定 */
+  top: 0;
+  left: 0;
+  right: 0;
+
+  height: 64px;             /* ← ヘッダーの“高さ”を固定 */
+  padding: 0 10px;          /* 上下のpaddingは0にして高さを一定にする */
+  box-sizing: border-box;   /* padding込みで64pxに収まるようにする */
+
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 8px 10px;
+
   border-bottom: 1px solid #ddd;
   background: #fff;
-  position: sticky;
-  top: 0;
   z-index: 10;
 }
 
@@ -119,6 +126,15 @@
     display: none;
   }
 }
+
+/* =========================
+   body
+   ========================= */
+body {
+  margin: 0;
+  padding-top: 64px;  /* ヘッダーの高さと同じ値にする */
+}
+
 
 /* =========================
    アーク表示
