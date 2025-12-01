@@ -189,8 +189,8 @@ document.addEventListener("DOMContentLoaded", () => {
     // リセット：検索条件クリア＆一覧を元に戻す
     resetBtn.addEventListener("click", () => {
       input.value = "";
-      seriesOptions.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = true);
-      arcOptions.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = true);
+      seriesOptions.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
+      arcOptions.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
       currentList = [...originalOrder];
       sortMode = "code";
       renderList(currentList);
