@@ -72,6 +72,8 @@
   {
     "code": "007",
     "title": "",
+    "titleYomi": "",
+    "series": "0",
     "arc": { "ex": "", "core": "" },
     "theme": "",
     "mainColorLabel": "",
@@ -80,6 +82,8 @@
   {
     "code": "008",
     "title": "",
+    "titleYomi": "",
+    "series": "0",
     "arc": { "ex": "", "core": "" },
     "theme": "",
     "mainColorLabel": "",
@@ -109,6 +113,7 @@
     "code": "013",
     "title": "",
     "titleYomi": "",
+    "series": "0",
     "arc": { "ex": "", "core": "" },
     "theme": "",
     "mainColorLabel": "",
@@ -118,6 +123,7 @@
     "code": "017",
     "title": "",
     "titleYomi": "",
+    "series": "0",
     "arc": { "ex": "", "core": "" },
     "theme": "",
     "mainColorLabel": "",
