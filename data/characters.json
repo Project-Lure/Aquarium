@@ -6,8 +6,9 @@
     "series": "0",
     "arc": { "ex": "G", "core": "S" },
     "theme": "無職",
-    "mainColorLabel": "",
-    "colors": ["透明"]
+    "mainColorLabel": "透明",
+    "colors": [""],
+    "catchcopy": "何者でもないから、何者にでもなれるんだ"
   },
   {
     "code": "001",
@@ -16,8 +17,9 @@
     "series": "0",
     "arc": { "ex": "B", "core": "F" },
     "theme": "探偵",
-    "mainColorLabel": "",
-    "colors": ["緋色"]
+    "mainColorLabel": "緋色",
+    "colors": [""],
+    "catchcopy": "刺さねば終わらない"
   },
   {
     "code": "002",
@@ -26,8 +28,9 @@
     "series": "0",
     "arc": { "ex": "R", "core": "S" },
     "theme": "墓守",
-    "mainColorLabel": "",
-    "colors": ["鈍色"]
+    "mainColorLabel": "鈍色",
+    "colors": [""],
+    "catchcopy": "死んでも忘れない"
   },
   {
     "code": "003",
@@ -36,8 +39,9 @@
     "series": "0",
     "arc": { "ex": "P", "core": "V" },
     "theme": "気象予報士",
-    "mainColorLabel": "",
-    "colors": ["水色"]
+    "mainColorLabel": "水色",
+    "colors": [""],
+    "catchcopy": "読めない雨はない"
   },
   {
     "code": "004",
@@ -46,28 +50,31 @@
     "series": "0",
     "arc": { "ex": "P", "core": "F" },
     "theme": "占い師",
-    "mainColorLabel": "",
-    "colors": ["紫苑"]
+    "mainColorLabel": "紫苑",
+    "colors": [""],
+    "catchcopy": "見えるのに触れられない"
   },
   {
     "code": "005",
-    "title": "HENZAI", 
+    "title": "HENZAI",
     "titleYomi": "へんざい",
     "series": "0",
     "arc": { "ex": "M", "core": "V" },
     "theme": "錬金術師",
-    "mainColorLabel": "",
-    "colors": ["金色"]
+    "mainColorLabel": "金色",
+    "colors": [""],
+    "catchcopy": "存在か損害か、後悔か崩壊か"
   },
   {
     "code": "006",
-    "title": "凍京に咲け", 
+    "title": "凍京に咲け",
     "titleYomi": "とうきょうにさけ",
     "series": "0",
     "arc": { "ex": "M", "core": "B" },
     "theme": "ギタリスト",
-    "mainColorLabel": "",
-    "colors": ["緑"]
+    "mainColorLabel": "緑",
+    "colors": [""],
+    "catchcopy": "届け、歌声"
   },
   {
     "code": "007",
@@ -76,8 +83,9 @@
     "series": "0",
     "arc": { "ex": "B", "core": "V" },
     "theme": "吸血鬼",
-    "mainColorLabel": "",
-    "colors": ["真紅"]
+    "mainColorLabel": "真紅",
+    "colors": [""],
+    "catchcopy": "燃え盛り、踊り狂う"
   },
   {
     "code": "008",
@@ -86,8 +94,9 @@
     "series": "0",
     "arc": { "ex": "P", "core": "S" },
     "theme": "華道家",
-    "mainColorLabel": "",
-    "colors": ["縹色"]
+    "mainColorLabel": "縹色",
+    "colors": [""],
+    "catchcopy": "生かすも殺すも私次第"
   },
   {
     "code": "010",
@@ -96,8 +105,9 @@
     "series": "0",
     "arc": { "ex": "R", "core": "K" },
     "theme": "考古学者",
-    "mainColorLabel": "",
-    "colors": ["鴇色"]
+    "mainColorLabel": "鴇色",
+    "colors": [""],
+    "catchcopy": "失ったものを、まだ探してる"
   },
   {
     "code": "011",
@@ -106,8 +116,9 @@
     "series": "0",
     "arc": { "ex": "M", "core": "V" },
     "theme": "妖精",
-    "mainColorLabel": "",
-    "colors": ["ライムグリーン"]
+    "mainColorLabel": "ライムグリーン",
+    "colors": [""],
+    "catchcopy": "いつまでも踊り続ける"
   },
   {
     "code": "013",
@@ -116,8 +127,9 @@
     "series": "0",
     "arc": { "ex": "O", "core": "B" },
     "theme": "皇帝",
-    "mainColorLabel": "",
-    "colors": ["ロイヤルパープル"]
+    "mainColorLabel": "ロイヤルパープル",
+    "colors": [""],
+    "catchcopy": "全て肯定、全て挑戦"
   },
   {
     "code": "017",
@@ -126,8 +138,9 @@
     "series": "0",
     "arc": { "ex": "S", "core": "B" },
     "theme": "神",
-    "mainColorLabel": "",
-    "colors": ["黄金"]
+    "mainColorLabel": "黄金",
+    "colors": [""],
+    "catchcopy": "私はここにいる"
   },
   {
     "code": "018",
@@ -136,8 +149,9 @@
     "series": "0",
     "arc": { "ex": "F", "core": "S" },
     "theme": "白雪姫",
-    "mainColorLabel": "",
-    "colors": ["雪色"]
+    "mainColorLabel": "雪色",
+    "colors": [""],
+    "catchcopy": "呑まれることはわかってた"
   },
   {
     "code": "019",
@@ -146,8 +160,9 @@
     "series": "0",
     "arc": { "ex": "M", "core": "Q" },
     "theme": "量産系",
-    "mainColorLabel": "",
-    "colors": ["ピンク"]
+    "mainColorLabel": "ピンク",
+    "colors": [""],
+    "catchcopy": "私だけを見て"
   },
   {
     "code": "026",
@@ -156,18 +171,20 @@
     "series": "0",
     "arc": { "ex": "G", "core": "P" },
     "theme": "不老不死",
-    "mainColorLabel": "",
-    "colors": ["瞑色"]
+    "mainColorLabel": "瞑色",
+    "colors": [""],
+    "catchcopy": "行く先は冥土だけ"
   },
   {
     "code": "045",
     "title": "せかいのおわり",
-    "titleYomi": "",
+    "titleYomi": "せかいのおわり",
     "series": "0",
     "arc": { "ex": "Q", "core": "O" },
     "theme": "魔法少女",
-    "mainColorLabel": "",
-    "colors": ["白銀"]
+    "mainColorLabel": "白銀",
+    "colors": [""],
+    "catchcopy": "天国ってあると思う？"
   },
   {
     "code": "11F",
@@ -176,8 +193,9 @@
     "series": "1",
     "arc": { "ex": "M", "core": "Q" },
     "theme": "渇望",
-    "mainColorLabel": "",
-    "colors": ["ネイビー"]
+    "mainColorLabel": "ネイビー",
+    "colors": [""],
+    "catchcopy": "恋は盲目"
   },
   {
     "code": "144",
@@ -186,18 +204,20 @@
     "series": "1",
     "arc": { "ex": "K", "core": "Q" },
     "theme": "恍惚",
-    "mainColorLabel": "",
-    "colors": ["サンライト"]
+    "mainColorLabel": "サンライト",
+    "colors": [""],
+    "catchcopy": "見て、魅入って"
   },
-    {
+  {
     "code": "241",
     "title": "ペンギンの天秤",
     "titleYomi": "ぺんぎんのてんびん",
     "series": "2",
     "arc": { "ex": "P", "core": "S" },
     "theme": "リバーシ",
-    "mainColorLabel": "",
-    "colors": ["白","黒"]
+    "mainColorLabel": "白黒",
+    "colors": [""],
+    "catchcopy": "秩序の名の下に"
   },
   {
     "code": "409",
@@ -206,8 +226,9 @@
     "series": "4",
     "arc": { "ex": "K", "core": "S" },
     "theme": "9月",
-    "mainColorLabel": "",
-    "colors": ["サファイアブルー"]
+    "mainColorLabel": "サファイアブルー",
+    "colors": [""],
+    "catchcopy": "「また来てね」「また遊ぼうね」"
   },
   {
     "code": "40A",
@@ -216,28 +237,31 @@
     "series": "4",
     "arc": { "ex": "S", "core": "M" },
     "theme": "10月",
-    "mainColorLabel": "",
-    "colors": ["トルマリンピンク"]
+    "mainColorLabel": "トルマリンピンク",
+    "colors": [""],
+    "catchcopy": ""
   },
-    {
+  {
     "code": "40B",
     "title": "Shade of Flame",
     "titleYomi": "しぇいどおぶふれいむ",
     "series": "4",
     "arc": { "ex": "S", "core": "O" },
     "theme": "11月",
-    "mainColorLabel": "",
-    "colors": ["アンバートパーズ"]
+    "mainColorLabel": "アンバートパーズ",
+    "colors": [""],
+    "catchcopy": ""
   },
-    {
+  {
     "code": "531",
     "title": "オムライスの作り方",
     "titleYomi": "おむらいすのつくりかた",
     "series": "5",
     "arc": { "ex": "B", "core": "M" },
     "theme": "オムライス",
-    "mainColorLabel": "",
-    "colors": ["卵色"]
+    "mainColorLabel": "卵色",
+    "colors": [""],
+    "catchcopy": "世界は包まれた"
   },
   {
     "code": "821",
@@ -246,8 +270,9 @@
     "series": "8",
     "arc": { "ex": "B", "core": "F" },
     "theme": "うさぎ",
-    "mainColorLabel": "",
-    "colors": ["ゴールデンハニー"]
+    "mainColorLabel": "ゴールデンハニー",
+    "colors": [""],
+    "catchcopy": "蜂の巣にしちゃうぞっ！"
   },
   {
     "code": "822",
@@ -256,8 +281,9 @@
     "series": "8",
     "arc": { "ex": "N", "core": "V" },
     "theme": "ねこ",
-    "mainColorLabel": "",
-    "colors": ["ネオンパープル"]
+    "mainColorLabel": "ネオンパープル",
+    "colors": [""],
+    "catchcopy": "朝だニャ！起きるニャ！"
   },
   {
     "code": "ZZZ",
@@ -266,7 +292,8 @@
     "series": "0",
     "arc": { "ex": "G", "core": "V" },
     "theme": "観測者",
-    "mainColorLabel": "",
-    "colors": ["虹色"]
+    "mainColorLabel": "虹色",
+    "colors": [""],
+    "catchcopy": "私が知らない私を見つける"
   }
 ]
