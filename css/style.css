@@ -162,15 +162,24 @@ body {
 /* =========================
    カード一覧
    ========================= */
+/* カード一覧：基本はスマホ基準でパディング 0 */
 #card-list {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  grid-template-columns: repeat(3, 1fr);  /* スマホは3列固定 */
   gap: 16px;
 
-  padding: 100px;
+  padding: 0;     /* ← スマホは余白なし */
+  margin: 0 auto;
 
-  max-width: 1200px;   /* ← ここ！画面の最大幅を制限 */
-  margin: 0 auto;      /* ← 中央寄せ */
+  max-width: 1200px;
+}
+
+/* PC時のみ余白とレイアウト変更 */
+@media (min-width: 769px) {
+  #card-list {
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    padding: 64px;     /* ← 好きな値（72 / 80 / 96 / 100pxなど） */
+  }
 }
 
 /* スマホのときは 3列固定 */
