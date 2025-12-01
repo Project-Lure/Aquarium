@@ -1,23 +1,16 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // ====== 検索モーダルの要素 ======
-  const overlay  = document.getElementById("search-overlay");
-  const openBtn  = document.getElementById("search-open");
-  const closeBtn = document.getElementById("search-close");
-
-  const cardContainer = document.getElementById("card-list");
+  const container = document.getElementById("card-list");
 
   let chars = [];
+  let arcList = {};
   let seriesMap = {};
-  let arcMap = {};
-
   let originalOrder = [];
-  let currentList   = [];
-  let sortMode      = "code"; // "code" or "title"
+  let currentList = [];
+  let sortMode = "code"; // "code" or "title"
 
-  // 一覧描画
+  // ----- 一覧描画 -----
   function renderList(list) {
-    if (!cardContainer) return;
-    cardContainer.innerHTML = "";
+    container.innerHTML = "";
 
     list.forEach(c => {
       const imgPath = `images/characters/${c.code}.png`;
@@ -35,44 +28,21 @@ document.addEventListener("DOMContentLoaded", () => {
           </div>
         </div>
       `;
-      cardContainer.appendChild(a);
+      container.appendChild(a);
     });
   }
 
-  // ===== データ読み込み =====
-  Promise.all([
-    fetch("data/characters.json").then(r => r.json()),
-    fetch("data/series.json").then(r => r.json()),
-    fetch("data/arcList.json").then(r => r.json())
-  ])
-    .then(([characters, series, arcs]) => {
-      chars      = characters;
-      seriesMap  = series;
-      arcMap     = arcs;
-
-      originalOrder = [...chars];
-      currentList   = [...originalOrder];
-
-      renderList(currentList);
-      setupSort();
-      setupSearchUI();
-    })
-    .catch(e => {
-      console.error("データ読み込みエラー:", e);
-    });
-
-  // ===== ソートボタンの設定 =====
+  // ----- ソートボタン -----
   function setupSort() {
     const sortToggleBtn = document.getElementById("sort-open");
     if (!sortToggleBtn) return;
 
-    // 初期ラベル
     sortToggleBtn.textContent = "タイトル順";
 
     sortToggleBtn.addEventListener("click", () => {
       if (sortMode === "code") {
-        // タイトル読みでソート
-        currentList = [...originalOrder].sort((a, b) => {
+        // タイトル読みでソート（今表示中のリストに対して）
+        currentList = [...currentList].sort((a, b) => {
           const ay = (a.titleYomi || a.title || "").toString();
           const by = (b.titleYomi || b.title || "").toString();
           return ay.localeCompare(by, "ja");
@@ -80,8 +50,12 @@ document.addEventListener("DOMContentLoaded", () => {
         sortMode = "title";
         sortToggleBtn.textContent = "コード順";
       } else {
-        // コード順（元の順番）
-        currentList = [...originalOrder];
+        // 元の順番に戻す（フィルタ後も元配列の順を基準に並べ直す）
+        const indexMap = new Map();
+        originalOrder.forEach((c, i) => indexMap.set(c.code, i));
+        currentList = [...currentList].sort(
+          (a, b) => (indexMap.get(a.code) ?? 0) - (indexMap.get(b.code) ?? 0)
+        );
         sortMode = "code";
         sortToggleBtn.textContent = "タイトル順";
       }
@@ -89,85 +63,75 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // ===== 検索UIの設定 =====
-  function setupSearchUI() {
-    if (!overlay) return;
+  // ----- 検索 UI ＋ 絞り込み -----
+  function setupSearch() {
+    const overlay = document.getElementById("search-overlay");
+    const openBtn = document.getElementById("search-open");
+    const closeBtn = document.getElementById("search-close");
+    const input = document.getElementById("search-input");
+    const decideBtn = document.getElementById("search-decide");
+    const resetBtn = document.getElementById("search-reset");
+    const seriesOptions = document.getElementById("filter-series-options");
+    const arcOptions = document.getElementById("filter-arc-options");
 
-    const searchInput = document.getElementById("search-input");
-    const seriesGroup = document.getElementById("filter-series-group");
-    const arcGroup    = document.getElementById("filter-arc-group");
-    const decideBtn   = document.getElementById("search-decide");
-    const resetBtn    = document.getElementById("search-reset");
+    if (!overlay || !openBtn || !input ||
+        !seriesOptions || !arcOptions) return;
 
-    // --- シリーズのチップ生成 ---
-    if (seriesGroup) {
-      seriesGroup.innerHTML = "";
-      Object.values(seriesMap).forEach(s => {
-        const label = document.createElement("label");
-        label.className = "filter-chip";
+    // シリーズのチェックボックス生成（chars に存在するものだけ）
+    const usedSeries = Array.from(
+      new Set(chars.map(c => c.series))
+    ).sort();
 
-        const input = document.createElement("input");
-        input.type = "checkbox";
-        input.value = s.id;          // "0"〜"9"
+    usedSeries.forEach(key => {
+      const data = seriesMap[key];
+      if (!data) return;
+      const label = document.createElement("label");
+      label.className = "filter-chip";
+      const cb = document.createElement("input");
+      cb.type = "checkbox";
+      cb.value = key;
+      cb.checked = true;
+      label.appendChild(cb);
+      label.append(data.nameJa);   // 和名だけでOK
+      seriesOptions.appendChild(label);
+    });
 
-        const span = document.createElement("span");
-        span.textContent = s.nameJa; // 日本語名
+    // アークのチェックボックス生成（ex/core から集合を作る）
+    const usedArcsSet = new Set();
+    chars.forEach(c => {
+      if (c.arc?.ex) usedArcsSet.add(c.arc.ex);
+      if (c.arc?.core) usedArcsSet.add(c.arc.core);
+    });
 
-        input.addEventListener("change", () => {
-          label.classList.toggle("checked", input.checked);
-        });
+    Array.from(usedArcsSet).sort().forEach(code => {
+      const data = arcList[code];
+      if (!data) return;
+      const label = document.createElement("label");
+      label.className = "filter-chip";
+      const cb = document.createElement("input");
+      cb.type = "checkbox";
+      cb.value = code;
+      cb.checked = true;
+      label.appendChild(cb);
+      // icon + name（和名）
+      label.append(`${data.icon} ${data.name}`);
+      arcOptions.appendChild(label);
+    });
 
-        label.appendChild(input);
-        label.appendChild(span);
-        seriesGroup.appendChild(label);
-      });
-    }
+    // 実際の絞り込み処理
+    function applyFilterAndRender() {
+      const text = input.value.trim().toLowerCase();
 
-    // --- アークのチップ生成 ---
-    if (arcGroup) {
-      arcGroup.innerHTML = "";
-      Object.entries(arcMap).forEach(([key, arc]) => {
-        const label = document.createElement("label");
-        label.className = "filter-chip";
+      const activeSeries = Array.from(
+        seriesOptions.querySelectorAll('input[type="checkbox"]:checked')
+      ).map(el => el.value);
 
-        const input = document.createElement("input");
-        input.type = "checkbox";
-        input.value = key; // "B" / "F" / "G" ... etc
+      const activeArcs = Array.from(
+        arcOptions.querySelectorAll('input[type="checkbox"]:checked')
+      ).map(el => el.value);
 
-        const span = document.createElement("span");
-        const icon = arc.icon || "";
-        const name = arc.name || "";
-        span.textContent = `${icon} ${name}`.trim();
-
-        input.addEventListener("change", () => {
-          label.classList.toggle("checked", input.checked);
-        });
-
-        label.appendChild(input);
-        label.appendChild(span);
-        arcGroup.appendChild(label);
-      });
-    }
-
-    // --- フィルタ適用 ---
-    function applyFilter() {
-      const text = (searchInput?.value || "").trim().toLowerCase();
-
-      const selectedSeries = seriesGroup
-        ? Array.from(
-            seriesGroup.querySelectorAll('input[type="checkbox"]:checked')
-          ).map(cb => cb.value)
-        : [];
-
-      const selectedArcs = arcGroup
-        ? Array.from(
-            arcGroup.querySelectorAll('input[type="checkbox"]:checked')
-          ).map(cb => cb.value)
-        : [];
-
-      currentList = originalOrder.filter(c => {
-        // テキスト検索：コード / タイトル / 読み
-        // テキスト検索：コード / タイトル / 読み / 色名
+      const filtered = originalOrder.filter(c => {
+        // テキスト検索：コード / タイトル / 読み / 色名（和名）
         if (text) {
           const base = (
             (c.code || "") + " " +
@@ -175,20 +139,20 @@ document.addEventListener("DOMContentLoaded", () => {
             (c.titleYomi || "") + " " +
             (c.mainColorLabel || "")
           ).toString().toLowerCase();
-
           if (!base.includes(text)) return false;
         }
 
-        // シリーズ：1つでも選ばれていれば、その中に含まれるものだけ
-        if (selectedSeries.length > 0 && !selectedSeries.includes(c.series)) {
+        // シリーズフィルタ（何もチェックされていない場合は0件）
+        if (activeSeries.length > 0 && !activeSeries.includes(c.series)) {
           return false;
         }
 
-        // アーク：エクス or コア のどちらかが一致すればOK
-        if (selectedArcs.length > 0) {
-          const ex   = c.arc?.ex || "";
-          const core = c.arc?.core || "";
-          if (!selectedArcs.includes(ex) && !selectedArcs.includes(core)) {
+        // アークフィルタ（ex/core のどちらか1つでも含まれていればOK）
+        if (activeArcs.length > 0) {
+          const arcCodes = [];
+          if (c.arc?.ex) arcCodes.push(c.arc.ex);
+          if (c.arc?.core) arcCodes.push(c.arc.core);
+          if (!arcCodes.some(code => activeArcs.includes(code))) {
             return false;
           }
         }
@@ -196,62 +160,62 @@ document.addEventListener("DOMContentLoaded", () => {
         return true;
       });
 
+      currentList = filtered;
       renderList(currentList);
-      overlay.classList.remove("is-open");
     }
 
-    // --- フィルタリセット ---
-    function resetFilter() {
-      if (searchInput) searchInput.value = "";
+    // モーダルの開閉
+    openBtn.addEventListener("click", () => {
+      overlay.classList.add("is-open");
+      input.focus();
+    });
 
-      if (seriesGroup) {
-        seriesGroup
-          .querySelectorAll('input[type="checkbox"]')
-          .forEach(cb => {
-            cb.checked = false;
-            cb.parentElement?.classList.remove("checked");
-          });
+    closeBtn.addEventListener("click", () => {
+      overlay.classList.remove("is-open");
+    });
+
+    overlay.addEventListener("click", (e) => {
+      if (e.target === overlay) {
+        overlay.classList.remove("is-open");
       }
+    });
 
-      if (arcGroup) {
-        arcGroup
-          .querySelectorAll('input[type="checkbox"]')
-          .forEach(cb => {
-            cb.checked = false;
-            cb.parentElement?.classList.remove("checked");
-          });
-      }
+    // 絞り込む：カード一覧に反映して閉じる
+    decideBtn.addEventListener("click", () => {
+      applyFilterAndRender();
+      overlay.classList.remove("is-open");
+    });
 
+    // リセット：検索条件クリア＆一覧を元に戻す
+    resetBtn.addEventListener("click", () => {
+      input.value = "";
+      seriesOptions.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = true);
+      arcOptions.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = true);
+      currentList = [...originalOrder];
+      sortMode = "code";
+      renderList(currentList);
+    });
+  }
+
+  // ----- データ読み込み -----
+  Promise.all([
+    fetch("data/characters.json").then(r => r.json()),
+    fetch("data/arcList.json").then(r => r.json()),
+    fetch("data/series.json").then(r => r.json())
+  ])
+    .then(([charsData, arcListData, seriesMapData]) => {
+      chars = charsData;
+      arcList = arcListData;
+      seriesMap = seriesMapData;
+
+      originalOrder = [...chars];
       currentList = [...originalOrder];
       renderList(currentList);
-    }
 
-    // ボタンイベント
-    if (decideBtn) decideBtn.addEventListener("click", applyFilter);
-    if (resetBtn)  resetBtn.addEventListener("click", resetFilter);
-
-    // モーダル開閉
-    if (openBtn) {
-      openBtn.addEventListener("click", () => {
-        overlay.classList.add("is-open");
-        if (searchInput) {
-          setTimeout(() => searchInput.focus(), 50);
-        }
-      });
-    }
-
-    if (closeBtn) {
-      closeBtn.addEventListener("click", () => {
-        overlay.classList.remove("is-open");
-      });
-    }
-
-    if (overlay) {
-      overlay.addEventListener("click", (e) => {
-        if (e.target === overlay) {
-          overlay.classList.remove("is-open");
-        }
-      });
-    }
-  }
+      setupSort();
+      setupSearch();
+    })
+    .catch(e => {
+      console.error("読み込みエラー:", e);
+    });
 });
