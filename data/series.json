@@ -1,1 +1,63 @@
+{
+  "0": {
+    "id": "0",
+    "key": "Occupation",
+    "nameJa": "そまりものがたり",
+    "description": "職業や立場、特定の属性を表すテーマ"
+  },
+  "1": {
+    "id": "1",
+    "key": "Instinct",
+    "nameJa": "こころものがたり",
+    "description": "人間の感情や欲望を象徴するテーマ"
+  },
+  "2": {
+    "id": "2",
+    "key": "Zone",
+    "nameJa": "あそびものがたり",
+    "description": "遊びや競技、勝負に関するテーマ"
+  },
+  "3": {
+    "id": "3",
+    "key": "Element",
+    "nameJa": "もとものがたり",
+    "description": "自然の要素、鉱物、植物を扱うテーマ"
+  },
+  "4": {
+    "id": "4",
+    "key": "Anniversary",
+    "nameJa": "めぐりものがたり",
+    "description": "季節行事や歴史的出来事を扱うテーマ"
+  },
+  "5": {
+    "id": "5",
+    "key": "Savor",
+    "nameJa": "たべものがたり",
+    "description": "食品や飲料に関するテーマ"
+  },
+  "6": {
+    "id": "6",
+    "key": "Galaxy",
+    "nameJa": "そらものがたり",
+    "description": "宇宙や天体、星座に関するテーマ"
+  },
+  "7": {
+    "id": "7",
+    "key": "Language",
+    "nameJa": "ことばものがたり",
+    "description": "言語や文字、言葉にまつわる文化・芸術・記号に関するテーマ"
+  },
+  "8": {
+    "id": "8",
+    "key": "Beast",
+    "nameJa": "けものものがたり",
+    "description": "動物や干支に関するテーマ"
+  },
+  "9": {
+    "id": "9",
+    "key": "Pattern",
+    "nameJa": "もようものがたり",
+    "description": "模様・材質に関するテーマ"
+  }
+}
 
