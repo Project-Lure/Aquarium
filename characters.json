@@ -1,10 +1,8 @@
-[  {
+[
+  {
     "code": "000",
     "title": "",
-    "arc": {
-      "ex": "",
-      "core": ""
-    },
+    "arc": { "ex": "", "core": "" },
     "theme": "",
     "mainColorLabel": "",
     "colors": []
@@ -12,10 +10,7 @@
   {
     "code": "001",
     "title": "",
-    "arc": {
-      "ex": "",
-      "core": ""
-    },
+    "arc": { "ex": "", "core": "" },
     "theme": "",
     "mainColorLabel": "",
     "colors": []
@@ -23,10 +18,7 @@
   {
     "code": "002",
     "title": "",
-    "arc": {
-      "ex": "",
-      "core": ""
-    },
+    "arc": { "ex": "", "core": "" },
     "theme": "",
     "mainColorLabel": "",
     "colors": []
@@ -34,10 +26,7 @@
   {
     "code": "003",
     "title": "",
-    "arc": {
-      "ex": "",
-      "core": ""
-    },
+    "arc": { "ex": "", "core": "" },
     "theme": "",
     "mainColorLabel": "",
     "colors": []
@@ -45,10 +34,7 @@
   {
     "code": "004",
     "title": "",
-    "arc": {
-      "ex": "",
-      "core": ""
-    },
+    "arc": { "ex": "", "core": "" },
     "theme": "",
     "mainColorLabel": "",
     "colors": []
@@ -56,10 +42,7 @@
   {
     "code": "005",
     "title": "",
-    "arc": {
-      "ex": "",
-      "core": ""
-    },
+    "arc": { "ex": "", "core": "" },
     "theme": "",
     "mainColorLabel": "",
     "colors": []
@@ -67,10 +50,7 @@
   {
     "code": "006",
     "title": "",
-    "arc": {
-      "ex": "",
-      "core": ""
-    },
+    "arc": { "ex": "", "core": "" },
     "theme": "",
     "mainColorLabel": "",
     "colors": []
@@ -78,10 +58,7 @@
   {
     "code": "007",
     "title": "",
-    "arc": {
-      "ex": "",
-      "core": ""
-    },
+    "arc": { "ex": "", "core": "" },
     "theme": "",
     "mainColorLabel": "",
     "colors": []
@@ -89,10 +66,7 @@
   {
     "code": "008",
     "title": "",
-    "arc": {
-      "ex": "",
-      "core": ""
-    },
+    "arc": { "ex": "", "core": "" },
     "theme": "",
     "mainColorLabel": "",
     "colors": []
@@ -100,10 +74,7 @@
   {
     "code": "010",
     "title": "",
-    "arc": {
-      "ex": "",
-      "core": ""
-    },
+    "arc": { "ex": "", "core": "" },
     "theme": "",
     "mainColorLabel": "",
     "colors": []
@@ -111,152 +82,111 @@
   {
     "code": "011",
     "title": "",
-    "arc": {
-      "ex": "",
-      "core": ""
-    },
+    "arc": { "ex": "", "core": "" },
     "theme": "",
     "mainColorLabel": "",
     "colors": []
-  }
-    {
+  },
+  {
     "code": "013",
     "title": "",
-    "arc": {
-      "ex": "",
-      "core": ""
-    },
+    "arc": { "ex": "", "core": "" },
     "theme": "",
     "mainColorLabel": "",
     "colors": []
   },
-    {
+  {
     "code": "017",
     "title": "",
-    "arc": {
-      "ex": "",
-      "core": ""
-    },
+    "arc": { "ex": "", "core": "" },
     "theme": "",
     "mainColorLabel": "",
     "colors": []
   },
-    {
+  {
     "code": "018",
     "title": "",
-    "arc": {
-      "ex": "",
-      "core": ""
-    },
+    "arc": { "ex": "", "core": "" },
     "theme": "",
     "mainColorLabel": "",
     "colors": []
   },
-    {
+  {
     "code": "019",
     "title": "",
-    "arc": {
-      "ex": "",
-      "core": ""
-    },
+    "arc": { "ex": "", "core": "" },
     "theme": "",
     "mainColorLabel": "",
     "colors": []
   },
-    {
+  {
     "code": "026",
     "title": "",
-    "arc": {
-      "ex": "",
-      "core": ""
-    },
+    "arc": { "ex": "", "core": "" },
     "theme": "",
     "mainColorLabel": "",
     "colors": []
   },
-    {
+  {
     "code": "045",
     "title": "",
-    "arc": {
-      "ex": "",
-      "core": ""
-    },
+    "arc": { "ex": "", "core": "" },
     "theme": "",
     "mainColorLabel": "",
     "colors": []
   },
-    {
+  {
     "code": "11F",
     "title": "",
-    "arc": {
-      "ex": "",
-      "core": ""
-    },
+    "arc": { "ex": "", "core": "" },
     "theme": "",
     "mainColorLabel": "",
     "colors": []
   },
-    {
+  {
     "code": "144",
     "title": "",
-    "arc": {
-      "ex": "",
-      "core": ""
-    },
+    "arc": { "ex": "", "core": "" },
     "theme": "",
     "mainColorLabel": "",
     "colors": []
-  },  {
+  },
+  {
     "code": "409",
     "title": "",
-    "arc": {
-      "ex": "",
-      "core": ""
-    },
+    "arc": { "ex": "", "core": "" },
     "theme": "",
     "mainColorLabel": "",
     "colors": []
   },
-    {
+  {
     "code": "40A",
     "title": "",
-    "arc": {
-      "ex": "",
-      "core": ""
-    },
+    "arc": { "ex": "", "core": "" },
     "theme": "",
     "mainColorLabel": "",
     "colors": []
   },
-    {
+  {
     "code": "821",
     "title": "",
-    "arc": {
-      "ex": "",
-      "core": ""
-    },
+    "arc": { "ex": "", "core": "" },
     "theme": "",
     "mainColorLabel": "",
     "colors": []
   },
-    {
+  {
     "code": "822",
     "title": "",
-    "arc": {
-      "ex": "",
-      "core": ""
-    },
+    "arc": { "ex": "", "core": "" },
     "theme": "",
     "mainColorLabel": "",
     "colors": []
   },
-    {
+  {
     "code": "ZZZ",
     "title": "",
-    "arc": {
-      "ex": "",
-      "core": ""
-    },
+    "arc": { "ex": "", "core": "" },
     "theme": "",
     "mainColorLabel": "",
     "colors": []
