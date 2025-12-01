@@ -4,8 +4,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // characters.json と arcList.json をまとめて読み込む
   Promise.all([
-    fetch("characters.json").then(r => r.json()),
-    fetch("arcList.json").then(r => r.json())
+    fetch("data/characters.json").then(r => r.json()),
+    fetch("data/arcList.json").then(r => r.json())
   ]).then(([chars, arcList]) => {
 
     // code に一致するキャラを探す
