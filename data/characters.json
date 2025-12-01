@@ -1,13 +1,13 @@
 [
   {
     "code": "000",
-    "title": "",
-    "titleYomi": "",
+    "title": "彩に蕩れる",
+    "titleYomi": "いろにとれる",
     "series": "0",
-    "arc": { "ex": "", "core": "" },
-    "theme": "",
+    "arc": { "ex": "G", "core": "S" },
+    "theme": "無職",
     "mainColorLabel": "",
-    "colors": []
+    "colors": ["透明"]
   },
   {
     "code": "001",
