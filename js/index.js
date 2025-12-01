@@ -1,34 +1,45 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // 一覧カード生成（あなたの既存コード）
-  fetch("characters.json")
-    .then(res => res.json())
-    .then(chars => {
-      const container = document.getElementById("card-list");
+  Promise.all([
+    fetch("characters.json").then(r => r.json()),
+    fetch("series.json").then(r => r.json())
+  ]).then(([chars, seriesMap]) => {
 
-      chars.forEach(c => {
-        const imgPath = `images/characters/${c.code}.png`;
-        const series = seriesMap[c.series]; // "0"〜"9" からシリーズ情報取得
+    // タイトル読みでソート
+    chars.sort((a, b) => {
+      const ay = (a.titleYomi || a.title || "").toString();
+      const by = (b.titleYomi || b.title || "").toString();
+      return ay.localeCompare(by, "ja");
+    });
 
-        const a = document.createElement("a");
-        a.href = `character.html?code=${c.code}`;
-        a.className = "card";
-        a.innerHTML = `
-          <div class="card-inner">
-            <div class="card-image">
-              <img src="${imgPath}" alt="${c.title}">
-            </div>
-            <div class="card-meta">
-              <div class="card-code">${c.code}</div>
-              <div class="card-title">${c.title}</div>
+    const container = document.getElementById("card-list");
+
+    chars.forEach(c => {
+      const imgPath = `images/characters/${c.code}.png`;
+      const series = seriesMap[c.series];  // "0"〜"9" から取得
+
+      const a = document.createElement("a");
+      a.href = `character.html?code=${c.code}`;
+      a.className = "card";
+      a.innerHTML = `
+        <div class="card-inner">
+          <div class="card-image">
+            <img src="${imgPath}" alt="${c.title}">
+          </div>
+          <div class="card-meta">
+            <div class="card-code">${c.code}</div>
+            <div class="card-title">${c.title}</div>
+            <div class="card-series">
+              ${series ? series.nameJa : ""}
             </div>
           </div>
-        `;
-        container.appendChild(a);
-      });
-    })
-    .catch(e => {
-      console.error("読み込みエラー:", e);
+        </div>
+      `;
+      container.appendChild(a);
     });
+  }).catch(e => {
+    console.error("読み込みエラー:", e);
+  });
+});
 
   // ==== ここから検索ポップアップ用 ====
   const overlay = document.getElementById("search-overlay");
