@@ -10,6 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
       // 元の順番を保持しておく（コード順＝JSONに書いた順）
       const originalOrder = [...chars];
       let currentList = [...originalOrder]; // 今表示しているリスト
+      let sortMode = "code";                // "code" or "title"
 
       // 一覧描画用の関数
       function renderList(list) {
@@ -43,32 +44,35 @@ document.addEventListener("DOMContentLoaded", () => {
       // 初期表示：コード順（＝JSONの順番）
       renderList(currentList);
 
-      // ===== ソートボタン =====
-      const sortCodeBtn = document.getElementById("sort-code");
-      const sortTitleBtn = document.getElementById("sort-title");
+      // ===== 並び替えボタン（ヘッダー右の1個だけ） =====
+      const sortToggleBtn = document.getElementById("sort-open");
 
-      if (sortCodeBtn) {
-        sortCodeBtn.addEventListener("click", () => {
-          // 元の順番に戻す
-          currentList = [...originalOrder];
-          renderList(currentList);
-        });
-      }
+      if (sortToggleBtn) {
+        // 初期表示のラベル（お好みで調整）
+        sortToggleBtn.textContent = "タイトル順";
 
-      if (sortTitleBtn) {
-        sortTitleBtn.addEventListener("click", () => {
-          // タイトル読みでソート（読みがないときは title）
-          currentList = [...originalOrder].sort((a, b) => {
-            const ay = (a.titleYomi || a.title || "").toString();
-            const by = (b.titleYomi || b.title || "").toString();
-            return ay.localeCompare(by, "ja");
-          });
+        sortToggleBtn.addEventListener("click", () => {
+          if (sortMode === "code") {
+            // タイトル読みでソート（読みがないときは title）
+            currentList = [...originalOrder].sort((a, b) => {
+              const ay = (a.titleYomi || a.title || "").toString();
+              const by = (b.titleYomi || b.title || "").toString();
+              return ay.localeCompare(by, "ja");
+            });
+            sortMode = "title";
+            sortToggleBtn.textContent = "コード順";  // 押すとコード順に戻せるようにラベル変更
+          } else {
+            // コード順（元の順番に戻す）
+            currentList = [...originalOrder];
+            sortMode = "code";
+            sortToggleBtn.textContent = "タイトル順";
+          }
           renderList(currentList);
         });
       }
 
       // ===== （検索機能を実装するなら、ここで currentList / originalOrder を使う） =====
-      // 例：検索時は originalOrder からフィルタして renderList(filtered) を呼ぶ感じにする
+      // 例：検索は originalOrder を基準にフィルタして renderList(filtered) を呼ぶ
     })
     .catch(e => {
       console.error("読み込みエラー:", e);
