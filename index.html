@@ -22,16 +22,35 @@
     <script src="js/index.js"></script>
 
     <!-- 検索ポップアップ（後で貼る） -->
-    <div id="search-overlay">
-        <div id="search-modal">
-            <div id="search-header">
-                <span>キャラクター検索</span>
-                <button id="search-close">×</button>
-            </div>
-
-            <input id="search-input" type="text" placeholder="検索">
-
-            <div id="search-results"></div>
-        </div>
+<div id="search-overlay">
+  <div id="search-modal">
+    <div id="search-header">
+      <span>キャラクター検索</span>
+      <button id="search-close">×</button>
     </div>
+
+    <!-- ポケスリっぽい 1本の検索バー -->
+    <div class="search-bar">
+      <span class="search-icon">🔍</span>
+
+      <input
+        id="search-input"
+        type="text"
+        placeholder="タイトル / コード / 色名"
+      >
+
+      <select id="filter-series" class="search-select">
+        <option value="">全シリーズ</option>
+        <!-- JSで自動追加 -->
+      </select>
+
+      <select id="filter-arc" class="search-select">
+        <option value="">全アーク</option>
+        <!-- JSで自動追加 -->
+      </select>
+    </div>
+
+    <div id="search-results"></div>
+  </div>
+</div>
 </body>
