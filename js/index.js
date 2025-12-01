@@ -1,45 +1,21 @@
 document.addEventListener("DOMContentLoaded", () => {
   // ===== キャラクターデータ読み込み =====
   Promise.all([
-    fetch("data/characters.json").then(r => {
-      if (!r.ok) {
-        throw new Error("characters.json が読み込めませんでした");
-      }
-      return r.json();
-    }),
-    fetch("data/series.json").then(r => {
-      if (!r.ok) {
-        console.warn("series.json が読み込めませんでした (status:", r.status, ")");
-        return {};
-      }
-      return r.json();
-    }).catch(e => {
-      console.warn("series.json 読み込みエラー:", e);
-      return {};
-    }),
-    fetch("data/arcList.json").then(r => {
-      if (!r.ok) {
-        console.warn("arcList.json が読み込めませんでした (status:", r.status, ")");
-        return {};
-      }
-      return r.json();
-    }).catch(e => {
-      console.warn("arcList.json 読み込みエラー:", e);
-      return {};
-    })
+    fetch("data/characters.json").then(r => r.json()),
+    fetch("data/series.json").then(r => r.json()),
+    fetch("data/arcList.json").then(r => r.json())
   ])
     .then(([chars, seriesMap, arcMap]) => {
       const container = document.getElementById("card-list");
 
-      // 元の順番を保持（コード順＝JSON の順番）
+      // 元データ保持
       const originalOrder = [...chars];
       let currentList = [...originalOrder];
       let sortMode = "code"; // "code" or "title"
 
-      // ===== 一覧描画用関数 =====
+      // ===== 一覧描画関数 =====
       function renderList(list) {
         container.innerHTML = "";
-
         list.forEach(c => {
           const imgPath = `images/characters/${c.code}.png`;
 
@@ -60,10 +36,10 @@ document.addEventListener("DOMContentLoaded", () => {
         });
       }
 
-      // 初期表示：コード順（JSON の順番）
+      // 初期表示：コード順（JSONの順番）
       renderList(currentList);
 
-      // ===== 並び替えトグルボタン =====
+      // ===== 並び替えトグル（コード順 / タイトル順） =====
       const sortToggleBtn = document.getElementById("sort-open");
 
       if (sortToggleBtn) {
@@ -89,129 +65,123 @@ document.addEventListener("DOMContentLoaded", () => {
         });
       }
 
-      // ===== 検索まわり =====
+      // ===== 検索UI要素 =====
       const overlay       = document.getElementById("search-overlay");
       const openBtn       = document.getElementById("search-open");
       const closeBtn      = document.getElementById("search-close");
+      const applyBtn      = document.getElementById("search-apply"); // 決定ボタン
+
       const searchInput   = document.getElementById("search-input");
-      const searchResults = document.getElementById("search-results");
+      const searchResults = document.getElementById("search-results"); // 使わないが、そのまま残してOK
       const seriesSelect  = document.getElementById("filter-series");
       const arcSelect     = document.getElementById("filter-arc");
 
-      // ▼ プルダウン中身のセット
-
-      // シリーズ select：series.json から
+      // ===== シリーズ / アークのプルダウン中身セット =====
       if (seriesSelect) {
         seriesSelect.innerHTML = `<option value="">全シリーズ</option>`;
         Object.values(seriesMap).forEach(s => {
           const opt = document.createElement("option");
-          opt.value = s.id;           // "0"〜"9"
-          opt.textContent = s.nameJa; // そまりものがたり 等
+          opt.value = s.id;        // "0"〜"9"
+          opt.textContent = s.nameJa;
           seriesSelect.appendChild(opt);
         });
       }
 
-      // アーク select：arcList.json から
       if (arcSelect) {
         arcSelect.innerHTML = `<option value="">全アーク</option>`;
         Object.entries(arcMap).forEach(([key, arc]) => {
           const opt = document.createElement("option");
-          opt.value = key;                 // B / G / M / ...
+          opt.value = key;         // "B","F",...
           opt.textContent = `${arc.icon} ${arc.name}`;
           arcSelect.appendChild(opt);
         });
       }
 
-      // ▼ 検索実行関数（テキスト＋シリーズ＋アーク）
+      // ===== 検索実行：カード一覧を絞り込み =====
       function runSearch() {
-        if (!searchResults) return;
-
         const q = (searchInput?.value || "").trim().toLowerCase();
         const seriesFilter = seriesSelect?.value || "";
-        const arcFilter = arcSelect?.value || "";
+        const arcFilter    = arcSelect?.value || "";
 
-        searchResults.innerHTML = "";
-
-        // 元データからフィルタ
         const filtered = originalOrder.filter(c => {
           const series = seriesMap[c.series];
-          const exArc  = c.arc?.ex   ? arcMap[c.arc.ex]   : null;
+          const exArc  = c.arc?.ex ? arcMap[c.arc.ex] : null;
           const coreArc= c.arc?.core ? arcMap[c.arc.core] : null;
 
           // シリーズ絞り込み
           if (seriesFilter && c.series !== seriesFilter) return false;
 
-          // アーク絞り込み（ex / core どちらか一致）
+          // アーク絞り込み（exかcoreのどちらかが一致していればOK）
           if (arcFilter) {
             const exCode   = c.arc?.ex   || "";
             const coreCode = c.arc?.core || "";
             if (exCode !== arcFilter && coreCode !== arcFilter) return false;
           }
 
-          // テキスト検索がない場合はここまでで OK（シリーズ/アークだけで絞る）
-          if (!q) return true;
+          // テキスト検索
+          if (q) {
+            const haystack = [
+              c.code,
+              c.title,
+              c.titleYomi,
+              c.mainColorLabel,
+              ...(c.colors || []),
+              c.series,
+              series?.nameJa,
+              series?.key,
+              c.arc?.ex,
+              c.arc?.core,
+              exArc?.name,
+              coreArc?.name
+            ]
+              .join(" ")
+              .toLowerCase();
 
-          // テキスト検索対象
-          const haystack = [
-            c.code || "",
-            c.title || "",
-            c.titleYomi || "",
-            c.mainColorLabel || "",
-            ...(c.colors || []),
+            if (!haystack.includes(q)) return false;
+          }
 
-            // シリーズ情報
-            c.series || "",
-            series?.nameJa || "",
-            series?.key || "",
-
-            // アーク情報
-            c.arc?.ex || "",
-            c.arc?.core || "",
-            exArc?.name || "",
-            coreArc?.name || "",
-            exArc?.icon || "",
-            coreArc?.icon || ""
-          ]
-            .join(" ")
-            .toLowerCase();
-
-          return haystack.includes(q);
+          return true;
         });
 
-        if (filtered.length === 0) {
-          searchResults.innerHTML = `<div>該当なし</div>`;
-          return;
+        // 結果でカード一覧を差し替え
+        currentList = filtered;
+        renderList(currentList);
+
+        // モーダルは閉じる
+        if (overlay) {
+          overlay.classList.remove("is-open");
         }
 
-        filtered.forEach(c => {
-          const series = seriesMap[c.series];
-          const item = document.createElement("a");
-          item.href = `character.html?code=${c.code}`;
-          item.className = "search-result-item";
-          item.innerHTML = `
-            <div class="search-result-code">${c.code}</div>
-            <div class="search-result-title">${c.title}</div>
-            <div class="search-result-series">
-              ${series ? series.nameJa : ""}
-            </div>
-          `;
-          searchResults.appendChild(item);
-        });
+        // もう search-results は使わないので、空にしておく（任意）
+        if (searchResults) {
+          searchResults.innerHTML = "";
+        }
       }
 
-      // ▼ オーバーレイ開閉
+      // ===== 検索モーダル開く =====
       if (openBtn && overlay) {
         openBtn.addEventListener("click", () => {
           overlay.classList.add("is-open");
 
-          // 開いた瞬間は「全件」を出す（ポケスリっぽく）
-          if (searchInput) searchInput.value = "";
+          // 開くたびに条件リセットしたい場合はここで
+          if (searchInput)  searchInput.value = "";
           if (seriesSelect) seriesSelect.value = "";
-          if (arcSelect) arcSelect.value = "";
+          if (arcSelect)    arcSelect.value = "";
+
+          if (searchResults) {
+            searchResults.innerHTML = ""; // もう使っていないので空でOK
+          }
+        });
+      }
+
+      // ===== 決定ボタンで検索実行 =====
+      if (applyBtn) {
+        applyBtn.addEventListener("click", () => {
           runSearch();
         });
       }
 
+      // ===== 閉じる系 =====
       if (closeBtn && overlay) {
         closeBtn.addEventListener("click", () => {
           overlay.classList.remove("is-open");
@@ -225,19 +195,8 @@ document.addEventListener("DOMContentLoaded", () => {
           }
         });
       }
-
-      // ▼ 入力・選択で都度フィルタ
-      if (searchInput) {
-        searchInput.addEventListener("input", runSearch);
-      }
-      if (seriesSelect) {
-        seriesSelect.addEventListener("change", runSearch);
-      }
-      if (arcSelect) {
-        arcSelect.addEventListener("change", runSearch);
-      }
     })
     .catch(e => {
-      console.error("characters.json 側の読み込みエラー:", e);
+      console.error("読み込みエラー:", e);
     });
 });
