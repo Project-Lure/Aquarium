@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       chars.forEach(c => {
         const imgPath = `images/characters/${c.code}.png`;
+        const series = seriesMap[c.series]; // "0"〜"9" からシリーズ情報取得
 
         const a = document.createElement("a");
         a.href = `character.html?code=${c.code}`;
