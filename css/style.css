@@ -44,7 +44,7 @@ body {
 }
 
 .header-logo {
-  max-height: 56px;   /* 80pxの中に自然に収まる */
+  max-height: 100px;   /* 80pxの中に自然に収まる */
   height: auto;
   width: auto;
 }
