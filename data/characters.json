@@ -11,232 +11,262 @@
   },
   {
     "code": "001",
-    "title": "",
-    "titleYomi": "",
+    "title": "ロンギヌス・ロンリネス",
+    "titleYomi": "ろんぎぬすろんりねす",
     "series": "0",
-    "arc": { "ex": "", "core": "" },
-    "theme": "",
+    "arc": { "ex": "B", "core": "F" },
+    "theme": "探偵",
     "mainColorLabel": "",
-    "colors": []
+    "colors": ["緋色"]
   },
   {
     "code": "002",
-    "title": "",
-    "titleYomi": "",
+    "title": "ハナグモ",
+    "titleYomi": "はなぐも",
     "series": "0",
-    "arc": { "ex": "", "core": "" },
-    "theme": "",
+    "arc": { "ex": "R", "core": "S" },
+    "theme": "墓守",
     "mainColorLabel": "",
-    "colors": []
+    "colors": ["鈍色"]
   },
   {
     "code": "003",
-    "title": "",
-    "titleYomi": "",
+    "title": "にわか雨の先に",
+    "titleYomi": "にわかあめのさきに",
     "series": "0",
-    "arc": { "ex": "", "core": "" },
-    "theme": "",
+    "arc": { "ex": "P", "core": "V" },
+    "theme": "気象予報士",
     "mainColorLabel": "",
-    "colors": []
+    "colors": ["水色"]
   },
   {
     "code": "004",
-    "title": "",
-    "titleYomi": "",
+    "title": "星の随に",
+    "titleYomi": "ほしのまにまに",
     "series": "0",
-    "arc": { "ex": "", "core": "" },
-    "theme": "",
+    "arc": { "ex": "P", "core": "F" },
+    "theme": "占い師",
     "mainColorLabel": "",
-    "colors": []
+    "colors": ["紫苑"]
   },
   {
     "code": "005",
-    "title": "", 
-    "titleYomi": "",
+    "title": "HENZAI", 
+    "titleYomi": "へんざい",
     "series": "0",
-    "arc": { "ex": "", "core": "" },
-    "theme": "",
+    "arc": { "ex": "M", "core": "V" },
+    "theme": "錬金術師",
     "mainColorLabel": "",
-    "colors": []
+    "colors": ["金色"]
   },
   {
     "code": "006",
-    "title": "", 
-    "titleYomi": "",
+    "title": "凍京に咲け", 
+    "titleYomi": "とうきょうにさけ",
     "series": "0",
-    "arc": { "ex": "", "core": "" },
-    "theme": "",
+    "arc": { "ex": "M", "core": "B" },
+    "theme": "ギタリスト",
     "mainColorLabel": "",
-    "colors": []
+    "colors": ["緑"]
   },
   {
     "code": "007",
-    "title": "",
-    "titleYomi": "",
+    "title": "沈魚落雁",
+    "titleYomi": "ちんぎょらくがん",
     "series": "0",
-    "arc": { "ex": "", "core": "" },
-    "theme": "",
+    "arc": { "ex": "B", "core": "V" },
+    "theme": "吸血鬼",
     "mainColorLabel": "",
-    "colors": []
+    "colors": ["真紅"]
   },
   {
     "code": "008",
-    "title": "",
-    "titleYomi": "",
+    "title": "竜胆を生ける",
+    "titleYomi": "りんどうをいける",
     "series": "0",
-    "arc": { "ex": "", "core": "" },
-    "theme": "",
+    "arc": { "ex": "P", "core": "S" },
+    "theme": "華道家",
     "mainColorLabel": "",
-    "colors": []
+    "colors": ["縹色"]
   },
   {
     "code": "010",
-    "title": "",
-    "titleYomi": "",
+    "title": "る縋に去過",
+    "titleYomi": "かこにすがる",
     "series": "0",
-    "arc": { "ex": "", "core": "" },
-    "theme": "",
+    "arc": { "ex": "R", "core": "K" },
+    "theme": "考古学者",
     "mainColorLabel": "",
-    "colors": []
+    "colors": ["鴇色"]
   },
   {
     "code": "011",
-    "title": "",
-    "titleYomi": "",
+    "title": "Waltz With the Wind",
+    "titleYomi": "をるつうぃずざうぃんど",
     "series": "0",
-    "arc": { "ex": "", "core": "" },
-    "theme": "",
+    "arc": { "ex": "M", "core": "V" },
+    "theme": "妖精",
     "mainColorLabel": "",
-    "colors": []
+    "colors": ["ライムグリーン"]
   },
   {
     "code": "013",
-    "title": "",
-    "titleYomi": "",
+    "title": "かしこまっ！",
+    "titleYomi": "かしこまっ",
     "series": "0",
-    "arc": { "ex": "", "core": "" },
-    "theme": "",
+    "arc": { "ex": "O", "core": "B" },
+    "theme": "皇帝",
     "mainColorLabel": "",
-    "colors": []
+    "colors": ["ロイヤルパープル"]
   },
   {
     "code": "017",
-    "title": "",
-    "titleYomi": "",
+    "title": "ソーマ",
+    "titleYomi": "そーま",
     "series": "0",
-    "arc": { "ex": "", "core": "" },
-    "theme": "",
+    "arc": { "ex": "S", "core": "B" },
+    "theme": "神",
     "mainColorLabel": "",
-    "colors": []
+    "colors": ["黄金"]
   },
   {
     "code": "018",
-    "title": "",
-    "titleYomi": "",
+    "title": "月喰",
+    "titleYomi": "つきばみ",
     "series": "0",
-    "arc": { "ex": "", "core": "" },
-    "theme": "",
+    "arc": { "ex": "F", "core": "S" },
+    "theme": "白雪姫",
     "mainColorLabel": "",
-    "colors": []
+    "colors": ["雪色"]
   },
   {
     "code": "019",
-    "title": "",
-    "titleYomi": "",
+    "title": "ねえみて",
+    "titleYomi": "ねえみて",
     "series": "0",
-    "arc": { "ex": "", "core": "" },
-    "theme": "",
+    "arc": { "ex": "M", "core": "Q" },
+    "theme": "量産系",
     "mainColorLabel": "",
-    "colors": []
+    "colors": ["ピンク"]
   },
   {
     "code": "026",
-    "title": "",
-    "titleYomi": "",
+    "title": "オンリーメイド",
+    "titleYomi": "おんりーめいど",
     "series": "0",
-    "arc": { "ex": "", "core": "" },
-    "theme": "",
+    "arc": { "ex": "G", "core": "P" },
+    "theme": "不老不死",
     "mainColorLabel": "",
-    "colors": []
+    "colors": ["瞑色"]
   },
   {
     "code": "045",
-    "title": "",
+    "title": "せかいのおわり",
     "titleYomi": "",
     "series": "0",
-    "arc": { "ex": "", "core": "" },
-    "theme": "",
+    "arc": { "ex": "Q", "core": "O" },
+    "theme": "魔法少女",
     "mainColorLabel": "",
-    "colors": []
+    "colors": ["白銀"]
   },
   {
     "code": "11F",
-    "title": "",
-    "titleYomi": "",
-    "series": "0",
-    "arc": { "ex": "", "core": "" },
-    "theme": "",
+    "title": "恋するキョンシー",
+    "titleYomi": "こいするきょんしー",
+    "series": "1",
+    "arc": { "ex": "M", "core": "Q" },
+    "theme": "渇望",
     "mainColorLabel": "",
-    "colors": []
+    "colors": ["ネイビー"]
   },
   {
     "code": "144",
-    "title": "",
-    "titleYomi": "",
-    "series": "0",
-    "arc": { "ex": "", "core": "" },
-    "theme": "",
+    "title": "ミラミラ",
+    "titleYomi": "みらみら",
+    "series": "1",
+    "arc": { "ex": "K", "core": "Q" },
+    "theme": "恍惚",
     "mainColorLabel": "",
-    "colors": []
+    "colors": ["サンライト"]
+  },
+    {
+    "code": "241",
+    "title": "ペンギンの天秤",
+    "titleYomi": "ぺんぎんのてんびん",
+    "series": "2",
+    "arc": { "ex": "P", "core": "S" },
+    "theme": "リバーシ",
+    "mainColorLabel": "",
+    "colors": ["白","黒"]
   },
   {
     "code": "409",
-    "title": "",
-    "titleYomi": "",
-    "series": "0",
-    "arc": { "ex": "", "core": "" },
-    "theme": "",
+    "title": "Night of Serenity",
+    "titleYomi": "ないとおぶせれにてぃ",
+    "series": "4",
+    "arc": { "ex": "K", "core": "S" },
+    "theme": "9月",
     "mainColorLabel": "",
-    "colors": []
+    "colors": ["サファイアブルー"]
   },
   {
     "code": "40A",
-    "title": "",
-    "titleYomi": "",
-    "series": "0",
-    "arc": { "ex": "", "core": "" },
-    "theme": "",
+    "title": "Carnival of Death",
+    "titleYomi": "かーにばるおぶです",
+    "series": "4",
+    "arc": { "ex": "S", "core": "M" },
+    "theme": "10月",
     "mainColorLabel": "",
-    "colors": []
+    "colors": ["トルマリンピンク"]
+  },
+    {
+    "code": "40B",
+    "title": "Shade of Flame",
+    "titleYomi": "しぇいどおぶふれいむ",
+    "series": "4",
+    "arc": { "ex": "S", "core": "O" },
+    "theme": "11月",
+    "mainColorLabel": "",
+    "colors": ["アンバートパーズ"]
+  },
+    {
+    "code": "531",
+    "title": "オムライスの作り方",
+    "titleYomi": "おむらいすのつくりかた",
+    "series": "5",
+    "arc": { "ex": "B", "core": "M" },
+    "theme": "オムライス",
+    "mainColorLabel": "",
+    "colors": ["卵色"]
   },
   {
     "code": "821",
-    "title": "",
-    "titleYomi": "",
-    "series": "0",
-    "arc": { "ex": "", "core": "" },
-    "theme": "",
+    "title": "イノセント・インサイト",
+    "titleYomi": "いのせんといんさいと",
+    "series": "8",
+    "arc": { "ex": "B", "core": "F" },
+    "theme": "うさぎ",
     "mainColorLabel": "",
-    "colors": []
+    "colors": ["ゴールデンハニー"]
   },
   {
     "code": "822",
-    "title": "",
-    "titleYomi": "",
-    "series": "0",
-    "arc": { "ex": "", "core": "" },
-    "theme": "",
+    "title": "ネムリブレイク",
+    "titleYomi": "ねむりぶれいく",
+    "series": "8",
+    "arc": { "ex": "N", "core": "V" },
+    "theme": "ねこ",
     "mainColorLabel": "",
-    "colors": []
+    "colors": ["ネオンパープル"]
   },
   {
     "code": "ZZZ",
-    "title": "",
-    "titleYomi": "",
+    "title": "そまりものがたり",
+    "titleYomi": "そまりものがたり",
     "series": "0",
-    "arc": { "ex": "", "core": "" },
-    "theme": "",
+    "arc": { "ex": "G", "core": "V" },
+    "theme": "観測者",
     "mainColorLabel": "",
-    "colors": []
+    "colors": ["虹色"]
   }
 ]
