@@ -5,6 +5,12 @@
   --header-height: 120px;
 }
 
+/* 本文をヘッダー高さ分押し下げ */
+body {
+  margin: 0;
+  padding-top: var(--header-height);
+}
+
 /* ヘッダー本体 */
 .site-header {
   position: fixed;
@@ -23,12 +29,6 @@
   background: #fff;
   border-bottom: 1px solid #ddd;
   z-index: 10;
-}
-
-/* 本文をヘッダー高さ分押し下げ */
-body {
-  margin: 0;
-  padding-top: var(--header-height);
 }
 
 /* =========================
@@ -90,7 +90,6 @@ body {
   cursor: pointer;
   display: none;
 }
-
 .page-index .header-search-btn {
   display: inline-block;
 }
@@ -107,7 +106,7 @@ body {
    ========================= */
 @media (max-width: 768px) {
 
-  /* ヘッダー自体も少し低めにする */
+  /* スマホ時はヘッダー少し低め ＋ ロゴ縮小 */
   :root {
     --header-height: 96px;
   }
@@ -116,14 +115,13 @@ body {
     padding: 0 8px;
   }
 
-  /* スマホ時はロゴを幅ベースで縮小 */
   .header-logo {
     width: 40vw;
     max-height: none;
     height: auto;
   }
 
-  /* ドロップダウンメニュー */
+  /* ドロップダウンメニュー（ハンバーガーで開閉） */
   .header-nav {
     display: none;
     position: absolute;
@@ -189,7 +187,7 @@ body {
    カード一覧
    ========================= */
 
-/* スマホ（デフォルト）は 3列固定・余白なし */
+/* モバイル基準：3列固定・余白なし */
 #card-list {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -209,36 +207,14 @@ body {
   }
 }
 
-/* 強制：スマホは 3列 */
+/* 念押し：幅480px以下は3列固定 */
 @media (max-width: 480px) {
   #card-list {
     grid-template-columns: repeat(3, 1fr);
   }
 }
 
-.card {
-  display: block;
-  text-decoration: none;
-  color: inherit;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  overflow: hidden;
-  background: #fff;
-  padding-bottom: 8px;
-}
-
-/* カード画像（縦横比維持） */
-.card-image img {
-  width: 100%;
-  height: auto;
-  display: block;
-}
-
-/* コードは非表示 */
-.card-code {
-  display: none !important;
-}
-/* カード装飾の強化 */
+/* カード共通装飾 */
 .card {
   display: block;
   text-decoration: none;
@@ -258,16 +234,29 @@ body {
   box-shadow: 0 4px 10px rgba(0,0,0,0.12);
 }
 
-/* タイトルの見た目 */
+/* カード画像（縦横比維持） */
+.card-image img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* メタ情報部分 */
 .card-meta {
   width: 100%;
   padding: 8px 10px;
 }
 
+/* コードは非表示（内部データ用） */
+.card-code {
+  display: none !important;
+}
+
+/* タイトル：折り返し優先で全部見せる */
 .card-title {
-  white-space: normal !important;   /* 折り返し許可 */
-  overflow: visible !important;     /* はみ出しを許可 */
-  text-overflow: unset !important;  /* … を出さない */
+  white-space: normal !important;
+  overflow: visible !important;
+  text-overflow: unset !important;
   display: block;
   font-size: 14px;
   line-height: 1.3;
@@ -283,10 +272,10 @@ body {
   display: none;
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.55); /* やや濃いめ */
+  background: rgba(0, 0, 0, 0.55);
   justify-content: center;
   align-items: center;
-  backdrop-filter: blur(4px); /* ポケスリ風の奥行き */
+  backdrop-filter: blur(4px);
   z-index: 200;
 }
 
@@ -295,14 +284,15 @@ body {
   display: flex;
 }
 
-/* 中央の検索ボックス（ドンッ） */
+/* 中央の検索ボックス */
 #search-modal {
   background: #fff;
   width: 90%;
-  max-width: 420px;
+  max-width: 480px;
   border-radius: 16px;
-  padding: 20px 18px;
-  box-shadow: 0px 4px 20px rgba(0,0,0,0.25);
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  box-sizing: border-box;
 
   display: flex;
   flex-direction: column;
@@ -333,20 +323,80 @@ body {
   cursor: pointer;
 }
 
-/* 入力欄（ポケスリ風） */
-#search-input {
+/* 🔍 + テキスト入力 全体の枠 */
+.search-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
   width: 100%;
-  padding: 10px 12px;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
+  padding: 6px 10px;
+
+  border-radius: 999px;
+  border: 1px solid #ddd;
+  background: #f7f7f7;
+  box-sizing: border-box;
 }
 
-/* 結果一覧 */
+/* 🔍 アイコン */
+.search-icon {
+  flex: 0 0 auto;
+  font-size: 14px;
+}
+
+/* テキスト入力（モーダル用） */
+#search-input {
+  flex: 1 1 auto;
+  border: none;
+  background: transparent;
+  font-size: 14px;
+  padding: 4px 0;
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+/* セレクト（シリーズ / アーク） */
+.search-select {
+  margin-top: 8px;
+  padding: 4px 8px;
+  font-size: 13px;
+  box-sizing: border-box;
+}
+
+/* 検索ボタン行（リセット / 絞り込む） */
+.search-btn-row {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.search-decide-btn {
+  flex: 1;
+  padding: 10px;
+  background: #222;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.search-reset-btn {
+  flex: 1;
+  padding: 10px;
+  background: #ccc;
+  color: #000;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* 検索結果（テキスト表示が必要ならここを使う） */
 #search-results {
   max-height: 300px;
   overflow-y: auto;
 }
+
 /* =========================
    全ページ共通レイアウト
    ========================= */
@@ -367,7 +417,7 @@ main {
   box-sizing: border-box;
 }
 
-/* 画像＋テキストの横並び（PC）を想定 */
+/* 画像＋テキストの横並び（PC） */
 .character-layout {
   display: flex;
   gap: 24px;
@@ -406,11 +456,6 @@ main {
   margin-right: 4px;
 }
 
-/* アーク表示（既存の .arc-section を流用） */
-.arc-section {
-  margin-top: 16px;
-}
-
 /* スマホでは縦並びにする */
 @media (max-width: 768px) {
   .character-layout {
@@ -429,30 +474,4 @@ main {
   .character-info {
     width: 100%;
   }
-}
-
-.search-btn-row {
-  display: flex;
-  gap: 8px;
-  margin-top: 8px;
-}
-
-.search-decide-btn {
-  flex: 1;
-  padding: 10px;
-  background: #222;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-}
-
-.search-reset-btn {
-  flex: 1;
-  padding: 10px;
-  background: #ccc;
-  color: #000;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
 }
