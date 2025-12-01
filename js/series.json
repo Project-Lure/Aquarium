@@ -1,0 +1,21 @@
+{
+  "0": {
+    "id": "0",
+    "key": "Occupation",
+    "nameJa": "そまりものがたり",
+    "description": "職業・属性を扱うシリーズ"
+  },
+  "1": {
+    "id": "1",
+    "key": "Instinct",
+    "nameJa": "こころものがたり",
+    "description": "感情や欲望を扱うシリーズ"
+  },
+  "4": {
+    "id": "4",
+    "key": "Anniversary",
+    "nameJa": "めぐりものがたり",
+    "description": "イベント・行事・史実のシリーズ"
+  }
+  // ... 2,3,5〜9も必要に応じて
+}
