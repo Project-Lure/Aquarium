@@ -14,27 +14,28 @@ document.addEventListener("DOMContentLoaded", () => {
       let sortMode = "code"; // "code" or "title"
 
       // ===== 一覧描画関数 =====
-      function renderList(list) {
-        container.innerHTML = "";
-        list.forEach(c => {
-          const imgPath = `images/characters/${c.code}.png`;
+function renderList(list) {
+  container.innerHTML = "";
+  list.forEach(c => {
+    const imgPath = `images/characters/${c.code}.png`;
 
-          const a = document.createElement("a");
-          a.href = `character.html?code=${c.code}`;
-          a.className = "card";
-          a.innerHTML = `
-            <div class="card-inner">
-              <div class="card-image">
-                <img src="${imgPath}" alt="${c.title}">
-              </div>
-              <div class="card-meta">
-                <div class="card-title">${c.title}</div>
-              </div>
-            </div>
-          `;
-          container.appendChild(a);
-        });
-      }
+    const a = document.createElement("a");
+    a.href = `character.html?code=${c.code}`;
+    a.className = "card";
+    a.innerHTML = `
+      <div class="card-inner">
+        <div class="card-image">
+          <img src="${imgPath}" alt="${c.title}">
+        </div>
+        <div class="card-meta">
+          <!-- ここを修正 -->
+          <div class="card-title">${c.code}_${c.title}</div>
+        </div>
+      </div>
+    `;
+    container.appendChild(a);
+  });
+}
 
       // 初期表示：コード順（JSONの順番）
       renderList(currentList);
