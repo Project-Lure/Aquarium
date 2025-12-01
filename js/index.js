@@ -7,18 +7,18 @@ document.addEventListener("DOMContentLoaded", () => {
       }
       return r.json();
     }),
-    // series.json は失敗しても空オブジェクトで続行する
+    // series.json は将来の検索用。失敗しても空オブジェクトで続行する
     fetch("data/series.json")
       .then(r => {
         if (!r.ok) {
           console.warn("series.json が読み込めませんでした (status:", r.status, ")");
-          return {}; // からのマップとして扱う
+          return {};
         }
         return r.json();
       })
       .catch(e => {
         console.warn("series.json 読み込みエラー:", e);
-        return {}; // 例外時もからで続行
+        return {};
       })
   ])
     .then(([chars, seriesMap]) => {
@@ -38,22 +38,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
         list.forEach(c => {
           const imgPath = `images/characters/${c.code}.png`;
-          const series = seriesMap[c.series]; // "0"〜"9" → series.json のキー
 
           const a = document.createElement("a");
           a.href = `character.html?code=${c.code}`;
           a.className = "card";
+
+          // 検索や絞り込み用に、コードやシリーズは data-* 属性に残しておく
+          a.dataset.code = c.code;
+          if (c.series != null) {
+            a.dataset.series = c.series;
+          }
+
           a.innerHTML = `
             <div class="card-inner">
               <div class="card-image">
                 <img src="${imgPath}" alt="${c.title}">
               </div>
               <div class="card-meta">
-                <div class="card-code">${c.code}</div>
-                <div class="card-title">${c.title}</div>
-                <div class="card-series">
-                  ${series ? series.nameJa : ""}
-                </div>
+                <div class="card-title">${c.title || c.code}</div>
               </div>
             </div>
           `;
