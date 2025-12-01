@@ -23,7 +23,7 @@
 
     <script src="js/index.js"></script>
 
-    <!-- 検索ポップアップ（後で貼る） -->
+<!-- 検索ポップアップ -->
 <div id="search-overlay">
   <div id="search-modal">
     <div id="search-header">
@@ -43,16 +43,21 @@
 
       <select id="filter-series" class="search-select">
         <option value="">全シリーズ</option>
-        <!-- JSで自動追加 -->
       </select>
 
       <select id="filter-arc" class="search-select">
         <option value="">全アーク</option>
-        <!-- JSで自動追加 -->
       </select>
     </div>
 
-    <div id="search-results"></div>
+    <!-- ★ ここに「検索結果」ではなく “ボタン行” を置く -->
+    <div class="search-btn-row">
+      <button id="search-reset" class="search-reset-btn">リセット</button>
+      <button id="search-apply" class="search-decide-btn">絞り込む</button>
+    </div>
+
+    <!-- 旧：これはもう使わない想定（削除OK） -->
+    <!-- <div id="search-results"></div> -->
   </div>
 </div>
 </body>
