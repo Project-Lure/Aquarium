@@ -356,12 +356,62 @@ body {
   box-sizing: border-box;
 }
 
-/* セレクト（シリーズ / アーク） */
-.search-select {
-  margin-top: 8px;
-  padding: 4px 8px;
+/* ==== フィルタ（シリーズ／アーク）の行全体 ==== */
+.filter-group {
+  margin-top: 12px;
   font-size: 13px;
+}
+
+.filter-group-title {
+  margin-bottom: 4px;
+  font-weight: 600;
+}
+
+/* チップを横に並べるコンテナ */
+.filter-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+/* ==== 個々のチップ（ボタン風） ==== */
+.filter-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid #ddd;
+  background: #f7f7f7;
+
+  font-size: 13px;
+  cursor: pointer;
   box-sizing: border-box;
+
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease,
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+/* チェックボックス自体は小さく */
+.filter-chip input[type="checkbox"] {
+  margin: 0;
+  width: 14px;
+  height: 14px;
+  accent-color: #222; /* 対応ブラウザならチェック色が変わる */
+}
+
+/* チップが選択状態の見た目（対応ブラウザ向け） */
+@supports (selector(:has(*))) {
+  .filter-chip:has(input[type="checkbox"]:checked) {
+    background: #222;
+    color: #fff;
+    border-color: #222;
+    box-shadow: 0 0 0 2px rgba(0,0,0,0.05);
+  }
 }
 
 /* 検索ボタン行（リセット / 絞り込む） */
