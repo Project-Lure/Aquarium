@@ -173,6 +173,13 @@ body {
   margin: 0 auto;      /* ← 中央寄せ */
 }
 
+/* スマホのときは 3列固定 */
+@media (max-width: 768px) {
+  #card-list {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
 .card {
   display: block;
   text-decoration: none;
