@@ -1,0 +1,51 @@
+[
+  {
+    "platformId": "x",
+    "platformLabel": "X（旧Twitter）",
+    "icon": "fa-brands fa-x-twitter",
+    "accounts": [
+      {
+        "id": "x_project",
+        "label": "企画アカウント",
+        "handle": "@Project_LURE",
+        "description": "ぎじえPRJ全体のお知らせや企画情報を投稿します。",
+        "url": "https://x.com/Project_LURE"
+      },
+      {
+        "id": "x_creator",
+        "label": "作者アカウント",
+        "handle": "@your_name",
+        "description": "制作の裏話や日常寄りのポストをするアカウントです。",
+        "url": "https://x.com/your_name"
+      }
+    ]
+  },
+  {
+    "platformId": "youtube",
+    "platformLabel": "YouTube",
+    "icon": "fa-brands fa-youtube",
+    "accounts": [
+      {
+        "id": "yt_main",
+        "label": "LURE / 擬似餌 🎣",
+        "handle": "",
+        "description": "キャラソンやショート動画などを投稿するチャンネル。",
+        "url": "https://www.youtube.com/@hoge"
+      }
+    ]
+  },
+  {
+    "platformId": "booth",
+    "platformLabel": "BOOTH",
+    "icon": "fa-solid fa-bag-shopping",
+    "accounts": [
+      {
+        "id": "booth_main",
+        "label": "ぎじえPRJ公式ショップ",
+        "handle": "",
+        "description": "楽曲・イラスト・グッズなどを頒布予定のオンラインストア。",
+        "url": "https://your.booth.pm/"
+      }
+    ]
+  }
+]
