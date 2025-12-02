@@ -1,19 +1,37 @@
 {
   "000": {
-    "youtube": "https://youtu.be/xxxx",
-    "note": "https://note.com/xxxx",
-    "x": "https://x.com/xxxx",
-    "novel": ""
+    "music": [
+      { "label": "彩に蕩れる - Full ver.", "url": "https://youtu.be/Fj8RrRTHguM?si=44V3zoeMXLE21ipj" },
+      { "label": "彩に蕩れる - Short ver.", "url": "https://www.youtube.com/shorts/2-WDFQ7pmLI" }
+    ],
+    "novel": [
+      { "label": "彩に蕩れる - 作品ガイド", "url": "https://note.com/prayforthelure/n/n0260451a9311" },
+      { "label": "彩に蕩れる - 第1章『透明な檻の中で』", "url": "https://note.com/prayforthelure/n/n3a8182db69ad" },
+      { "label": "彩に蕩れる - 第2章『焦げつく記憶、祈りの火』", "url": "https://note.com/prayforthelure/n/n6cbea61fcc75" },
+      { "label": "彩に蕩れる - 第3章『凍星の夜に願う』", "url": "https://note.com/prayforthelure/n/n294b9f572392" },
+      { "label": "彩に蕩れる - 第4章『私だけの色』", "url": "https://note.com/prayforthelure/n/n4ac6e7fc7405" },
+      { "label": "彩に蕩れる - 第5章『彩に蕩れる』", "url": "https://note.com/prayforthelure/n/n1ed6cbd03a73" }
+    ],
+    "video": [
+      { "label": "キャラ紹介動画", "url": "https://www.youtube.com/shorts/KlJ85Nc6SgA" }
+    ]
   },
+
   "001": {
-    "youtube": "",
-    "note": "",
-    "x": "",
-    "novel": ""
+    "novel": [
+      { "label": "ロンギヌス・ロンリネス", "url": "https://note.com/prayforthelure/n/nfea0c6810ae6" }
+    ]
   },
-  "011": {
-    "youtube": "https://youtu.be/abc123",
-    "note": "https://note.com/abc123",
-    "novel": "https://note.com/story/hogehoge"
+
+  "002": {
+    "novel": [
+      { "label": "ハナグモ", "url": "https://note.com/prayforthelure/n/n5f09f903bb7b" }
+    ]
+  },
+
+  "003": {
+    "novel": [
+      { "label": "にわか雨の先に", "url": "https://note.com/prayforthelure/n/n9b4f4f4a7839" }
+    ]
   }
 }
