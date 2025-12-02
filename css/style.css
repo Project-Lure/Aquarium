@@ -978,3 +978,153 @@ main {
 .bubbles span:nth-child(7)  { left: 40%;  animation-duration: 7.2s;width:15px; height:15px; }
 .bubbles span:nth-child(8)  { left: 60%;  animation-duration: 6.1s;width:9px;  height:9px;  }
 .bubbles span:nth-child(9)  { left: 80%;  animation-duration: 8s; width:13px; height:13px; }
+
+/* =========================
+   ABOUTページ
+   ========================= */
+
+.page-about main {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 24px 16px 48px;
+  box-sizing: border-box;
+}
+
+.about-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* ページタイトル周り */
+.about-header {
+  margin-bottom: 8px;
+}
+
+.about-title {
+  font-size: 24px;
+  margin: 0 0 8px;
+}
+
+.about-lead {
+  font-size: 14px;
+  line-height: 1.8;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+/* 目次 */
+.about-toc {
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: #ffffffdd;
+  box-shadow: 0 2px 6px rgba(0, 40, 80, 0.05);
+  border: 1px solid rgba(0, 80, 140, 0.06);
+}
+
+.about-toc-title {
+  font-size: 13px;
+  letter-spacing: 0.16em;
+  margin: 0 0 8px;
+  color: var(--text-main);
+}
+
+.about-toc ol {
+  margin: 0;
+  padding-left: 18px;
+  font-size: 13px;
+}
+
+.about-toc li + li {
+  margin-top: 2px;
+}
+
+.about-toc a {
+  color: #005a9c;
+  text-decoration: none;
+}
+
+.about-toc a:hover {
+  text-decoration: underline;
+}
+
+/* セクション共通 */
+.about-section {
+  padding: 16px 18px;
+  border-radius: 16px;
+  background: #ffffffee;
+  box-shadow: 0 2px 8px rgba(0, 40, 80, 0.06);
+  border: 1px solid rgba(0, 80, 140, 0.06);
+  border-top: 3px solid;
+  border-image: linear-gradient(
+      90deg,
+      var(--header-grad-left),
+      var(--header-grad-right)
+    ) 1;
+}
+
+.about-section + .about-section {
+  margin-top: 4px;
+}
+
+.about-section-title {
+  font-size: 16px;
+  margin: 0 0 10px;
+  letter-spacing: 0.12em;
+}
+
+.about-section p {
+  font-size: 13px;
+  line-height: 1.8;
+  margin: 0 0 8px;
+}
+
+/* アーク一覧 */
+.about-arc-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 6px 12px;
+  margin-top: 8px;
+  font-size: 13px;
+}
+
+.about-arc-item {
+  padding-left: 2px;
+}
+
+/* 大テーマ一覧 */
+.about-theme-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.about-theme-item {
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: #f5fbff;
+  border: 1px solid rgba(0, 80, 140, 0.08);
+  font-size: 13px;
+}
+
+.about-theme-item h3 {
+  font-size: 13px;
+  margin: 0 0 4px;
+}
+
+.about-theme-sub {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+/* スマホ時の微調整 */
+@media (max-width: 768px) {
+  .about-title {
+    font-size: 20px;
+  }
+
+  .about-section {
+    padding: 14px 14px;
+  }
+}
