@@ -823,18 +823,23 @@ main {
   text-decoration: underline;
 }
 
+/* 共通：戻るボタン */
 .char-back-btn {
   display: inline-block;
+
+  /* ← 幅を固定しすぎず、文字に合わせた“短め”サイズにする */
+  padding: 8px 18px;
+
   background: linear-gradient(90deg, var(--header-grad-left), var(--header-grad-right));
   color: #fff;
-  padding: 10px 18px;
-  border-radius: 10px;
-  text-decoration: none;
+  border-radius: 8px;
+
   font-size: 14px;
   font-weight: 600;
+  text-decoration: none;
 
-  /* 左寄せ */
-  margin: 0 0 16px 0;
+  /* ← 左寄せ（中央寄せを解除） */
+  margin: 0 0 20px 0;
 }
 
 .char-back-btn:hover {
