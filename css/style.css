@@ -826,7 +826,6 @@ main {
 .char-back-btn {
   display: inline-block;
   padding: 10px 18px;
-  margin: 4px 0 12px;
   background: linear-gradient(90deg, var(--header-grad-left), var(--header-grad-right));
   color: #fff;
   border-radius: 8px;
@@ -834,6 +833,11 @@ main {
   font-size: 14px;
   font-weight: 600;
   box-shadow: 0 2px 6px rgba(0, 40, 80, 0.15);
+
+  /* ここで「必要最小幅」にして中央寄せする */
+  width: fit-content;
+  margin: 0 auto;
+
   transition: filter 0.15s ease, transform 0.15s ease;
 }
 
@@ -844,6 +848,7 @@ main {
 
 .char-back-btn.bottom {
   margin-top: 24px;
+}
 }
 /* =========================
    泡エフェクト
