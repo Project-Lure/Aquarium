@@ -1,44 +1,94 @@
-[
-  {
-    "platformId": "x",
-    "platformLabel": "X（旧Twitter）",
-    "icon": "fa-brands fa-x-twitter",
-    "accounts": [
-      {
-        "id": "x_project",
-        "label": "総合アカウント",
-        "handle": "@Project_LURE",
-        "description": "ぎじえPRJ全体の作品を随時投稿します。",
-        "url": "https://x.com/Project_LURE"
-      }
-    ]
-  },
-  {
-    "platformId": "youtube",
-    "platformLabel": "YouTube",
-    "icon": "fa-brands fa-youtube",
-    "accounts": [
-      {
-        "id": "yt_main",
-        "label": "MV/キャラクター紹介",
-        "handle": "@PrayForTheLure",
-        "description": "キャラソンやショート動画などを投稿するチャンネル。",
-        "url": "https://www.youtube.com/@PrayForTheLure"
-      }
-    ]
-  },
-  {
-    "platformId": "booth",
-    "platformLabel": "BOOTH",
-    "icon": "fa-solid fa-bag-shopping",
-    "accounts": [
-      {
-        "id": "booth_main",
-        "label": "ぎじえPRJ公式ショップ（未定）",
-        "handle": "",
-        "description": "楽曲・イラスト・グッズなどを頒布予定のオンラインストア。",
-        "url": ""
-      }
-    ]
-  }
-]
+{
+  "sns": [
+    {
+      "platform": "YouTube",
+      "icon": "fa-brands fa-youtube",
+      "accounts": [
+        {
+          "label": "Project LURE｜公式チャンネル",
+          "handle": "@project_lure",
+          "url": "https://www.youtube.com/@project_lure",
+          "desc": "楽曲・MV制作 / キャラソン公開"
+        }
+      ]
+    },
+    {
+      "platform": "Twitter",
+      "icon": "fa-brands fa-twitter",
+      "accounts": [
+        {
+          "label": "Project LURE｜総合",
+          "handle": "@Project_LURE",
+          "url": "https://twitter.com/Project_LURE",
+          "desc": "作品公開・キャラ展開"
+        }
+      ]
+    },
+    {
+      "platform": "note",
+      "icon": "fa-solid fa-pencil",
+      "accounts": [
+        {
+          "label": "note｜設定資料",
+          "handle": "@lure_note",
+          "url": "https://note.com/…",
+          "desc": "企画の元となる設定資料まとめ"
+        }
+      ]
+    },
+    {
+      "platform": "Pixiv",
+      "icon": "fa-brands fa-pixiv",
+      "accounts": [
+        {
+          "label": "Pixiv｜キャラクター一覧",
+          "handle": "pixivID",
+          "url": "https://www.pixiv.net/users/…",
+          "desc": "制作したキャラクターカード一覧"
+        }
+      ]
+    }
+  ],
+
+  "portfolio": [
+    {
+      "platform": "Pixiv",
+      "icon": "fa-brands fa-pixiv",
+      "accounts": [
+        {
+          "label": "Pixiv｜作品まとめ",
+          "handle": "pixivID",
+          "url": "https://www.pixiv.net/users/…",
+          "desc": "作品アーカイブ（カード/イラスト）"
+        }
+      ]
+    },
+    {
+      "platform": "Instagram",
+      "icon": "fa-brands fa-instagram",
+      "accounts": [
+        {
+          "label": "Instagram｜キャラ紹介アーカイブ",
+          "handle": "@insta_id",
+          "url": "https://instagram.com/…",
+          "desc": "キャラ紹介動画や作品サンプル"
+        }
+      ]
+    }
+  ],
+
+  "shop": [
+    {
+      "platform": "BOOTH",
+      "icon": "fa-solid fa-shop",
+      "accounts": [
+        {
+          "label": "BOOTH｜公式ショップ",
+          "handle": "lure_booth",
+          "url": "https://projectlure.booth.pm/",
+          
+        }
+      ]
+    }
+  ]
+}
