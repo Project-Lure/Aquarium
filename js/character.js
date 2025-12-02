@@ -17,6 +17,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const c = chars.find(ch => ch.code === code);
     if (!c) return;
 
+    // ★ ここで title を書き換える
+    document.title = `${c.title} | ぎじえプロジェクト`;
+
     // 画像パス（立ち絵カード）
     const imgPath = `images/characters/${c.code}.png`;
 
