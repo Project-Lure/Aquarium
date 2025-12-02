@@ -44,7 +44,7 @@ body {
   color: #fff;
   border-bottom: 1px solid rgba(0,0,0,0.06);
   z-index: 10;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 
 /* 左ブロックは絶対配置にする（左上固定） */
