@@ -1134,3 +1134,126 @@ main {
     padding: 14px 14px;
   }
 }
+/* =========================
+   LINKS / OFFICIAL ページ
+   ========================= */
+
+.page-links main.links-page {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 24px 16px 48px;
+  box-sizing: border-box;
+}
+
+.links-header {
+  margin-bottom: 24px;
+}
+
+.links-title {
+  font-size: 22px;
+  margin: 0 0 10px;
+  letter-spacing: 0.12em;
+}
+
+.links-lead {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.8;
+  color: var(--text-muted);
+}
+
+/* プラットフォームごとのブロック */
+.links-platform-section {
+  padding: 16px 18px;
+  border-radius: 16px;
+  background: #ffffffee;
+  box-shadow: 0 2px 8px rgba(0, 40, 80, 0.06);
+  border: 1px solid rgba(0, 80, 140, 0.06);
+  border-top: 3px solid;
+  border-image: linear-gradient(
+      90deg,
+      var(--header-grad-left),
+      var(--header-grad-right)
+    ) 1;
+}
+
+.links-platform-section + .links-platform-section {
+  margin-top: 8px;
+}
+
+.links-platform-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  margin: 0 0 10px;
+  letter-spacing: 0.12em;
+}
+
+.links-platform-icon i {
+  font-size: 18px;
+}
+
+/* アカウントカード一覧 */
+.links-account-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 10px;
+}
+
+.links-account-card {
+  display: block;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: #f5fbff;
+  border: 1px solid rgba(0, 80, 140, 0.08);
+  text-decoration: none;
+  color: var(--text-main);
+  font-size: 13px;
+  transition:
+    background-color 0.15s ease,
+    box-shadow 0.15s ease,
+    transform 0.12s ease-out;
+}
+
+.links-account-card:hover {
+  background: linear-gradient(90deg, var(--header-grad-left), var(--header-grad-right));
+  color: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 40, 80, 0.25);
+  transform: translateY(-1px);
+}
+
+/* カード内レイアウト */
+.links-account-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.links-account-label {
+  font-weight: 600;
+}
+
+.links-account-handle {
+  font-size: 11px;
+  opacity: 0.9;
+}
+
+.links-account-desc {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+/* スマホのときはちょい詰める */
+@media (max-width: 768px) {
+  .links-title {
+    font-size: 20px;
+  }
+
+  .links-platform-section {
+    padding: 14px 14px;
+  }
+}
