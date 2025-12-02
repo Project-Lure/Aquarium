@@ -2,32 +2,42 @@
 <html lang="ja">
 <head>
   <meta charset="utf-8">
-  <title>ぎじえのリンク集</title>
+  <title>OFFICIAL LINKS</title>
 
-  <!-- スマホ対応 -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <link rel="stylesheet" href="css/style.css?v=3">
+  <link rel="stylesheet" href="css/style.css?v=4">
   <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 
-<body class="page-about">
+<body class="page-links">
 
   <!-- ヘッダー -->
   <div id="header-container"></div>
 
   <!-- 本体 -->
-  <main>
-    <!-- 必要ならここに説明文や画像などを入れる -->
+  <main class="links-page">
+    <header class="links-header">
+      <h1 class="links-title">OFFICIAL</h1>
+      <p class="links-lead">
+        ぎじえプロジェクト（Project LURE）に関連する公式アカウントやショップなど、  
+        外部サービスへの「入口」をまとめたページです。<br>
+        個別の作品リンクは、各キャラクターのギャラリーセクションに掲載しています。
+      </p>
+    </header>
+
+    <!-- ここに JS でプラットフォーム別ブロックが入る -->
+    <div id="links-container"></div>
   </main>
 
   <!-- フッター -->
   <div id="footer-container"></div>
 
-  <!-- JS（必ず最後にまとめて） -->
+  <!-- JS（最後に） -->
   <script src="js/loadHeader.js"></script>
   <script src="js/loadFooter.js"></script>
+  <script src="js/links.js"></script>
 
 </body>
 </html>
