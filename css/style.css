@@ -160,7 +160,7 @@ body {
     border: 1px solid #ddd;
     flex-direction: column;
     padding: 8px 12px;
-    z-index: 20;
+    z-index: 200;
   }
 
   .header-nav.is-open {
