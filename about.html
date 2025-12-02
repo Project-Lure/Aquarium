@@ -7,217 +7,204 @@
   <!-- スマホ対応 -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <link rel="stylesheet" href="css/style.css?v=3">
+  <!-- 共通スタイル -->
+  <link rel="stylesheet" href="css/style.css?v=4">
   <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 
 <body class="page-about">
 
-  <!-- ヘッダー -->
+  <!-- ヘッダー（共通） -->
   <div id="header-container"></div>
 
   <!-- 本体 -->
-<main class="about-page">
+  <main class="about-page">
 
-  <!-- ============================= -->
-  <!-- ① はじめに（概要） -->
-  <!-- ============================= -->
-  <section class="about-section" id="about-intro">
-    <h2>ぎじえプロジェクトとは？</h2>
-    <p>
-      ぎじえプロジェクト（Project LURE）は、
-      キャラクターカード・短いテキスト・音楽（キャラソン）を中心に構成される
-      “断片型” の創作企画です。
-    </p>
-    <p>
-      物語を一本の時間軸で語るのではなく、
-      キャラクターが持つ「色」「テーマ」「カルマ」を軸に、
-      さまざまな世界線（シリーズ）が並行して展開されます。
-      読者は提示される断片を自由に拾い、
-      自分なりの順番で世界を理解していく形式です。
-    </p>
-  </section>
+    <!-- ① はじめに（導入：フラット） -->
+    <section class="about-intro" id="about-intro">
+      <h1>ぎじえプロジェクトとは？</h1>
+      <p>
+        ぎじえプロジェクト（Project LURE）は、
+        キャラクターカード・短いテキスト・音楽（キャラソン）を中心に構成される
+        “断片型” の創作企画です。
+      </p>
+      <p>
+        物語を一本の時間軸で語るのではなく、
+        キャラクターが持つ「色」「テーマ」「カルマ」を軸に、
+        さまざまな世界線（シリーズ）が並行して展開されます。
+        読者は提示される断片を自由に拾い、
+        自分なりの順番で世界を理解していく形式です。
+      </p>
+    </section>
 
-  <!-- ============================= -->
-  <!-- ★ 目次（ここを新しく追加） -->
-  <!-- ============================= -->
-  <section class="about-section" id="about-toc">
-    <h2>目次</h2>
-    <ul class="about-toc-list">
-      <li><a href="#about-guide">② 初めての方へ</a></li>
-      <li><a href="#about-series">③ シリーズについて</a></li>
-      <li><a href="#about-karma">④ カルマとは</a></li>
-      <li><a href="#about-media">⑤ テキストとキャラソンの関係</a></li>
-      <li><a href="#about-arc">⑥ アーク一覧</a></li>
-      <li><a href="#about-theme">⑦ 大テーマ一覧</a></li>
-    </ul>
-  </section>
+    <!-- ② 目次（導入と同じレベルでフラット） -->
+    <section class="about-toc" id="about-toc">
+      <h2>目次</h2>
+      <ul class="about-toc-list">
+        <li><a href="#about-guide">② 初めての方へ</a></li>
+        <li><a href="#about-series">③ シリーズについて</a></li>
+        <li><a href="#about-karma">④ カルマとは</a></li>
+        <li><a href="#about-media">⑤ テキストとキャラソンの関係</a></li>
+        <li><a href="#about-arc">⑥ アーク一覧</a></li>
+        <li><a href="#about-theme">⑦ 大テーマ一覧</a></li>
+      </ul>
+    </section>
 
-  <!-- ============================= -->
-  <!-- ② 初めての方へ（導線） -->
-  <!-- ============================= -->
-  <section class="about-section" id="about-guide">
-    <h2>初めての方へ</h2>
-    <p>
-      ぎじえPRJは、断片を集めていくことで全体像が見えてくる構造です。
-      初めて触れる方は、以下の順で読むと理解しやすくなっています。
-    </p>
+    <!-- ③ 初めての方へ（カード形式） -->
+    <section class="about-section" id="about-guide">
+      <h2>初めての方へ</h2>
+      <p>
+        ぎじえPRJは、断片を集めていくことで全体像が見えてくる構造です。
+        初めて触れる方は、以下の順で読むと理解しやすくなっています。
+      </p>
 
-    <h3>1. キャラクターカード</h3>
-    <p>1枚の中に「象徴・色・テーマ」が凝縮された名刺のような存在です。</p>
+      <h3>1. キャラクターカード</h3>
+      <p>1枚の中に「象徴・色・テーマ」が凝縮された名刺のような存在です。</p>
 
-    <h3>2. テキスト（短文）</h3>
-    <p>キャラクターの“カルマ”や心の動きを描く断片的な文章です。</p>
+      <h3>2. テキスト（短文）</h3>
+      <p>キャラクターの“カルマ”や心の動きを描く断片的な文章です。</p>
 
-    <h3>3. キャラソン</h3>
-    <p>テキストで描かれた感情や衝動を音として翻訳した表現です。</p>
-  </section>
+      <h3>3. キャラソン</h3>
+      <p>テキストで描かれた感情や衝動を音として翻訳した表現です。</p>
+    </section>
 
-  <!-- ============================= -->
-  <!-- ③ シリーズ全体（世界線構造） -->
-  <!-- ============================= -->
-  <section class="about-section" id="about-series">
-    <h2>シリーズについて</h2>
-    <p>
-      ぎじえPRJには複数のシリーズ（世界線）が存在します。
-      各シリーズは、キャラクターの色・テーマ・カルマの見せ方が異なり、
-      “別の角度から同一人物を見る”ためのレイヤーとして機能します。
-    </p>
-    <p>
-      特に中心となる「そまりものがたり」は、
-      色やテーマをもとにキャラクターの世界線を描くメインシリーズです。
-      全キャラクターは “別世界線の走馬瑠曖（そうま・るあ）” として存在します。
-    </p>
-  </section>
+    <!-- ④ シリーズ全体（世界線構造） -->
+    <section class="about-section" id="about-series">
+      <h2>シリーズについて</h2>
+      <p>
+        ぎじえPRJには複数のシリーズ（世界線）が存在します。
+        各シリーズは、キャラクターの色・テーマ・カルマの見せ方が異なり、
+        “別の角度から同一人物を見る”ためのレイヤーとして機能します。
+      </p>
+      <p>
+        特に中心となる「そまりものがたり」は、
+        色やテーマをもとにキャラクターの世界線を描くメインシリーズです。
+        全キャラクターは “別世界線の走馬瑠曖（そうま・るあ）” として存在します。
+      </p>
+    </section>
 
-  <!-- ============================= -->
-  <!-- ④ カルマ -->
-  <!-- ============================= -->
-  <section class="about-section" id="about-karma">
-    <h2>カルマとは</h2>
-    <p>
-      カルマとは、キャラクターを動かす“根源的な動機”のことです。
-      願望・恐れ・歪み・諦念など、
-      「なぜそのキャラがその色で、そのテーマで生きているのか」を形づくります。
-    </p>
-    <p>
-      カルマは、カードタイトル・キャッチコピー・テキスト・キャラソンなど、
-      キャラクター表現すべてに影響する最重要設定です。
-    </p>
-  </section>
+    <!-- ⑤ カルマ -->
+    <section class="about-section" id="about-karma">
+      <h2>カルマとは</h2>
+      <p>
+        カルマとは、キャラクターを動かす“根源的な動機”のことです。
+        願望・恐れ・歪み・諦念など、
+        「なぜそのキャラがその色で、そのテーマで生きているのか」を形づくります。
+      </p>
+      <p>
+        カルマは、カードタイトル・キャッチコピー・テキスト・キャラソンなど、
+        キャラクター表現すべてに影響する最重要設定です。
+      </p>
+    </section>
 
-  <!-- ============================= -->
-  <!-- ⑤ メディア連動 -->
-  <!-- ============================= -->
-  <section class="about-section" id="about-media">
-    <h2>テキストとキャラソンの関係</h2>
-    <p>
-      ぎじえPRJでは、短いテキストで描かれる“カルマの物語”が、
-      そのままキャラソンへ感情として転写される構造になっています。
-    </p>
-    <ul>
-      <li><strong>テキスト：</strong> 出来事よりも「生き方や歪み」を描く断片</li>
-      <li><strong>キャラソン：</strong> その断片を内面の“音”として表現したもの</li>
-    </ul>
-    <p>
-      二つを合わせて読むことで、キャラクターの世界が立体的に理解できます。
-    </p>
-  </section>
+    <!-- ⑥ メディア連動 -->
+    <section class="about-section" id="about-media">
+      <h2>テキストとキャラソンの関係</h2>
+      <p>
+        ぎじえPRJでは、短いテキストで描かれる“カルマの物語”が、
+        そのままキャラソンへ感情として転写される構造になっています。
+      </p>
+      <ul>
+        <li><strong>テキスト：</strong> 出来事よりも「生き方や歪み」を描く断片</li>
+        <li><strong>キャラソン：</strong> その断片を内面の“音”として表現したもの</li>
+      </ul>
+      <p>
+        二つを合わせて読むことで、キャラクターの世界が立体的に理解できます。
+      </p>
+    </section>
 
-  <!-- ============================= -->
-  <!-- ⑥ アーク一覧（関係性 1行追加） -->
-  <!-- ============================= -->
-  <section class="about-section" id="about-arc">
-    <h2>アーク（属性）一覧</h2>
-    <p>
-      アークは、キャラクターが持つ“性質・傾向・分類”を視覚的に示すための要素です。
-      カルマが内面だとすれば、アークは <strong>外側から見える特徴</strong> を表します。
-    </p>
+    <!-- ⑦ アーク一覧 -->
+    <section class="about-section" id="about-arc">
+      <h2>アーク（属性）一覧</h2>
+      <p>
+        アークは、キャラクターが持つ“性質・傾向・分類”を視覚的に示すための要素です。
+        カルマが内面だとすれば、アークは <strong>外側から見える特徴</strong> を表します。
+      </p>
 
-    <div class="arc-list">
-          <div class="about-arc-item">🔥 ブレイズ（Blaze）</div>
-          <div class="about-arc-item">🎭 フォグ（Fog）</div>
-          <div class="about-arc-item">⚙️ ギア（Gear）</div>
-          <div class="about-arc-item">🪢 ノット（Knot）</div>
-          <div class="about-arc-item">🎨 モード（Mode）</div>
-          <div class="about-arc-item">🔈 ノイズ（Noise）</div>
-          <div class="about-arc-item">⛓️ オース（Oath）</div>
-          <div class="about-arc-item">📐 プロトコル（Protocol）</div>
-          <div class="about-arc-item">🪞 クオート（Quote）</div>
-          <div class="about-arc-item">🧵 リール（Reel）</div>
-          <div class="about-arc-item">⚓️ シェイド（Shade）</div>
-          <div class="about-arc-item">🌀 ボイド（Void）</div>
-    </div>
-  </section>
+      <div class="arc-list">
+        <div class="about-arc-item">🔥 ブレイズ（Blaze）</div>
+        <div class="about-arc-item">🎭 フォグ（Fog）</div>
+        <div class="about-arc-item">⚙️ ギア（Gear）</div>
+        <div class="about-arc-item">🪢 ノット（Knot）</div>
+        <div class="about-arc-item">🎨 モード（Mode）</div>
+        <div class="about-arc-item">🔈 ノイズ（Noise）</div>
+        <div class="about-arc-item">⛓️ オース（Oath）</div>
+        <div class="about-arc-item">📐 プロトコル（Protocol）</div>
+        <div class="about-arc-item">🪞 クオート（Quote）</div>
+        <div class="about-arc-item">🧵 リール（Reel）</div>
+        <div class="about-arc-item">⚓️ シェイド（Shade）</div>
+        <div class="about-arc-item">🌀 ボイド（Void）</div>
+      </div>
+    </section>
 
-  <!-- ============================= -->
-  <!-- ⑦ 大テーマ一覧 -->
-  <!-- ============================= -->
-  <section class="about-section" id="about-theme">
-    <h2>大テーマ一覧</h2>
-    <p>
-      全キャラクターは特定の「大テーマ（全10種）」に属しています。
-      色・季節・文化・感情などをもとに、
-      キャラクターの象徴や世界観を理解しやすくする分類です。
-    </p>
+    <!-- ⑧ 大テーマ一覧 -->
+    <section class="about-section" id="about-theme">
+      <h2>大テーマ一覧</h2>
+      <p>
+        全キャラクターは特定の「大テーマ（全10種）」に属しています。
+        色・季節・文化・感情などをもとに、
+        キャラクターの象徴や世界観を理解しやすくする分類です。
+      </p>
 
-    <div class="theme-list">
-          <div class="about-theme-item">
-            <h3>0_Occupation<br><span class="about-theme-sub">そまりものがたり</span></h3>
-            <p>職業や立場、特定の属性を表すテーマ</p>
-          </div>
+      <div class="theme-list">
 
-          <div class="about-theme-item">
-            <h3>1_Instinct<br><span class="about-theme-sub">こころものがたり</span></h3>
-            <p>人間の感情や欲望を象徴するテーマ</p>
-          </div>
+        <div class="about-theme-item">
+          <h3>0_Occupation<br><span class="about-theme-sub">そまりものがたり</span></h3>
+          <p>職業や立場、特定の属性を表すテーマ</p>
+        </div>
 
-          <div class="about-theme-item">
-            <h3>2_Zone</h3>
-            <p>遊びや競技、勝負に関するテーマ</p>
-          </div>
+        <div class="about-theme-item">
+          <h3>1_Instinct<br><span class="about-theme-sub">こころものがたり</span></h3>
+          <p>人間の感情や欲望を象徴するテーマ</p>
+        </div>
 
-          <div class="about-theme-item">
-            <h3>3_Element<br><span class="about-theme-sub">ものがたり</span></h3>
-            <p>自然の要素、鉱物、植物を扱うテーマ</p>
-          </div>
+        <div class="about-theme-item">
+          <h3>2_Zone</h3>
+          <p>遊びや競技、勝負に関するテーマ</p>
+        </div>
 
-          <div class="about-theme-item">
-            <h3>4_Anniversary<br><span class="about-theme-sub">めぐりものがたり</span></h3>
-            <p>季節行事や歴史的出来事を扱うテーマ</p>
-          </div>
+        <div class="about-theme-item">
+          <h3>3_Element<br><span class="about-theme-sub">ものがたり</span></h3>
+          <p>自然の要素、鉱物、植物を扱うテーマ</p>
+        </div>
 
-          <div class="about-theme-item">
-            <h3>5_Savor<br><span class="about-theme-sub">たべものがたり</span></h3>
-            <p>食品や飲料に関するテーマ</p>
-          </div>
+        <div class="about-theme-item">
+          <h3>4_Anniversary<br><span class="about-theme-sub">めぐりものがたり</span></h3>
+          <p>季節行事や歴史的出来事を扱うテーマ</p>
+        </div>
 
-          <div class="about-theme-item">
-            <h3>6_Galaxy</h3>
-            <p>宇宙や天体、星座に関するテーマ</p>
-          </div>
+        <div class="about-theme-item">
+          <h3>5_Savor<br><span class="about-theme-sub">たべものがたり</span></h3>
+          <p>食品や飲料に関するテーマ</p>
+        </div>
 
-          <div class="about-theme-item">
-            <h3>7_Language</h3>
-            <p>言語や文字、言葉にまつわる文化・芸術・記号に関するテーマ</p>
-          </div>
+        <div class="about-theme-item">
+          <h3>6_Galaxy</h3>
+          <p>宇宙や天体、星座に関するテーマ</p>
+        </div>
 
-          <div class="about-theme-item">
-            <h3>8_Beast<br><span class="about-theme-sub">けものものがたり</span></h3>
-            <p>動物や干支に関するテーマ</p>
-          </div>
+        <div class="about-theme-item">
+          <h3>7_Language</h3>
+          <p>言語や文字、言葉にまつわる文化・芸術・記号に関するテーマ</p>
+        </div>
 
-          <div class="about-theme-item">
-            <h3>9_Pattern</h3>
-            <p>模様・材質に関するテーマ</p>
-          </div>
-    </div>
-  </section>
+        <div class="about-theme-item">
+          <h3>8_Beast<br><span class="about-theme-sub">けものものがたり</span></h3>
+          <p>動物や干支に関するテーマ</p>
+        </div>
 
-</main>
+        <div class="about-theme-item">
+          <h3>9_Pattern</h3>
+          <p>模様・材質に関するテーマ</p>
+        </div>
 
-  <!-- フッター -->
+      </div>
+    </section>
+
+  </main>
+
+  <!-- フッター（共通） -->
   <div id="footer-container"></div>
 
   <!-- JS（必ず最後にまとめて） -->
