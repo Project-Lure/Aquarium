@@ -28,12 +28,18 @@ function renderList(list) {
 
     // ★ここがポイント：画像が読み込めなかった場合の処理
     img.addEventListener("error", () => {
-      // 未定カード画像に差し替え
-      img.src = "images/ui/card-placeholder.png";
+    // 未定カード画像に差し替え
+    img.src = "images/ui/card-placeholder.png";
 
-      // クリック無効化
-      card.removeAttribute("href");
-      card.classList.add("is-placeholder");
+    // クリック無効化
+    card.removeAttribute("href");
+    card.classList.add("is-placeholder");
+
+    // ★ Coming Soon ラベルを追加
+    const cs = document.createElement("div");
+    cs.className = "coming-soon";
+    cs.textContent = "Coming Soon";
+    card.appendChild(cs);  
     });
 
     // src を最後にセットして読み込み開始
