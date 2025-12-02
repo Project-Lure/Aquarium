@@ -74,8 +74,8 @@ document.addEventListener("DOMContentLoaded", () => {
 container.innerHTML = `
   <article class="char-page">
 
-    <!-- 一覧に戻る -->
-    <a href="index.html" class="char-back-link">← 一覧に戻る</a>
+    <!-- 上部：一覧に戻るボタン -->
+    <a href="index.html" class="char-back-btn">一覧に戻る</a>
 
         <!-- 上段：カード ＋ 基本情報 -->
         <section class="char-hero">
