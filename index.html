@@ -4,66 +4,65 @@
   <meta charset="utf-8">
   <title>ぎじえプロジェクト</title>
 
-  <!-- ★ ここを必ず入れる -->
+  <!-- スマホ対応 -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <link rel="stylesheet" href="css/style.css?v=3">
   <link rel="stylesheet"
-  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body class="page-index">
 
-    <div id="header-container"></div>
-    <script src="js/loadHeader.js"></script>
-    <script src="js/loadFooter.js"></script>
+  <!-- ヘッダー -->
+  <div id="header-container"></div>
 
-    <!-- ここから本体 -->
-    <main>
-      <div id="card-list"></div>
-    </main>
+  <!-- 本体 -->
+  <main>
+    <div id="card-list"></div>
+  </main>
 
-    <script src="js/index.js"></script>
+  <!-- フッター：★これを追加 -->
+  <div id="footer-container"></div>
 
-<!-- 検索ポップアップ -->
-<div id="search-overlay">
-  <div id="search-modal">
-    <div id="search-header">
-      <span>キャラクター検索</span>
-      <button id="search-close">×</button>
-    </div>
+  <!-- 検索ポップアップ -->
+  <div id="search-overlay">
+    <div id="search-modal">
+      <div id="search-header">
+        <span>キャラクター検索</span>
+        <button id="search-close">×</button>
+      </div>
 
-    <!-- テキスト検索バー -->
-    <div class="search-bar">
-      <span class="search-icon">🔍</span>
-      <input
-        id="search-input"
-        type="text"
-        placeholder="タイトル / コード / 色名"
-      >
-    </div>
+      <div class="search-bar">
+        <span class="search-icon">🔍</span>
+        <input
+          id="search-input"
+          type="text"
+          placeholder="タイトル / コード / 色名"
+        >
+      </div>
 
-    <!-- シリーズ＆アークのチェックボックス -->
-    <div class="search-filter-group">
-      <div class="filter-block">
-        <div class="filter-label">シリーズ</div>
-        <div class="filter-options" id="filter-series-options">
-          <!-- JS で追加 -->
+      <div class="search-filter-group">
+        <div class="filter-block">
+          <div class="filter-label">シリーズ</div>
+          <div class="filter-options" id="filter-series-options"></div>
+        </div>
+
+        <div class="filter-block">
+          <div class="filter-label">アーク</div>
+          <div class="filter-options" id="filter-arc-options"></div>
         </div>
       </div>
 
-      <div class="filter-block">
-        <div class="filter-label">アーク</div>
-        <div class="filter-options" id="filter-arc-options">
-          <!-- JS で追加 -->
-        </div>
+      <div class="search-btn-row">
+        <button id="search-reset" class="search-reset-btn">リセット</button>
+        <button id="search-decide" class="search-decide-btn">絞り込む</button>
       </div>
-    </div>
-
-    <!-- ボタン -->
-    <div class="search-btn-row">
-      <button id="search-reset" class="search-reset-btn">リセット</button>
-      <button id="search-decide" class="search-decide-btn">絞り込む</button>
     </div>
   </div>
-</div>
+
+  <!-- JSは最後にまとめて -->
+  <script src="js/loadHeader.js"></script>
+  <script src="js/loadFooter.js"></script>
+  <script src="js/index.js"></script>
 </body>
+</html>
