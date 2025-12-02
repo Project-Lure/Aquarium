@@ -134,7 +134,7 @@ body {
    ========================= */
 @media (max-width: 768px) {
 
-  /* スマホ時はヘッダー少し低め ＋ ロゴ縮小 */
+  /* ヘッダー少し低め ＋ ロゴ縮小（このあたりはそのままでOK） */
   :root {
     --header-height: 96px;
   }
@@ -149,20 +149,31 @@ body {
     height: auto;
   }
 
-  /* ドロップダウンメニュー（ハンバーガーで開閉） */
+  /* ▼ ここからナビ関連を変更 ▼ */
+
+  /* ハンバーガー周りの親を relative にして、
+     その内側にメニューをぶら下げるイメージ */
+  .header-left {
+    position: relative;
+    left: 0;               /* PCで absolute; left:16px にしているので打ち消す */
+  }
+
   .header-nav {
     display: none;
     position: absolute;
-    top: var(--header-height);
-    left: 16px;
+    top: calc(100% + 8px); /* header-left の“すぐ下 + 8px” に表示 */
+    left: 0;
     background: #fff;
     border: 1px solid #ddd;
     flex-direction: column;
-    padding: 8px 12px;
+    padding: 8px 16px;
     z-index: 200;
+    color: #05334a;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+    min-width: 140px;
   }
 
-  /* ★ is-open が付いたときに表示 */
   .header-nav.is-open {
     display: flex;
   }
@@ -170,7 +181,8 @@ body {
   .header-nav a {
     margin: 4px 0;
     margin-right: 0;
-    color: #05334a;  /* ドロップダウン内は濃い文字色で */
+    color: #05334a;
+    text-decoration: none;
   }
 
   .header-menu-btn {
