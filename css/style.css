@@ -347,6 +347,11 @@ body {
   overflow: hidden;
 }
 
+/* コードは非表示（内部データ用） */
+.card-code {
+  display: none !important;
+}
+   
 /* 実際のキャラ画像：枠いっぱいに「収まる」ようにする */
 .card-image img {
   max-width: 100%;
