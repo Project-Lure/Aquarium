@@ -1128,3 +1128,56 @@ main {
     padding: 14px 14px;
   }
 }
+/* 導入（フラット） */
+.about-intro {
+  margin-bottom: 20px;
+}
+
+.about-intro h1 {
+  margin: 0 0 12px;
+  font-size: 22px;
+  letter-spacing: 0.12em;
+}
+
+.about-intro p {
+  margin: 4px 0;
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+/* 目次（フラット） */
+.about-toc {
+  margin: 0 0 24px;
+}
+
+.about-toc h2 {
+  margin: 0 0 8px;
+  font-size: 18px;
+  letter-spacing: 0.12em;
+}
+
+/* 目次リスト */
+.about-toc-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.about-toc-list a {
+  text-decoration: none;
+  font-size: 13px;
+  color: #005a9c;
+  padding: 3px 4px;
+  border-radius: 4px;
+  transition:
+    background-color 0.15s ease,
+    transform 0.12s ease-out;
+}
+
+.about-toc-list a:hover {
+  background: #e5f3ff;
+  transform: translateX(2px);
+}
