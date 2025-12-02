@@ -9,28 +9,59 @@ document.addEventListener("DOMContentLoaded", () => {
   let sortMode = "code"; // "code" or "title"
 
   // ----- 一覧描画 -----
-  function renderList(list) {
-    container.innerHTML = "";
+  // ===== 一覧描画用の関数（画像 404 → 未定カードに差し替え） =====
+function renderList(list) {
+  container.innerHTML = ""; // 一旦クリア
 
-    list.forEach(c => {
-      const imgPath = `images/characters/${c.code}.png`;
+  list.forEach(c => {
+    // カード本体は「a」で作る（画像があればリンク、なければ後で無効化）
+    const card = document.createElement("a");
+    card.className = "card";
+    card.href = `character.html?code=${c.code}`;
 
-      const a = document.createElement("a");
-      a.href = `character.html?code=${c.code}`;
-      a.className = "card";
-      a.innerHTML = `
-        <div class="card-inner">
-          <div class="card-image">
-            <img src="${imgPath}" alt="${c.title}">
-          </div>
-          <div class="card-meta">
-            <div class="card-title">${c.title}</div>
-          </div>
-        </div>
-      `;
-      container.appendChild(a);
+    // ---- 画像部分 ----
+    const imgWrap = document.createElement("div");
+    imgWrap.className = "card-image";
+
+    const img = document.createElement("img");
+    img.alt = c.title;
+
+    // ★ここがポイント：画像が読み込めなかった場合の処理
+    img.addEventListener("error", () => {
+      // 未定カード画像に差し替え
+      img.src = "images/ui/card-placeholder.png";
+
+      // クリック無効化
+      card.removeAttribute("href");
+      card.classList.add("is-placeholder");
     });
-  }
+
+    // src を最後にセットして読み込み開始
+    img.src = `images/characters/${c.code}.png`;
+
+    imgWrap.appendChild(img);
+    card.appendChild(imgWrap);
+
+    // ---- メタ情報 ----
+    const meta = document.createElement("div");
+    meta.className = "card-meta";
+
+    const codeDiv = document.createElement("div");
+    codeDiv.className = "card-code";
+    codeDiv.textContent = c.code;
+
+    const titleDiv = document.createElement("div");
+    titleDiv.className = "card-title";
+    titleDiv.textContent = c.title;
+
+    meta.appendChild(codeDiv);
+    meta.appendChild(titleDiv);
+
+    card.appendChild(meta);
+
+    container.appendChild(card);
+  });
+}
 
   // ----- ソートボタン -----
   function setupSort() {
