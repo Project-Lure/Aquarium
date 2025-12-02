@@ -329,6 +329,29 @@ body {
   color: var(--text-main);
 }
 
+/* 画像を入れる枠：カードの「高さ」をここで決める */
+.card-image {
+  width: 100%;
+  aspect-ratio: 3 / 4;          /* 縦長カードっぽい比率に固定 */
+  padding: 8px;                 /* 周りに白フチ */
+  box-sizing: border-box;
+  background: #ffffff;
+  display: flex;
+  align-items: center;          /* 画像を枠の中央に */
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* 実際のキャラ画像：枠いっぱいに「収まる」ようにする */
+.card-image img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;          /* 切り抜かず、全体を表示 */
+  display: block;
+}
+
 /* =========================
    検索ポップアップ（中央ドン）
    ========================= */
