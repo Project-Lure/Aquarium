@@ -311,6 +311,11 @@ body {
   box-shadow: 0 4px 10px var(--card-shadow-h);
 }
 
+/* プレースホルダのカードは「リンク感」を消す */
+.card.is-placeholder {
+  cursor: default;
+  opacity: 0.9;        /* ちょっとだけ薄くする（好みで調整） */
+}
 /* メタ情報部分 */
 .card-meta {
   width: 100%;
