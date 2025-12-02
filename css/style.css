@@ -37,47 +37,40 @@ body {
   box-sizing: border-box;
 
   display: flex;
+  justify-content: center; /* 真ん中基準にする */
   align-items: center;
-  justify-content: flex-start;
 
-  background: linear-gradient(
-    90deg,
-    var(--header-grad-left),
-    var(--header-grad-right)
-  );
+  background: linear-gradient(90deg, var(--header-grad-left), var(--header-grad-right));
   color: #fff;
   border-bottom: 1px solid rgba(0,0,0,0.06);
   z-index: 10;
-
+  overflow: hidden;
   position: fixed;
-  overflow: hidden;      /* 泡をヘッダー内に閉じ込める */
 }
 
-/* =========================
-   ロゴまわり
-   ========================= */
-
-/* 左ブロック（丸ロゴ + ハンバーガー） */
+/* 左ブロックは絶対配置にする（左上固定） */
 .header-left {
+  position: absolute;
+  left: 16px;
   display: flex;
   align-items: center;
   gap: 8px;
 }
 
-/* 中央ロゴ（間に挟まって真ん中へ） */
+/* 右ブロックも絶対配置（右上固定） */
+.header-right {
+  position: absolute;
+  right: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* 中央ロゴは“自然に中央に来る” */
 .header-center {
-  flex: 1;
   display: flex;
   justify-content: center;
-  align-items: center;
-}
-
-/* 右ブロック：右端へ押し込む */
-.header-right {
-  margin-left: auto;
-  display: flex;
-  align-items: center;
-  gap: 8px;
+  flex: none;  /* flex:1 を削除 */
 }
 
 /* 横長ロゴ（PCデフォルト） */
