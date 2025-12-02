@@ -704,9 +704,15 @@ main {
 
 .char-info-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  column-gap: 24px;
+  grid-template-columns: repeat(2, minmax(220px, 1fr)); /* 2列固定 */
+  column-gap: 32px;
   row-gap: 8px;
+}
+
+.char-info-col {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
 .char-info-row {
@@ -715,11 +721,13 @@ main {
 }
 
 .char-info-label {
-  width: 96px;           /* コロン位置をきっちり揃える */
+  width: 90px;
   font-weight: 600;
-  color: var(--text-main);
+  position: relative;
+  padding-right: 8px;
+}
 
-/* ラベルの右端に必ず「：」を出す */
+/* コロンは CSS だけで付与（JS の文字列には「：」を入れない） */
 .char-info-label::after {
   content: "：";
   position: absolute;
@@ -728,9 +736,7 @@ main {
 
 .char-info-value {
   flex: 1;
-  color: var(--text-main);
 }
-
 /* ---- GALLERY ---- */
 
 .char-gallery-group {
