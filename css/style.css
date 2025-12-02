@@ -221,6 +221,20 @@ body {
 /* =========================
    PC表示（769px〜）
    ========================= */
+/* =========================
+   PC表示（769px〜）
+   ========================= */
+@media (min-width: 769px) {
+  .header-nav {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .header-menu-btn {
+    display: none;
+  }
+}
 @media (min-width: 769px) and (hover:hover) and (pointer:fine) {
   .header-nav a {
     padding: 6px 12px;
