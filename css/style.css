@@ -218,9 +218,7 @@ body {
   }
 }
 
-/* =========================
-   PC表示（769px〜）
-   ========================= */
+
 /* =========================
    PC表示（769px〜）
    ========================= */
@@ -937,14 +935,34 @@ main {
   filter: brightness(1.1);
   transform: translateY(-1px);
 }
-/* STORY内のキーワードタグ */
+/* ---- STORY ブロック ---- */
+
+.char-story-block {
+  margin-top: 16px;                 /* タイトルブロックとの間に余白 */
+  padding-top: 10px;
+  border-top: 1px solid rgba(0, 80, 140, 0.12);  /* 仕切り線 */
+}
+
+.char-story-title {
+  font-size: 13px;
+  letter-spacing: 0.16em;
+  margin: 0 0 6px;
+}
+
+.char-story-text {
+  font-size: 13px;
+  line-height: 1.7;
+  margin: 0 0 8px;
+}
+
+/* キーワードタグ（シリーズ等と同じノリの丸いラベル） */
 .char-keywords-list {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
-  margin: 8px 0 0;
-  padding: 0;
   list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
 .char-keywords-list li {
@@ -952,8 +970,6 @@ main {
   border-radius: 999px;
   background: #e5f3ff;
   font-size: 11px;
-  color: var(--text-main);
-  white-space: nowrap; /* 高さを出さない */
 }
 /* =========================
    泡エフェクト
