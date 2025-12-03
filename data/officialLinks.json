@@ -2,42 +2,42 @@
   "SNS": [
     {
       "label": "YouTube",
-      "url": "https://www.youtube.com/@xxxxxxx",
-      "handle": "@xxxxxxx",
-      "desc": "楽曲 / MV / カバー制作"
+      "url": "https://youtube.com/@prayforthelure?si=iUw_znyoIk37pRy_",
+      "handle": "@PrayForTheLure",
+      "desc": "MV / キャラ紹介動画"
     },
     {
       "label": "note",
-      "url": "https://note.com/xxxxxxx",
-      "handle": "@xxxxxxx",
-      "desc": "設定資料・制作ノート"
+      "url": "https://note.com/prayforthelure",
+      "handle": "@prayforthelure",
+      "desc": "小説 / 設定資料"
     },
     {
       "label": "Twitter",
-      "url": "https://twitter.com/xxxxxxx",
+      "url": "https://x.com/Project_Lure",
       "handle": "@Project_LURE",
-      "desc": "作品公開・キャラ展開"
-    },
-    {
-      "label": "Pixiv",
-      "url": "https://www.pixiv.net/users/xxxxxxx",
-      "handle": "pixiv",
-      "desc": "キャラクターカード一覧"
+      "desc": "最新情報 / 企画展開"
     }
   ],
 
   "PORTFOLIO": [
     {
       "label": "Pixiv",
-      "url": "https://www.pixiv.net/users/xxxxxxx",
-      "handle": "pixiv",
-      "desc": "制作したキャラ一覧（保管庫）"
+      "url": "https://www.pixiv.net/users/117577467",
+      "handle": "Project LURE",
+      "desc": "キャラクターカード一覧"
     },
     {
       "label": "Instagram",
-      "url": "https://instagram.com/xxxxxxx",
-      "handle": "@xxxxxxx",
-      "desc": "作品アーカイブ / キャラ紹介"
+      "url": "https://www.instagram.com/project_lure/",
+      "handle": "@project_lure",
+      "desc": "キャラ紹介アーカイブ"
+    },
+    {
+      "label": "SoundCloud",
+      "url": "https://soundcloud.com/prayforthelure",
+      "handle": "@prayforthelure",
+      "desc": "楽曲アーカイブ"
     }
   ],
 
