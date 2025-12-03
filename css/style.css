@@ -1032,10 +1032,18 @@ main {
 
 /* 泡が背面、コンテンツはその上に乗る構造にする */
 .page-detail main,
-.page-detail #header-container,
 .page-detail #footer-container {
   position: relative;
   z-index: 1;
+}
+
+/* ヘッダーは別扱いにする */
+#header-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 2000;
 }
 
 .bubbles span:nth-child(1)  { left: 10%;  animation-duration: 6s;  width:12px; height:12px; }
