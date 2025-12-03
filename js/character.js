@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const c = chars.find(ch => ch.code === code);
     if (!c) return;
 
-    // ★ ページタイトル
+    // ★ ここで title を書き換える
     document.title = `${c.title} | ぎじえプロジェクト`;
 
     // 画像パス（立ち絵カード）
@@ -31,6 +31,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // シリーズ
     const series = seriesMap[c.series];
+
+    // ★ メインカラー（基本1色だけ使う想定）
+    const mainColorHex = Array.isArray(c.colors)
+      ? c.colors.find(Boolean)
+      : null;
+
+    // ★ CSS変数にメインカラーを流し込む（未設定ならリセット）
+    if (mainColorHex) {
+      document.documentElement.style.setProperty("--char-main-color", mainColorHex);
+    } else {
+      document.documentElement.style.removeProperty("--char-main-color");
+    }
 
     // GALLERY 用リンク
     const linkData = linksMap[c.code] || {};
@@ -49,7 +61,7 @@ document.addEventListener("DOMContentLoaded", () => {
          </ul>`
       : "";
 
-    const hasStoryBlock = !!(summaryHtml || keywordsHtml);
+    const hasStoryBlock = summaryHtml || keywordsHtml;
 
     // ===== GALLERY HTMLを組み立て =====
     const buildGalleryGroup = (key, labelJa) => {
@@ -115,9 +127,18 @@ document.addEventListener("DOMContentLoaded", () => {
             <div class="char-hero-tags">
               ${series ? `<span class="char-tag">シリーズ：${series.nameJa}</span>` : ""}
               ${c.theme ? `<span class="char-tag">テーマ：${c.theme}</span>` : ""}
-              ${c.mainColorLabel ? `<span class="char-tag">メインカラー：${c.mainColorLabel}</span>` : ""}
+              ${
+                c.mainColorLabel
+                  ? `
+                    <span class="char-tag char-tag-maincolor">
+                      メインカラー：${c.mainColorLabel}
+                    </span>
+                    `
+                  : ""
+              }
             </div>
 
+            <!-- STORY ブロック（タイトルブロックと分割） -->
             ${hasStoryBlock ? `
               <div class="char-story-block">
                 <h3 class="char-story-title">STORY</h3>
