@@ -50,8 +50,12 @@ body {
     var(--bg-page-mid) 40%,
     var(--bg-page-bottom) 100%
   );
-}
 
+  /* ★ ここを追加：画面いっぱい＋縦フレックス */
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
 /* =========================
    ヘッダー本体：左右3ブロックを並べる
    ========================= */
@@ -655,6 +659,9 @@ main {
   margin: 0 auto;
   padding: 16px 16px 48px;
   box-sizing: border-box;
+
+  /* ★ これで main が余白を埋める */
+  flex: 1 0 auto;
 }
 
 /* =========================
