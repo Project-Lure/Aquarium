@@ -1,94 +1,67 @@
 {
-  "sns": [
+  "SNS": [
     {
-      "platform": "YouTube",
-      "icon": "fa-brands fa-youtube",
-      "accounts": [
-        {
-          "label": "Project LURE｜公式チャンネル",
-          "handle": "@project_lure",
-          "url": "https://www.youtube.com/@project_lure",
-          "desc": "楽曲・MV制作 / キャラソン公開"
-        }
-      ]
+      "label": "YouTube",
+      "url": "https://www.youtube.com/@xxxxxxx",
+      "handle": "@xxxxxxx",
+      "desc": "楽曲 / MV / カバー制作"
     },
     {
-      "platform": "Twitter",
-      "icon": "fa-brands fa-twitter",
-      "accounts": [
-        {
-          "label": "Project LURE｜総合",
-          "handle": "@Project_LURE",
-          "url": "https://twitter.com/Project_LURE",
-          "desc": "作品公開・キャラ展開"
-        }
-      ]
+      "label": "note",
+      "url": "https://note.com/xxxxxxx",
+      "handle": "@xxxxxxx",
+      "desc": "設定資料・制作ノート"
     },
     {
-      "platform": "note",
-      "icon": "fa-solid fa-pencil",
-      "accounts": [
-        {
-          "label": "note｜設定資料",
-          "handle": "@lure_note",
-          "url": "https://note.com/…",
-          "desc": "企画の元となる設定資料まとめ"
-        }
-      ]
+      "label": "Twitter",
+      "url": "https://twitter.com/xxxxxxx",
+      "handle": "@Project_LURE",
+      "desc": "作品公開・キャラ展開"
     },
     {
-      "platform": "Pixiv",
-      "icon": "fa-brands fa-pixiv",
-      "accounts": [
-        {
-          "label": "Pixiv｜キャラクター一覧",
-          "handle": "pixivID",
-          "url": "https://www.pixiv.net/users/…",
-          "desc": "制作したキャラクターカード一覧"
-        }
-      ]
+      "label": "Pixiv",
+      "url": "https://www.pixiv.net/users/xxxxxxx",
+      "handle": "pixiv",
+      "desc": "キャラクターカード一覧"
     }
   ],
 
-  "portfolio": [
+  "PORTFOLIO": [
     {
-      "platform": "Pixiv",
-      "icon": "fa-brands fa-pixiv",
-      "accounts": [
-        {
-          "label": "Pixiv｜作品まとめ",
-          "handle": "pixivID",
-          "url": "https://www.pixiv.net/users/…",
-          "desc": "作品アーカイブ（カード/イラスト）"
-        }
-      ]
+      "label": "Pixiv",
+      "url": "https://www.pixiv.net/users/xxxxxxx",
+      "handle": "pixiv",
+      "desc": "制作したキャラ一覧（保管庫）"
     },
     {
-      "platform": "Instagram",
-      "icon": "fa-brands fa-instagram",
-      "accounts": [
-        {
-          "label": "Instagram｜キャラ紹介アーカイブ",
-          "handle": "@insta_id",
-          "url": "https://instagram.com/…",
-          "desc": "キャラ紹介動画や作品サンプル"
-        }
-      ]
+      "label": "Instagram",
+      "url": "https://instagram.com/xxxxxxx",
+      "handle": "@xxxxxxx",
+      "desc": "作品アーカイブ / キャラ紹介"
     }
   ],
 
-  "shop": [
+  "SHOP": [
     {
-      "platform": "BOOTH",
-      "icon": "fa-solid fa-shop",
-      "accounts": [
-        {
-          "label": "BOOTH｜公式ショップ",
-          "handle": "lure_booth",
-          "url": "https://projectlure.booth.pm/",
-          
-        }
-      ]
+      "label": "BOOTH",
+      "url": "https://xxxxxxx.booth.pm",
+      "handle": "BOOTH",
+      "desc": "グッズ・DL販売"
+    },
+    {
+      "label": "クラウドファンディング",
+      "url": "https://camp-fire.jp/projects/xxxxxxx",
+      "handle": "Campfire",
+      "desc": "プロジェクト支援"
+    }
+  ],
+
+  "CONTACT": [
+    {
+      "label": "マシュマロ",
+      "url": "https://marshmallow-qa.com/xxxxxxx",
+      "handle": "Marshmallow",
+      "desc": "質問・感想・リクエスト"
     }
   ]
 }
