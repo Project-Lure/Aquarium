@@ -1,90 +1,81 @@
 // js/about.js
 document.addEventListener("DOMContentLoaded", () => {
-  // ===== アーク一覧 =====
-  const arcContainer = document.getElementById("about-arc-list");
-  if (arcContainer) {
-    fetch("data/arcList.json")
-      .then(res => {
-        if (!res.ok) throw new Error("arcList.json の読み込みに失敗しました");
-        return res.json();
-      })
-      .then(arcList => {
-        // { B: {...}, F: {...}, ... } を code順に並べたい場合
-        const entries = Object.entries(arcList);
+  const arcListContainer   = document.querySelector("#about-arc .about-arc-list");
+  const themeGridContainer = document.querySelector("#about-theme .about-theme-grid");
 
-        // コード順に並べる（B, F, G... のままで良ければソート不要）
-        // entries.sort(([codeA], [codeB]) => codeA.localeCompare(codeB));
-
-        entries.forEach(([code, arc]) => {
-          const item = document.createElement("div");
-          item.className = "about-arc-item";
-
-          // 絵文字
-          const iconSpan = document.createElement("span");
-          iconSpan.className = "arc-icon";
-          iconSpan.textContent = arc.icon || "";
-
-          // 名前
-          const nameSpan = document.createElement("span");
-          nameSpan.className = "arc-name";
-          nameSpan.textContent = arc.name || code;
-
-          item.appendChild(iconSpan);
-          item.appendChild(nameSpan);
-
-          // キーワード（あれば）
-          if (Array.isArray(arc.keywords) && arc.keywords.length > 0) {
-            const kwSpan = document.createElement("span");
-            kwSpan.className = "arc-keywords";
-            // 表示形式は「：衝動 / 情熱 / 破壊衝動」みたいな感じ
-            kwSpan.textContent = "：" + arc.keywords.join(" / ");
-            item.appendChild(kwSpan);
-          }
-
-          arcContainer.appendChild(item);
-        });
-      })
-      .catch(err => {
-        console.error(err);
-        arcContainer.innerHTML = "<p>アーク一覧の読み込みに失敗しました。</p>";
-      });
+  if (!arcListContainer && !themeGridContainer) {
+    console.warn("ABOUT: 対象コンテナが見つかりません");
+    return;
   }
 
-  // ===== シリーズ一覧 =====
-  const seriesContainer = document.getElementById("about-series-list");
-  if (seriesContainer) {
-    fetch("data/series.json")
-      .then(res => {
-        if (!res.ok) throw new Error("series.json の読み込みに失敗しました");
-        return res.json();
-      })
-      .then(seriesMap => {
-        // { "0": {...}, "1": {...} } → 配列化・id順にソート
-        const list = Object.values(seriesMap).sort(
-          (a, b) => Number(a.id) - Number(b.id)
+  Promise.all([
+    fetch("data/arcList.json").then(res => res.json()),
+    fetch("data/series.json").then(res => res.json())
+  ])
+    .then(([arcMap, seriesMap]) => {
+      console.log("ABOUT: arcMap =", arcMap);
+      console.log("ABOUT: seriesMap =", seriesMap);
+
+      // ===== アーク一覧 =====
+      if (arcListContainer && arcMap) {
+        const entries = Object.entries(arcMap).sort((a, b) =>
+          a[0].localeCompare(b[0])
         );
 
-        list.forEach(series => {
-          const item = document.createElement("div");
-          item.className = "about-theme-item";
+        const arcHtml = entries.map(([code, arc]) => {
+          const icon     = arc.icon || "";
+          const name     = arc.name || "";
+          const keywords = Array.isArray(arc.keywords) ? arc.keywords : [];
+          const kwText   = keywords.length ? keywords.join(" / ") : "";
 
-          // 0_Occupation の形式
-          const idKey = `${series.id}_${series.key}`;
-
-          item.innerHTML = `
-            <h3>
-              ${idKey}<br>
-              <span class="about-theme-sub">${series.nameJa}</span>
-            </h3>
-            <p>${series.description || ""}</p>
+          return `
+            <div class="about-arc-item">
+              <span class="arc-icon">${icon}</span>
+              <span class="arc-main">${name}</span>
+              ${kwText ? `<span class="arc-keywords">… ${kwText}</span>` : ""}
+            </div>
           `;
+        }).join("");
 
-          seriesContainer.appendChild(item);
-        });
-      })
-      .catch(err => {
-        console.error(err);
-        seriesContainer.innerHTML = "<p>シリーズ一覧の読み込みに失敗しました。</p>";
-      });
-  }
+        arcListContainer.innerHTML = arcHtml;
+      }
+
+      // ===== シリーズ一覧 =====
+      if (themeGridContainer && seriesMap) {
+        const entries = Object.entries(seriesMap).sort(
+          (a, b) => Number(a[0]) - Number(b[0])
+        );
+
+        const themeHtml = entries.map(([rawId, s]) => {
+          const id          = s.id ?? rawId;
+          const key         = s.key || "";
+          const nameJa      = s.nameJa || "";
+          const description = s.description || "";
+          const heading     = `${id}_${key}`;
+
+          return `
+            <div class="about-theme-item">
+              <h3>
+                ${heading}<br>
+                <span class="about-theme-sub">${nameJa}</span>
+              </h3>
+              <p>${description}</p>
+            </div>
+          `;
+        }).join("");
+
+        themeGridContainer.innerHTML = themeHtml;
+      }
+    })
+    .catch(err => {
+      console.error("ABOUT ページ用データ読み込みエラー:", err);
+      if (arcListContainer && !arcListContainer.innerHTML.trim()) {
+        arcListContainer.innerHTML =
+          "<p>アーク一覧の読み込みに失敗しました。</p>";
+      }
+      if (themeGridContainer && !themeGridContainer.innerHTML.trim()) {
+        themeGridContainer.innerHTML =
+          "<p>シリーズ一覧の読み込みに失敗しました。</p>";
+      }
+    });
 });
