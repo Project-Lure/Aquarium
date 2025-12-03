@@ -19,6 +19,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const c = chars.find(ch => ch.code === code);
     if (!c) return;
 
+    // ★ メインカラー HEX（1色目を使う想定）
+    const mainColorHex =
+    Array.isArray(c.colors) && c.colors[0] ? c.colors[0] : null;
+
     // ★ ここで title を書き換える
     document.title = `${c.title} | ぎじえプロジェクト`;
 
