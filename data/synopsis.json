@@ -1,11 +1,16 @@
 {
   "000": {
-    "summary": "ここにあらすじが入る（長文OK）"
+    "summary": "ここにあらすじ（長文OK）",
+    "keywords": ["喪失", "模倣", "背後の影"]
   },
+
   "001": {
-    "summary": ""
+    "summary": "",
+    "keywords": []
   },
+
   "002": {
-    "summary": ""
+    "summary": "",
+    "keywords": []
   }
 }
