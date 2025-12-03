@@ -1135,37 +1135,63 @@ main {
    ABOUT：アーク（3×2 キーワード表）
    ========================= */
 
+/* =========================
+   ABOUT：アーク一覧（タグ風レイアウト）
+   ========================= */
+
+/* アーク全体：カードを並べる */
 .about-arc-list {
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 10px 12px;
+  margin-top: 8px;
 }
 
-/* アーク全体のカード */
+/* 1アークごとのカード */
 .about-arc-item {
-  padding: 10px 6px 14px;
-  border-bottom: 1px solid rgba(0, 80, 140, 0.1);
+  padding: 10px 12px 12px;
+  border-radius: 12px;
+  background: #f5fbff;
+  border: 1px solid rgba(0, 80, 140, 0.08);
+  font-size: 13px;
+  box-sizing: border-box;
 }
 
 /* 上段：アイコン＋名前 */
 .about-arc-item-header {
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-weight: 600;
-  font-size: 15px;
+  gap: 6px;
   margin-bottom: 8px;
 }
 
-/* --- キーワード表（3列×2行） --- */
+.about-arc-item-header .arc-icon {
+  font-size: 18px;
+}
+
+.about-arc-item-header .arc-name {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+/* キーワードエリア：3×2 グリッド */
 .about-arc-keywords {
   display: grid;
-  grid-template-columns: repeat(3, 1fr); /* 3列固定 */
-  row-gap: 4px;
-  column-gap: 8px;
-  font-size: 13px;
-  opacity: 0.85;
-  margin-left: 28px; /* アイコン位置に合わせて少し右へ */
+  grid-template-columns: repeat(3, minmax(0, 1fr)); /* 3列固定 */
+  gap: 6px;
+}
+
+/* タグ1個（丸いピル型） */
+.about-arc-tag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3px 6px;
+  border-radius: 999px;
+  background: #e5f3ff;
+  border: 1px solid rgba(0, 80, 140, 0.12);
+  font-size: 11px;
+  white-space: nowrap;
 }
 
 /* --- 大テーマ一覧 --- */
