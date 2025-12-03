@@ -116,7 +116,7 @@ document.addEventListener("DOMContentLoaded", () => {
             ${c.titleYomi ? `<div class="char-hero-yomi">${c.titleYomi}</div>` : ""}
 
             ${c.catchcopy ? `
-              <p class="char-hero-catch">${c.catchcopy}</p>
+              <p class="char-hero-catch">〝${c.catchcopy}〟</p>
             ` : ""}
 
             <div class="char-hero-tags">
