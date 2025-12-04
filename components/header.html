@@ -1,12 +1,18 @@
 <header class="site-header">
-  <!-- 泡エフェクト（必要ならそのまま） -->
+
   <div class="bubbles">
     <span></span><span></span><span></span><span></span><span></span>
     <span></span><span></span><span></span><span></span>
   </div>
 
-  <!-- 左：PC用ナビ（スマホでは非表示になる） -->
+  <!-- 左：ハンバーガー + ナビ -->
   <div class="header-left">
+    <!-- ハンバーガー（スマホ表示用） -->
+    <button id="menu-toggle" class="header-menu-btn" aria-label="メニュー">
+      <i class="fa-solid fa-bars"></i>
+    </button>
+
+    <!-- ナビ（PCでは横並び、スマホではハンバーガーから開く） -->
     <nav class="header-nav" id="header-nav">
       <a href="index.html">HOME</a>
       <a href="about.html">ABOUT</a>
@@ -14,7 +20,7 @@
     </nav>
   </div>
 
-  <!-- 中央：ロゴ -->
+  <!-- 中央：横長ロゴ -->
   <div class="header-center">
     <a href="index.html" class="header-logo-link">
       <img src="images/ui/logo-horizontal.png"
@@ -23,27 +29,14 @@
     </a>
   </div>
 
-  <!-- 右：検索／ヘルプ／ハンバーガー（スマホでメイン） -->
+  <!-- 右：検索ボタン -->
   <div class="header-right">
-    <!-- 検索（INDEXだけ表示） -->
-    <button id="search-open"
-            class="header-icon-btn header-search-btn"
-            aria-label="キャラクター検索">
+    <button id="search-open" class="header-icon-btn header-search-btn">
       <i class="fa-solid fa-magnifying-glass"></i>
     </button>
-
-    <!-- ヘルプ（INDEXだけ表示） -->
-    <button id="help-open"
-            class="header-icon-btn header-help-btn"
-            aria-label="ヘルプ">
+    <!-- ヘルプボタン（必要ならここに）-->
+    <button id="help-open" class="header-icon-btn header-help-btn" aria-label="ヘルプ">
       <i class="fa-regular fa-circle-question"></i>
-    </button>
-
-    <!-- ハンバーガー（スマホでメニューを開閉） -->
-    <button id="menu-toggle"
-            class="header-menu-btn"
-            aria-label="メニュー">
-      <i class="fa-solid fa-bars"></i>
     </button>
   </div>
 </header>
