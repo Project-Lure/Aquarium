@@ -5,12 +5,12 @@
   --header-height: 120px;
 
   /* ヘッダーの海グラデ */
-  --header-grad-left:  #12c2e9;  /* 明るいシアン */
-  --header-grad-right: #0073ff;  /* 深めのブルー */
+  --header-grad-left:  #12c2e9;
+  --header-grad-right: #0073ff;
 
   /* ページ全体のベースカラー */
-  --bg-page-top:    #f5fbff;     /* ほぼ白に近い青 */
-  --bg-page-mid:    #e8f4ff;     /* 少しだけ青を強く */
+  --bg-page-top:    #f5fbff;
+  --bg-page-mid:    #e8f4ff;
   --bg-page-bottom: #f3f9ff;
 
   /* カードなどの共通 */
@@ -29,7 +29,7 @@
   --modal-bg:    #ffffff;
   --modal-shadow: 0 4px 16px rgba(0, 40, 80, 0.18);
 
-  /* 追加：キャラページ用のメインカラー（デフォはアクセント） */
+  /* キャラページ用のメインカラー（デフォはアクセント） */
   --char-main-color: var(--accent);
 }
 
@@ -45,7 +45,6 @@ body {
 
   color: var(--text-main);
 
-  /* ページ全体をごく薄い海グラデに */
   background: linear-gradient(
     180deg,
     var(--bg-page-top) 0%,
@@ -53,7 +52,6 @@ body {
     var(--bg-page-bottom) 100%
   );
 
-  /* 画面いっぱい＋縦フレックス */
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -71,7 +69,7 @@ body {
 }
 
 /* =========================
-   ヘッダー本体：左右3ブロックを並べる
+   ヘッダー本体
    ========================= */
 .site-header {
   position: fixed;
@@ -84,7 +82,7 @@ body {
   box-sizing: border-box;
 
   display: flex;
-  justify-content: center; /* 真ん中基準 */
+  justify-content: center;
   align-items: center;
 
   background: linear-gradient(90deg, var(--header-grad-left), var(--header-grad-right));
@@ -111,7 +109,7 @@ body {
   gap: 8px;
 }
 
-/* 中央ロゴは自然に中央へ */
+/* 中央ロゴ */
 .header-center {
   display: flex;
   justify-content: center;
@@ -162,7 +160,7 @@ body {
   color: inherit;
 }
 
-/* アイコンのサイズを少し大きくする */
+/* アイコンサイズ */
 .header-icon-btn i,
 .header-menu-btn i {
   font-size: 24px;
@@ -173,7 +171,6 @@ body {
   display: none !important;
 }
 
-/* 一覧ページだけ表示させる */
 .page-index .header-search-btn {
   display: inline-flex !important;
 }
@@ -183,7 +180,6 @@ body {
   display: none !important;
 }
 
-/* 一覧ページだけ表示させる */
 .page-index .header-help-btn {
   display: inline-flex !important;
 }
@@ -193,7 +189,6 @@ body {
    ========================= */
 @media (max-width: 768px) {
 
-  /* スマホ時はヘッダー少し低め ＋ ロゴ縮小 */
   :root {
     --header-height: 96px;
   }
@@ -202,18 +197,17 @@ body {
     padding: 0 8px;
   }
 
-  /* ロゴを小さめに（高さ優先） */
   .header-logo {
     max-height: 60px;
     width: auto;
     height: auto;
   }
 
-  /* ドロップダウンメニュー（ハンバーガーで開閉） */
+  /* ハンバーガーメニューから出てくるナビ */
   .header-nav {
     display: none;
     position: fixed;
-    top: var(--header-height);    /* ヘッダーのすぐ下 */
+    top: var(--header-height);
     left: 16px;
 
     min-width: 180px;
@@ -371,7 +365,6 @@ body {
   opacity: 0.8;
 }
 
-/* スマホ時は縦並びに */
 @media (max-width: 768px) {
   .footer-inner {
     flex-direction: column-reverse;
@@ -380,10 +373,8 @@ body {
 }
 
 /* =========================
-   カード一覧
+   カード一覧（HOME）
    ========================= */
-
-/* モバイル基準：3列固定・余白なし */
 #card-list {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -395,7 +386,6 @@ body {
   max-width: 1200px;
 }
 
-/* PC / タブレットのみ余白をつける */
 @media (min-width: 481px) {
   #card-list {
     grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
@@ -403,7 +393,6 @@ body {
   }
 }
 
-/* 念押し：幅480px以下は3列固定 */
 @media (max-width: 480px) {
   #card-list {
     grid-template-columns: repeat(3, 1fr);
@@ -423,6 +412,7 @@ body {
 
   box-shadow: 0 2px 4px var(--card-shadow);
   transition: transform 0.12s ease-out, box-shadow 0.12s ease-out;
+  position: relative;
 }
 
 .card:hover {
@@ -430,13 +420,13 @@ body {
   box-shadow: 0 4px 10px var(--card-shadow-h);
 }
 
-/* プレースホルダのカードは「リンク感」を消す */
+/* プレースホルダのカードはリンク感を弱める */
 .card.is-placeholder {
   cursor: default;
   opacity: 0.9;
 }
 
-/* ===== Coming Soon ラベル (未公開カード専用) ===== */
+/* Coming Soon ラベル */
 .card.is-placeholder .coming-soon {
   position: absolute;
   top: 8px;
@@ -453,18 +443,13 @@ body {
   z-index: 5;
 }
 
-/* .card-image を重ねられるように position:relative に */
-.card {
-  position: relative;
-}
-
 /* メタ情報部分 */
 .card-meta {
   width: 100%;
   padding: 8px 10px;
 }
 
-/* タイトル：折り返し優先で全部見せる */
+/* タイトル */
 .card-title {
   white-space: normal !important;
   overflow: visible !important;
@@ -476,7 +461,7 @@ body {
   color: var(--text-main);
 }
 
-/* 画像を入れる枠：カードの「高さ」をここで決める */
+/* 画像枠 */
 .card-image {
   width: 100%;
   aspect-ratio: 3 / 4;
@@ -489,12 +474,12 @@ body {
   overflow: hidden;
 }
 
-/* コードは非表示（内部データ用） */
+/* コードは内部用で非表示 */
 .card-code {
   display: none !important;
 }
 
-/* 実際のキャラ画像：枠いっぱいに「収まる」ようにする */
+/* カード内画像 */
 .card-image img {
   max-width: 100%;
   max-height: 100%;
@@ -505,9 +490,8 @@ body {
 }
 
 /* =========================
-   検索ポップアップ（中央ドン）
+   検索ポップアップ
    ========================= */
-
 #search-overlay {
   display: none;
   position: fixed;
@@ -516,7 +500,7 @@ body {
   justify-content: center;
   align-items: center;
   backdrop-filter: blur(4px);
-  z-index: 3000; /* ヘッダーより上に */
+  z-index: 3000;
 }
 
 #search-overlay.is-open {
@@ -559,7 +543,7 @@ body {
   cursor: pointer;
 }
 
-/* 🔍 + テキスト入力 全体の枠 */
+/* 検索バー */
 .search-bar {
   display: flex;
   align-items: center;
@@ -574,13 +558,11 @@ body {
   box-sizing: border-box;
 }
 
-/* 🔍 アイコン */
 .search-icon {
   flex: 0 0 auto;
   font-size: 14px;
 }
 
-/* テキスト入力 */
 #search-input {
   flex: 1 1 auto;
   border: none;
@@ -609,7 +591,7 @@ body {
   gap: 6px;
 }
 
-/* チップ（シリーズ／アーク） */
+/* チップ */
 .filter-chip {
   display: inline-flex;
   align-items: center;
@@ -631,7 +613,7 @@ body {
     box-shadow 0.15s ease;
 }
 
-/* 選択状態 */
+/* 選択状態（:has対応ブラウザ） */
 @supports (selector(:has(*))) {
   .filter-chip:has(input[type="checkbox"]:checked) {
     background: linear-gradient(90deg, var(--header-grad-left), var(--header-grad-right));
@@ -641,7 +623,7 @@ body {
   }
 }
 
-/* 検索ボタン行 */
+/* ボタン行 */
 .search-btn-row {
   display: flex;
   gap: 8px;
@@ -674,21 +656,80 @@ body {
 }
 
 /* =========================
-   全ページ共通レイアウト
+   全ページ共通：メインレイアウト
    ========================= */
-main {
+/* ベース */
+.l-main {
   max-width: 1200px;
   margin: 0 auto;
   padding: 16px 16px 48px;
   box-sizing: border-box;
-
   flex: 1 0 auto;
+}
+
+/* 細めレイアウト（ABOUT / LINKSなど） */
+.l-main--narrow {
+  max-width: 960px;
+  padding-top: 24px;
+}
+
+/* =========================
+   共通：大きい白カード型セクション
+   ========================= */
+.section-card {
+  padding: 16px 18px;
+  border-radius: 16px;
+  background: #ffffffee;
+  box-shadow: 0 2px 8px rgba(0, 40, 80, 0.06);
+  border: 1px solid rgba(0, 80, 140, 0.06);
+  border-top: 3px solid;
+  border-image: linear-gradient(
+      90deg,
+      var(--header-grad-left),
+      var(--header-grad-right)
+    ) 1;
+}
+
+.section-card__title {
+  font-size: 16px;
+  margin: 0 0 12px;
+  letter-spacing: 0.12em;
+  color: var(--text-main);
+}
+
+/* =========================
+   共通：小さい青カード（情報カード）
+   ========================= */
+.info-card {
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: #f5fbff;
+  border: 1px solid rgba(0, 80, 140, 0.08);
+  font-size: 13px;
+  box-sizing: border-box;
+}
+
+/* クリック可能なカード */
+.info-card--link {
+  display: block;
+  text-decoration: none;
+  color: var(--text-main);
+  transition:
+    background-color 0.15s ease,
+    box-shadow 0.15s ease,
+    transform 0.12s ease-out;
+}
+
+.info-card--link:hover {
+  background: linear-gradient(90deg, var(--header-grad-left), var(--header-grad-right));
+  color: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 40, 80, 0.25);
+  transform: translateY(-1px);
 }
 
 /* =========================
    個別キャラページ（図鑑レイアウト）
    ========================= */
-
 #character-content {
   max-width: 960px;
   margin: 0 auto;
@@ -702,8 +743,7 @@ main {
   gap: 24px;
 }
 
-/* ---- 上段：カード＋基本情報 ---- */
-
+/* 上段：カード＋基本情報 */
 .char-hero {
   position: relative;
   display: flex;
@@ -739,6 +779,10 @@ main {
 
 /* スマホ時は縦並び */
 @media (max-width: 768px) {
+  #character-content {
+    padding: 16px 8px 32px;
+  }
+
   .char-hero {
     flex-direction: column;
     align-items: center;
@@ -751,6 +795,11 @@ main {
 
   .char-hero-meta {
     width: 100%;
+  }
+
+  .section-card.char-section {
+    width: 80%;
+    margin: 0 auto;
   }
 }
 
@@ -791,31 +840,7 @@ main {
   font-size: 11px;
 }
 
-/* ---- 共通セクション（INFORMATION / LINKS） ---- */
-
-.char-section {
-  padding: 16px 18px;
-  border-radius: 16px;
-  background: #ffffffee;
-  box-shadow: 0 2px 8px rgba(0, 40, 80, 0.06);
-  border: 1px solid rgba(0, 80, 140, 0.06);
-  border-top: 3px solid;
-  border-image: linear-gradient(
-      90deg,
-      var(--header-grad-left),
-      var(--header-grad-right)
-    ) 1;
-}
-
-.char-section-title {
-  font-size: 16px;
-  margin: 0 0 12px;
-  letter-spacing: 0.12em;
-  color: var(--text-main);
-}
-
-/* ---- INFORMATION の中身（2カラムグリッド） ---- */
-
+/* INFORMATION グリッド */
 .char-info-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(220px, 1fr));
@@ -852,8 +877,19 @@ main {
   flex: 1;
 }
 
-/* ---- GALLERY ---- */
+/* スマホでは INFORMATION を1カラムに */
+@media (max-width: 768px) {
+  .char-info-grid {
+    grid-template-columns: 1fr;
+    column-gap: 0;
+  }
 
+  .char-info-col {
+    margin-bottom: 8px;
+  }
+}
+
+/* GALLERY */
 .char-gallery-group {
   margin-bottom: 12px;
 }
@@ -888,44 +924,7 @@ main {
   opacity: 0.8;
 }
 
-/* スマホでは縦並びに寄せる */
-@media (max-width: 768px) {
-  #character-content {
-    padding: 16px 8px 32px;
-  }
-
-  .char-hero {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .char-hero-card {
-    width: 100%;
-    max-width: 320px;
-  }
-
-  .char-hero-meta {
-    width: 80%;
-  }
-
-  .char-section {
-    width: 80%;
-    margin: 0 auto;
-  }
-}
-
-/* スマホでは INFORMATION を1カラムにする */
-@media (max-width: 768px) {
-  .char-info-grid {
-    grid-template-columns: 1fr;
-    column-gap: 0;
-  }
-
-  .char-info-col {
-    margin-bottom: 8px;
-  }
-}
-
+/* 戻るリンク・ボタン */
 .char-back-link {
   display: inline-block;
   margin-bottom: 8px;
@@ -938,7 +937,6 @@ main {
   text-decoration: underline;
 }
 
-/* 共通：戻るボタン */
 .char-back-btn {
   display: inline-block;
   padding: 8px 18px;
@@ -961,8 +959,7 @@ main {
   transform: translateY(-1px);
 }
 
-/* ---- STORY ブロック ---- */
-
+/* STORY ブロック */
 .char-story-block {
   margin-top: 16px;
   padding-top: 10px;
@@ -1046,15 +1043,6 @@ main {
 /* =========================
    ABOUTページ
    ========================= */
-
-.page-about main {
-  max-width: 960px;
-  margin: 0 auto;
-  padding: 24px 16px 48px;
-  box-sizing: border-box;
-}
-
-/* --- 導入 --- */
 .about-intro {
   margin-bottom: 20px;
 }
@@ -1071,7 +1059,7 @@ main {
   line-height: 1.8;
 }
 
-/* --- 目次 --- */
+/* 目次 */
 .about-toc {
   margin: 0 0 24px;
 }
@@ -1107,40 +1095,9 @@ main {
   transform: translateX(2px);
 }
 
-/* --- セクション共通 --- */
+/* ABOUT内の section は .section-card を併用する想定 */
 
-.about-section {
-  padding: 16px 18px;
-  border-radius: 16px;
-  background: #ffffffee;
-  box-shadow: 0 2px 8px rgba(0, 40, 80, 0.06);
-  border: 1px solid rgba(0, 80, 140, 0.06);
-  border-top: 3px solid;
-  border-image: linear-gradient(
-      90deg,
-      var(--header-grad-left),
-      var(--header-grad-right)
-    ) 1;
-}
-
-.about-section + .about-section {
-  margin-top: 4px;
-}
-
-.about-section h2 {
-  font-size: 16px;
-  margin: 0 0 10px;
-  letter-spacing: 0.12em;
-}
-
-.about-section p {
-  font-size: 13px;
-  line-height: 1.8;
-  margin: 0 0 8px;
-}
-
-/* --- アーク一覧 --- */
-
+/* アーク一覧 */
 .about-arc-list {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -1148,15 +1105,7 @@ main {
   margin-top: 8px;
 }
 
-.about-arc-item {
-  padding: 10px 12px 12px;
-  border-radius: 12px;
-  background: #f5fbff;
-  border: 1px solid rgba(0, 80, 140, 0.08);
-  font-size: 13px;
-  box-sizing: border-box;
-}
-
+/* .info-card.about-arc-item を前提 */
 .about-arc-item-header {
   display: flex;
   align-items: center;
@@ -1173,7 +1122,7 @@ main {
   font-size: 14px;
 }
 
-/* キーワードエリア：3×2 グリッド */
+/* アークのキーワード：3×2 グリッド */
 .about-arc-keywords {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -1192,8 +1141,7 @@ main {
   white-space: nowrap;
 }
 
-/* --- 大テーマ一覧 --- */
-
+/* 大テーマ一覧 */
 .about-theme-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -1201,14 +1149,7 @@ main {
   margin-top: 8px;
 }
 
-.about-theme-item {
-  padding: 10px 12px;
-  border-radius: 12px;
-  background: #f5fbff;
-  border: 1px solid rgba(0, 80, 140, 0.08);
-  font-size: 13px;
-}
-
+/* .info-card.about-theme-item を前提 */
 .about-theme-item h3 {
   font-size: 13px;
   margin: 0 0 4px;
@@ -1219,13 +1160,13 @@ main {
   color: var(--text-muted);
 }
 
-/* --- スマホ時の微調整 --- */
+/* スマホ微調整 */
 @media (max-width: 768px) {
   .about-intro h1 {
     font-size: 20px;
   }
 
-  .about-section {
+  .section-card.about-section {
     padding: 14px 14px;
   }
 }
@@ -1233,13 +1174,7 @@ main {
 /* =========================
    LINKS / OFFICIAL ページ
    ========================= */
-
-.page-links main.links-page {
-  max-width: 960px;
-  margin: 0 auto;
-  padding: 24px 16px 48px;
-  box-sizing: border-box;
-}
+/* main は <main class="l-main l-main--narrow links-page"> 想定 */
 
 .links-header {
   margin-bottom: 24px;
@@ -1258,21 +1193,8 @@ main {
   color: var(--text-muted);
 }
 
-/* プラットフォームごとのブロック */
-.links-platform-section {
-  padding: 16px 18px;
-  border-radius: 16px;
-  background: #ffffffee;
-  box-shadow: 0 2px 8px rgba(0, 40, 80, 0.06);
-  border: 1px solid rgba(0, 80, 140, 0.06);
-  border-top: 3px solid;
-  border-image: linear-gradient(
-      90deg,
-      var(--header-grad-left),
-      var(--header-grad-right)
-    ) 1;
-}
-
+/* プラットフォームごとのブロック
+   -> <section class="section-card links-platform-section"> 想定 */
 .links-platform-section + .links-platform-section {
   margin-top: 8px;
 }
@@ -1298,29 +1220,10 @@ main {
   margin-top: 4px;
 }
 
+/* .info-card.info-card--link.links-account-card を前提 */
 .links-account-card {
-  display: block;
   width: 220px;
   min-height: 90px;
-  padding: 10px 12px;
-  border-radius: 12px;
-  background: #f5fbff;
-  border: 1px solid rgba(0, 80, 140, 0.08);
-  text-decoration: none;
-  color: var(--text-main);
-  font-size: 13px;
-  box-sizing: border-box;
-  transition:
-    background-color 0.15s ease,
-    box-shadow 0.15s ease,
-    transform 0.12s ease-out;
-}
-
-.links-account-card:hover {
-  background: linear-gradient(90deg, var(--header-grad-left), var(--header-grad-right));
-  color: #ffffff;
-  box-shadow: 0 2px 8px rgba(0, 40, 80, 0.25);
-  transform: translateY(-1px);
 }
 
 .links-account-top {
@@ -1346,7 +1249,7 @@ main {
   line-height: 1.6;
 }
 
-/* スマホ時は1列にする */
+/* スマホでは1列 */
 @media (max-width: 768px) {
   .links-account-list {
     flex-direction: column;
@@ -1361,7 +1264,6 @@ main {
 /* =========================
    ヘルプオーバーレイ（INDEX専用）
    ========================= */
-
 #help-overlay {
   display: none;
   position: fixed;
@@ -1380,7 +1282,7 @@ main {
 #help-modal {
   background: var(--modal-bg);
   width: 90%;
-  max-width: 360px;   /* 小さめ */
+  max-width: 360px;
   border-radius: 16px;
   padding: 16px 18px 18px;
   box-shadow: var(--modal-shadow);
@@ -1438,18 +1340,15 @@ main {
   color: var(--text-muted);
 }
 
-/* =========================
-   ヘルプ：カードの見方デモ（小さく調整版）
-   ========================= */
-
+/* ヘルプ：カードの見方デモ */
 .help-card-demo {
   position: relative;
   margin: 10px auto 6px;
-  width: 150px;        /* 小型化 */
+  width: 150px;
   aspect-ratio: 3 / 4;
 }
 
-/* 外枠（小さく） */
+/* 外枠 */
 .help-card-frame {
   position: absolute;
   inset: 12%;
@@ -1464,7 +1363,7 @@ main {
   box-sizing: border-box;
 }
 
-/* 中身（さらに小さく、背景目立たない） */
+/* カード中身 */
 .help-card-inner {
   width: 100%;
   height: 100%;
@@ -1473,7 +1372,7 @@ main {
   box-shadow: none;
 }
 
-/* ラベル（サイズ小さめ） */
+/* ラベル */
 .hc-label {
   position: absolute;
   display: flex;
@@ -1486,7 +1385,7 @@ main {
   white-space: nowrap;
 }
 
-/* バッジ（かなり小さく） */
+/* バッジ */
 .hc-badge {
   min-width: 26px;
   padding: 2px 6px;
@@ -1497,20 +1396,22 @@ main {
   text-align: center;
 }
 
-/* 位置 */
+/* ラベル位置 */
 .hc-series { top: 2%; left: 2%; }
 .hc-ex     { top: 2%; right: 2%; }
 .hc-code   { bottom: 2%; left: 2%; }
 .hc-core   { bottom: 2%; right: 2%; }
 
-/* スマホ最適化 */
+/* スマホ向け調整 */
 @media (max-width: 480px) {
   .help-card-demo {
     width: 130px;
   }
+
   .hc-label {
     font-size: 10px;
   }
+
   .hc-badge {
     min-width: 24px;
     font-size: 9px;
