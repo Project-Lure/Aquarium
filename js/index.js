@@ -8,68 +8,73 @@ document.addEventListener("DOMContentLoaded", () => {
   let currentList = [];
   let sortMode = "code"; // "code" or "title"
 
-  // ----- 一覧描画 -----
-  // ===== 一覧描画用の関数（画像 404 → 未定カードに差し替え） =====
-function renderList(list) {
-  container.innerHTML = ""; // 一旦クリア
+  // ========================
+  // 一覧描画
+  // ========================
 
-  list.forEach(c => {
-    // カード本体は「a」で作る（画像があればリンク、なければ後で無効化）
-    const card = document.createElement("a");
-    card.className = "card";
-    card.href = `character.html?code=${c.code}`;
+  // 画像 404 → 未定カードに差し替え
+  function renderList(list) {
+    container.innerHTML = ""; // 一旦クリア
 
-    // ---- 画像部分 ----
-    const imgWrap = document.createElement("div");
-    imgWrap.className = "card-image";
+    list.forEach(c => {
+      // カード本体は「a」で作る（画像があればリンク、なければ後で無効化）
+      const card = document.createElement("a");
+      card.className = "card";
+      card.href = `character.html?code=${c.code}`;
 
-    const img = document.createElement("img");
-    img.alt = c.title;
+      // ---- 画像部分 ----
+      const imgWrap = document.createElement("div");
+      imgWrap.className = "card-image";
 
-    // ★ここがポイント：画像が読み込めなかった場合の処理
-    img.addEventListener("error", () => {
-    // 未定カード画像に差し替え
-    img.src = "images/ui/card-placeholder.png";
+      const img = document.createElement("img");
+      img.alt = c.title;
 
-    // クリック無効化
-    card.removeAttribute("href");
-    card.classList.add("is-placeholder");
+      // 画像が読み込めなかった場合の処理
+      img.addEventListener("error", () => {
+        // 未定カード画像に差し替え
+        img.src = "images/ui/card-placeholder.png";
 
-    // ★ Coming Soon ラベルを追加
-    const cs = document.createElement("div");
-    cs.className = "coming-soon";
-    cs.textContent = "Coming Soon";
-    card.appendChild(cs);  
+        // クリック無効化
+        card.removeAttribute("href");
+        card.classList.add("is-placeholder");
+
+        // Coming Soon ラベルを追加
+        const cs = document.createElement("div");
+        cs.className = "coming-soon";
+        cs.textContent = "Coming Soon";
+        card.appendChild(cs);
+      });
+
+      // src を最後にセットして読み込み開始
+      img.src = `images/characters/${c.code}.png`;
+
+      imgWrap.appendChild(img);
+      card.appendChild(imgWrap);
+
+      // ---- メタ情報 ----
+      const meta = document.createElement("div");
+      meta.className = "card-meta";
+
+      const codeDiv = document.createElement("div");
+      codeDiv.className = "card-code";
+      codeDiv.textContent = c.code;
+
+      const titleDiv = document.createElement("div");
+      titleDiv.className = "card-title";
+      titleDiv.textContent = c.title;
+
+      meta.appendChild(codeDiv);
+      meta.appendChild(titleDiv);
+
+      card.appendChild(meta);
+
+      container.appendChild(card);
     });
+  }
 
-    // src を最後にセットして読み込み開始
-    img.src = `images/characters/${c.code}.png`;
-
-    imgWrap.appendChild(img);
-    card.appendChild(imgWrap);
-
-    // ---- メタ情報 ----
-    const meta = document.createElement("div");
-    meta.className = "card-meta";
-
-    const codeDiv = document.createElement("div");
-    codeDiv.className = "card-code";
-    codeDiv.textContent = c.code;
-
-    const titleDiv = document.createElement("div");
-    titleDiv.className = "card-title";
-    titleDiv.textContent = c.title;
-
-    meta.appendChild(codeDiv);
-    meta.appendChild(titleDiv);
-
-    card.appendChild(meta);
-
-    container.appendChild(card);
-  });
-}
-
-  // ----- ソートボタン -----
+  // ========================
+  // ソートボタン
+  // ========================
   function setupSort() {
     const sortToggleBtn = document.getElementById("sort-open");
     if (!sortToggleBtn) return;
@@ -100,7 +105,9 @@ function renderList(list) {
     });
   }
 
-  // ----- 検索 UI ＋ 絞り込み -----
+  // ========================
+  // 検索 UI ＋ 絞り込み
+  // ========================
   function setupSearch() {
     const overlay = document.getElementById("search-overlay");
     const openBtn = document.getElementById("search-open");
@@ -111,7 +118,8 @@ function renderList(list) {
     const seriesOptions = document.getElementById("filter-series-options");
     const arcOptions = document.getElementById("filter-arc-options");
 
-    if (!overlay || !openBtn || !input ||
+    if (!overlay || !openBtn || !closeBtn || !input ||
+        !decideBtn || !resetBtn ||
         !seriesOptions || !arcOptions) return;
 
     // シリーズのチェックボックス生成（chars に存在するものだけ）
@@ -129,7 +137,7 @@ function renderList(list) {
       cb.value = key;
       cb.checked = false;
       label.appendChild(cb);
-      label.append(data.nameJa);   // 和名だけでOK
+      label.append(data.nameJa);   // 和名だけ
       seriesOptions.appendChild(label);
     });
 
@@ -179,7 +187,7 @@ function renderList(list) {
           if (!base.includes(text)) return false;
         }
 
-        // シリーズフィルタ（何もチェックされていない場合は0件）
+        // シリーズフィルタ（何もチェックされていなければスルー＝全件）
         if (activeSeries.length > 0 && !activeSeries.includes(c.series)) {
           return false;
         }
@@ -234,7 +242,9 @@ function renderList(list) {
     });
   }
 
-  // ----- データ読み込み -----
+  // ========================
+  // データ読み込み
+  // ========================
   Promise.all([
     fetch("data/characters.json").then(r => r.json()),
     fetch("data/arcList.json").then(r => r.json()),
