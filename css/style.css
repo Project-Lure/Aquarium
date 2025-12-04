@@ -32,6 +32,7 @@
   /* 追加：キャラページ用のメインカラー（デフォはアクセント） */
   --char-main-color: var(--accent);
 }
+
 /* 本文をヘッダー高さ分押し下げ ＋ 全体フォント・背景 */
 body {
   position: relative;
@@ -52,11 +53,23 @@ body {
     var(--bg-page-bottom) 100%
   );
 
-  /* ★ ここを追加：画面いっぱい＋縦フレックス */
+  /* 画面いっぱい＋縦フレックス */
   min-height: 100vh;
   display: flex;
   flex-direction: column;
 }
+
+/* =========================
+   ヘッダーコンテナ
+   ========================= */
+#header-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 2000;
+}
+
 /* =========================
    ヘッダー本体：左右3ブロックを並べる
    ========================= */
@@ -78,7 +91,6 @@ body {
   color: #fff;
   border-bottom: 1px solid rgba(0,0,0,0.06);
   z-index: 2000;
-  /* overflow: hidden; */
 }
 
 /* 左ブロック：左端に固定 */
@@ -123,18 +135,10 @@ body {
   height: 28px;
   border-radius: 50%;
 }
-#header-container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
 
-  z-index: 2000;  /* ★ここを十分に高くする */
-}
 /* =========================
    ナビゲーション・ボタン類
    ========================= */
-
 .header-nav {
   margin-left: 12px;
 }
@@ -171,6 +175,16 @@ body {
 
 /* 一覧ページだけ表示させる */
 .page-index .header-search-btn {
+  display: inline-flex !important;
+}
+
+/* ヘルプボタン（デフォルト非表示） */
+.header-help-btn {
+  display: none !important;
+}
+
+/* 一覧ページだけ表示させる */
+.page-index .header-help-btn {
   display: inline-flex !important;
 }
 
@@ -233,7 +247,6 @@ body {
   }
 }
 
-
 /* =========================
    PC表示（769px〜）
    ========================= */
@@ -248,6 +261,7 @@ body {
     display: none;
   }
 }
+
 @media (min-width: 769px) and (hover:hover) and (pointer:fine) {
   .header-nav a {
     padding: 6px 12px;
@@ -274,7 +288,7 @@ body {
 }
 
 /* =========================
-   アーク表示
+   アーク表示（ABOUT用）
    ========================= */
 .arc-section {
   margin-top: 16px;
@@ -299,6 +313,7 @@ body {
   font-size: 14px;
   opacity: 0.8;
 }
+
 /* =========================
    フッター
    ========================= */
@@ -363,6 +378,7 @@ body {
     align-items: flex-start;
   }
 }
+
 /* =========================
    カード一覧
    ========================= */
@@ -417,11 +433,10 @@ body {
 /* プレースホルダのカードは「リンク感」を消す */
 .card.is-placeholder {
   cursor: default;
-  opacity: 0.9;        /* ちょっとだけ薄くする（好みで調整） */
+  opacity: 0.9;
 }
 
 /* ===== Coming Soon ラベル (未公開カード専用) ===== */
-
 .card.is-placeholder .coming-soon {
   position: absolute;
   top: 8px;
@@ -464,12 +479,12 @@ body {
 /* 画像を入れる枠：カードの「高さ」をここで決める */
 .card-image {
   width: 100%;
-  aspect-ratio: 3 / 4;          /* 縦長カードっぽい比率に固定 */
-  padding: 8px;                 /* 周りに白フチ */
+  aspect-ratio: 3 / 4;
+  padding: 8px;
   box-sizing: border-box;
   background: #ffffff;
   display: flex;
-  align-items: center;          /* 画像を枠の中央に */
+  align-items: center;
   justify-content: center;
   overflow: hidden;
 }
@@ -478,14 +493,14 @@ body {
 .card-code {
   display: none !important;
 }
-   
+
 /* 実際のキャラ画像：枠いっぱいに「収まる」ようにする */
 .card-image img {
   max-width: 100%;
   max-height: 100%;
   width: auto;
   height: auto;
-  object-fit: contain;          /* 切り抜かず、全体を表示 */
+  object-fit: contain;
   display: block;
 }
 
@@ -501,7 +516,7 @@ body {
   justify-content: center;
   align-items: center;
   backdrop-filter: blur(4px);
-  z-index: 200;
+  z-index: 3000; /* ヘッダーより上に */
 }
 
 #search-overlay.is-open {
@@ -558,7 +573,6 @@ body {
   background: rgba(255, 255, 255, 0.9);
   box-sizing: border-box;
 }
-
 
 /* 🔍 アイコン */
 .search-icon {
@@ -668,7 +682,6 @@ main {
   padding: 16px 16px 48px;
   box-sizing: border-box;
 
-  /* ★ これで main が余白を埋める */
   flex: 1 0 auto;
 }
 
@@ -691,24 +704,21 @@ main {
 
 /* ---- 上段：カード＋基本情報 ---- */
 
-/* ---- 上段：カード＋基本情報 ---- */
-
 .char-hero {
   position: relative;
   display: flex;
   gap: 24px;
   align-items: flex-start;
   flex-wrap: wrap;
-  overflow: hidden; /* 円がはみ出し過ぎないように */
+  overflow: hidden;
 }
 
-/* ★ここを小さめにする */
+/* カードをやや小さく */
 .char-hero-card {
-  flex: 0 0 260px;  /* 320px → 260px に変更 */
+  flex: 0 0 260px;
   max-width: 260px;
 }
 
-/* 画像そのものはそのまま */
 .char-hero-image {
   width: 100%;
   height: auto;
@@ -727,7 +737,7 @@ main {
   box-shadow: 0 2px 6px rgba(0,0,0,0.06);
 }
 
-/* スマホ時は少しだけ縮めて中央寄せ */
+/* スマホ時は縦並び */
 @media (max-width: 768px) {
   .char-hero {
     flex-direction: column;
@@ -781,8 +791,6 @@ main {
   font-size: 11px;
 }
 
-/* ---- 共通セクション ---- */
-
 /* ---- 共通セクション（INFORMATION / LINKS） ---- */
 
 .char-section {
@@ -791,8 +799,6 @@ main {
   background: #ffffffee;
   box-shadow: 0 2px 8px rgba(0, 40, 80, 0.06);
   border: 1px solid rgba(0, 80, 140, 0.06);
-
-  /* ほんのり海色の縁取り（上側だけ） */
   border-top: 3px solid;
   border-image: linear-gradient(
       90deg,
@@ -812,7 +818,7 @@ main {
 
 .char-info-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(220px, 1fr)); /* 2列固定 */
+  grid-template-columns: repeat(2, minmax(220px, 1fr));
   column-gap: 32px;
   row-gap: 8px;
 }
@@ -835,7 +841,7 @@ main {
   padding-right: 8px;
 }
 
-/* コロンは CSS だけで付与（JS の文字列には「：」を入れない） */
+/* ラベル末尾の「：」はCSSで */
 .char-info-label::after {
   content: "：";
   position: absolute;
@@ -845,6 +851,7 @@ main {
 .char-info-value {
   flex: 1;
 }
+
 /* ---- GALLERY ---- */
 
 .char-gallery-group {
@@ -900,7 +907,7 @@ main {
   .char-hero-meta {
     width: 80%;
   }
-   
+
   .char-section {
     width: 80%;
     margin: 0 auto;
@@ -910,12 +917,12 @@ main {
 /* スマホでは INFORMATION を1カラムにする */
 @media (max-width: 768px) {
   .char-info-grid {
-    grid-template-columns: 1fr;  /* 1列 */
+    grid-template-columns: 1fr;
     column-gap: 0;
   }
 
   .char-info-col {
-    margin-bottom: 8px;  /* 色ブロックとアークブロックの間に少し余白 */
+    margin-bottom: 8px;
   }
 }
 
@@ -942,8 +949,6 @@ main {
   font-weight: 600;
   text-decoration: none;
   margin-bottom: 20px;
-
-  /* ★ これを追加：ボタン“だけ”左寄せ＆幅は中身だけ */
   align-self: flex-start;
 }
 
@@ -955,12 +960,13 @@ main {
   filter: brightness(1.1);
   transform: translateY(-1px);
 }
+
 /* ---- STORY ブロック ---- */
 
 .char-story-block {
-  margin-top: 16px;                 /* タイトルブロックとの間に余白 */
+  margin-top: 16px;
   padding-top: 10px;
-  border-top: 1px solid rgba(0, 80, 140, 0.12);  /* 仕切り線 */
+  border-top: 1px solid rgba(0, 80, 140, 0.12);
 }
 
 .char-story-title {
@@ -975,7 +981,7 @@ main {
   margin: 0 0 8px;
 }
 
-/* キーワードタグ（シリーズ等と同じノリの丸いラベル） */
+/* キーワードタグ */
 .char-keywords-list {
   display: flex;
   flex-wrap: wrap;
@@ -991,13 +997,14 @@ main {
   background: #e5f3ff;
   font-size: 11px;
 }
+
 /* =========================
    泡エフェクト
    ========================= */
 .bubbles {
   position: fixed;
   inset: 0;
-  pointer-events: none;  /* クリックを邪魔しない */
+  pointer-events: none;
   z-index: 0;
 }
 
@@ -1011,7 +1018,6 @@ main {
   filter: blur(1px);
   box-shadow: 0 0 6px rgba(255,255,255,0.8);
 
-  /* ★ キャラ色ベースの泡（なければアクセント色） */
   background: color-mix(
      in srgb,
      var(--char-main-color) 85%,
@@ -1037,25 +1043,6 @@ main {
   z-index: 1;
 }
 
-/* ヘッダーは別扱いにする */
-#header-container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  z-index: 2000;
-}
-
-.bubbles span:nth-child(1)  { left: 10%;  animation-duration: 6s;  width:12px; height:12px; }
-.bubbles span:nth-child(2)  { left: 30%;  animation-duration: 7s;  width:14px; height:14px; }
-.bubbles span:nth-child(3)  { left: 50%;  animation-duration: 5.5s;width:10px; height:10px; }
-.bubbles span:nth-child(4)  { left: 70%;  animation-duration: 6.8s;width:16px; height:16px; }
-.bubbles span:nth-child(5)  { left: 90%;  animation-duration: 7.5s;width:12px; height:12px; }
-.bubbles span:nth-child(6)  { left: 20%;  animation-duration: 5.8s;width:11px; height:11px; }
-.bubbles span:nth-child(7)  { left: 40%;  animation-duration: 7.2s;width:15px; height:15px; }
-.bubbles span:nth-child(8)  { left: 60%;  animation-duration: 6.1s;width:9px;  height:9px;  }
-.bubbles span:nth-child(9)  { left: 80%;  animation-duration: 8s; width:13px; height:13px; }
-
 /* =========================
    ABOUTページ
    ========================= */
@@ -1067,8 +1054,7 @@ main {
   box-sizing: border-box;
 }
 
-/* --- 導入（フラット） --- */
-
+/* --- 導入 --- */
 .about-intro {
   margin-bottom: 20px;
 }
@@ -1085,8 +1071,7 @@ main {
   line-height: 1.8;
 }
 
-/* --- 目次（フラット）--- */
-
+/* --- 目次 --- */
 .about-toc {
   margin: 0 0 24px;
 }
@@ -1096,8 +1081,6 @@ main {
   font-size: 18px;
   letter-spacing: 0.12em;
 }
-
-/* 目次リスト */
 
 .about-toc-list {
   list-style: none;
@@ -1124,7 +1107,7 @@ main {
   transform: translateX(2px);
 }
 
-/* --- セクション共通（カード風ブロック） --- */
+/* --- セクション共通 --- */
 
 .about-section {
   padding: 16px 18px;
@@ -1156,15 +1139,8 @@ main {
   margin: 0 0 8px;
 }
 
-/* =========================
-   ABOUT：アーク（3×2 キーワード表）
-   ========================= */
+/* --- アーク一覧 --- */
 
-/* =========================
-   ABOUT：アーク一覧（タグ風レイアウト）
-   ========================= */
-
-/* アーク全体：カードを並べる */
 .about-arc-list {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -1172,7 +1148,6 @@ main {
   margin-top: 8px;
 }
 
-/* 1アークごとのカード */
 .about-arc-item {
   padding: 10px 12px 12px;
   border-radius: 12px;
@@ -1182,7 +1157,6 @@ main {
   box-sizing: border-box;
 }
 
-/* 上段：アイコン＋名前 */
 .about-arc-item-header {
   display: flex;
   align-items: center;
@@ -1202,11 +1176,10 @@ main {
 /* キーワードエリア：3×2 グリッド */
 .about-arc-keywords {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr)); /* 3列固定 */
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 6px;
 }
 
-/* タグ1個（丸いピル型） */
 .about-arc-tag {
   display: inline-flex;
   align-items: center;
@@ -1247,7 +1220,6 @@ main {
 }
 
 /* --- スマホ時の微調整 --- */
-
 @media (max-width: 768px) {
   .about-intro h1 {
     font-size: 20px;
@@ -1257,6 +1229,7 @@ main {
     padding: 14px 14px;
   }
 }
+
 /* =========================
    LINKS / OFFICIAL ページ
    ========================= */
@@ -1317,7 +1290,7 @@ main {
   font-size: 18px;
 }
 
-/* アカウントカード一覧：大枠の中に四角を横並びで配置 */
+/* アカウントカード一覧 */
 .links-account-list {
   display: flex;
   flex-wrap: wrap;
@@ -1325,11 +1298,10 @@ main {
   margin-top: 4px;
 }
 
-/* 小さい四角のカード */
 .links-account-card {
   display: block;
-  width: 220px;              /* 横幅を固定気味に（必要なら調整） */
-  min-height: 90px;          /* ある程度“四角”に見える高さ */
+  width: 220px;
+  min-height: 90px;
   padding: 10px 12px;
   border-radius: 12px;
   background: #f5fbff;
@@ -1351,7 +1323,6 @@ main {
   transform: translateY(-1px);
 }
 
-/* カード内レイアウト */
 .links-account-top {
   display: flex;
   justify-content: space-between;
@@ -1387,50 +1358,85 @@ main {
   }
 }
 
-<header class="site-header">
+/* =========================
+   ヘルプオーバーレイ（INDEX専用）
+   ========================= */
 
-  <div class="bubbles">
-    <span></span><span></span><span></span><span></span><span></span>
-    <span></span><span></span><span></span><span></span>
-  </div>
+#help-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(4px);
+  z-index: 3000;
+}
 
-  <!-- 左：ハンバーガー + ナビ -->
-  <div class="header-left">
-    <!-- ハンバーガー（スマホ表示用） -->
-    <button id="menu-toggle" class="header-menu-btn" aria-label="メニュー">
-      <i class="fa-solid fa-bars"></i>
-    </button>
+#help-overlay.is-open {
+  display: flex;
+}
 
-    <!-- ナビ（PCでは横並び、スマホではハンバーガーから開く） -->
-    <nav class="header-nav" id="header-nav">
-      <a href="index.html">HOME</a>
-      <a href="about.html">ABOUT</a>
-      <a href="links.html">LINKS</a>
-    </nav>
-  </div>
+#help-modal {
+  background: var(--modal-bg);
+  width: 90%;
+  max-width: 360px;   /* 小さめ */
+  border-radius: 16px;
+  padding: 16px 18px 18px;
+  box-shadow: var(--modal-shadow);
+  box-sizing: border-box;
 
-  <!-- 中央：横長ロゴ -->
-  <div class="header-center">
-    <a href="index.html" class="header-logo-link">
-      <img src="images/ui/logo-horizontal.png"
-           alt="Project Lure"
-           class="header-logo">
-    </a>
-  </div>
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 
-  <!-- 右：検索ボタン -->
-  <div class="header-right">
-    <button id="search-open" class="header-icon-btn header-search-btn">
-      <i class="fa-solid fa-magnifying-glass"></i>
-    </button>
-    <!-- 並び替えボタンを使うならここに -->
-    <!--
-    <button id="sort-open" class="header-icon-btn header-sort-btn">
-      <i class="fa-solid fa-arrow-down-a-z"></i>
-    </button>
-    -->
-  </div>
-</header>
+  transform: scale(0.9);
+  opacity: 0;
+  transition: 0.18s ease;
+}
+
+#help-overlay.is-open #help-modal {
+  transform: scale(1);
+  opacity: 1;
+}
+
+#help-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+#help-title {
+  font-size: 16px;
+  margin: 0;
+}
+
+#help-close {
+  border: none;
+  background: transparent;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+#help-body {
+  font-size: 13px;
+}
+
+.help-section + .help-section {
+  margin-top: 8px;
+}
+
+.help-section h3 {
+  font-size: 14px;
+  margin: 0 0 4px;
+}
+
+.help-note {
+  font-size: 12px;
+  margin: 6px 0 0;
+  color: var(--text-muted);
+}
 
 /* =========================
    ヘルプ：カードの見方デモ（小さく調整版）
@@ -1446,7 +1452,7 @@ main {
 /* 外枠（小さく） */
 .help-card-frame {
   position: absolute;
-  inset: 12%;          /* 余白を多めにして控えめに */
+  inset: 12%;
   border-radius: 10px;
   padding: 2px;
   background: linear-gradient(
@@ -1464,7 +1470,7 @@ main {
   height: 100%;
   border-radius: 8px;
   background: #ffffffdd;
-  box-shadow: none;           /* 影を消してシンプルに */
+  box-shadow: none;
 }
 
 /* ラベル（サイズ小さめ） */
@@ -1474,6 +1480,10 @@ main {
   align-items: center;
   gap: 4px;
   font-size: 11px;
+}
+
+.hc-text {
+  white-space: nowrap;
 }
 
 /* バッジ（かなり小さく） */
@@ -1487,7 +1497,7 @@ main {
   text-align: center;
 }
 
-/* 位置（前と同じ） */
+/* 位置 */
 .hc-series { top: 2%; left: 2%; }
 .hc-ex     { top: 2%; right: 2%; }
 .hc-code   { bottom: 2%; left: 2%; }
@@ -1506,7 +1516,3 @@ main {
     font-size: 9px;
   }
 }
-  }
-}
-
-
