@@ -44,23 +44,29 @@
   "SHOP": [
     {
       "label": "BOOTH",
-      "url": "https://xxxxxxx.booth.pm",
-      "handle": "BOOTH",
+      "url": "",
+      "handle": "準備中",
       "desc": "グッズ・DL販売"
     },
     {
       "label": "クラウドファンディング",
-      "url": "https://camp-fire.jp/projects/xxxxxxx",
-      "handle": "Campfire",
+      "url": "",
+      "handle": "準備中",
       "desc": "プロジェクト支援"
+    },
+    {
+      "label": "LINEスタンプ",
+      "url": "",
+      "handle": "準備中",
+      "desc": "LINEスタンプ販売"
     }
   ],
 
   "CONTACT": [
     {
       "label": "マシュマロ",
-      "url": "https://marshmallow-qa.com/xxxxxxx",
-      "handle": "Marshmallow",
+      "url": "",
+      "handle": "準備中",
       "desc": "質問・感想・リクエスト"
     }
   ]
