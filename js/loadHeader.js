@@ -1,76 +1,39 @@
-document.addEventListener("DOMContentLoaded", () => {
-  fetch("components/header.html")
-    .then(res => res.text())
-    .then(html => {
-      const container = document.getElementById("header-container");
-      if (!container) return;
-      container.innerHTML = html;
-    })
-    .then(() => {
-      /* ============================
-          1. ハンバーガー開閉
-      ============================ */
-      const menuBtn = document.getElementById("menu-toggle");
-      const nav = document.getElementById("header-nav");
+<header class="site-header">
 
-      if (menuBtn && nav) {
-        menuBtn.addEventListener("click", () => {
-          nav.classList.toggle("is-open");
-        });
-      }
+  <!-- 左：ハンバーガー + ナビ -->
+  <div class="header-left">
+    <!-- ハンバーガー（全デバイスで表示） -->
+    <button id="menu-toggle" class="header-menu-btn" aria-label="メニュー">
+      <i class="fa-solid fa-bars"></i>
+    </button>
 
-      /* ============================
-          2. 検索ボタン（虫眼鏡）の表示制御
-             → index.html 以外では非表示
-      ============================ */
-      const searchBtn = document.getElementById("search-open");
-      const isIndex = document.body.classList.contains("page-index");
+    <!-- スライドメニュー用ナビ -->
+    <nav class="header-nav" id="header-nav">
+      <a href="index.html">HOME</a>
+      <a href="about.html">ABOUT</a>
+      <a href="links.html">LINKS</a>
+    </nav>
+  </div>
 
-      if (searchBtn && !isIndex) {
-        searchBtn.style.display = "none";
-      }
+  <!-- 中央：横長ロゴ -->
+  <div class="header-center">
+    <a href="index.html" class="header-logo-link">
+      <img src="images/ui/logo-horizontal.png"
+           alt="Project Lure"
+           class="header-logo">
+    </a>
+  </div>
 
-      /* ============================
-          3. ヘルプボタン（？）の表示制御
-             → index.html 以外では非表示
-      ============================ */
-      const helpBtn = document.getElementById("help-open");
+  <!-- 右：検索・ヘルプボタン -->
+  <div class="header-right">
+    <button id="search-open" class="header-icon-btn header-search-btn">
+      <i class="fa-solid fa-magnifying-glass"></i>
+    </button>
+    <button id="help-open" class="header-icon-btn header-help-btn">
+      <i class="fa-regular fa-circle-question"></i>
+    </button>
+  </div>
+</header>
 
-      if (helpBtn && !isIndex) {
-        helpBtn.style.display = "none";
-      }
-
-      /* ============================
-          4. ヘルプオーバーレイ開閉処理
-      ============================ */
-      const helpOverlay = document.getElementById("help-overlay");
-      const helpClose   = document.getElementById("help-close");
-
-      if (helpBtn && helpOverlay && helpClose) {
-
-        // 開く
-        helpBtn.addEventListener("click", () => {
-          helpOverlay.classList.add("is-open");
-          helpOverlay.setAttribute("aria-hidden", "false");
-        });
-
-        // 閉じる（×ボタン）
-        helpClose.addEventListener("click", () => {
-          helpOverlay.classList.remove("is-open");
-          helpOverlay.setAttribute("aria-hidden", "true");
-        });
-
-        // 暗幕クリックで閉じる
-        helpOverlay.addEventListener("click", (e) => {
-          if (e.target === helpOverlay) {
-            helpOverlay.classList.remove("is-open");
-            helpOverlay.setAttribute("aria-hidden", "true");
-          }
-        });
-      }
-
-    })
-    .catch(err => {
-      console.error("ヘッダー読み込みエラー:", err);
-    });
-});
+<!-- ★ ナビ用オーバーレイ -->
+<div id="nav-overlay" class="nav-overlay"></div>
