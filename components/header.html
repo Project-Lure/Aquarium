@@ -7,14 +7,14 @@
 
   <!-- 左：ハンバーガー + ナビ -->
   <div class="header-left">
-    <button id="menu-toggle" class="header-menu-btn" aria-label="メニューを開く">
+    <!-- ハンバーガー（全デバイスで使用） -->
+    <button id="menu-toggle" class="header-menu-btn" aria-label="メニュー">
       <i class="fa-solid fa-bars"></i>
     </button>
 
-    <!-- スライドメニュー -->
+    <!-- スライドメニューとして使うナビ -->
     <nav class="header-nav" id="site-nav" aria-hidden="true">
-
-      <!-- × ボタン -->
+      <!-- 左上 × ボタン -->
       <button type="button" class="nav-close-btn" aria-label="メニューを閉じる">
         &times;
       </button>
@@ -25,30 +25,34 @@
         <span class="nav-label-ja">キャラクター一覧</span>
       </a>
 
-      <!-- ABOUT -->
+      <!-- ABOUT（大枠） -->
       <a href="about.html" class="header-nav-link nav-about">
         <span class="nav-label-en">ABOUT</span>
         <span class="nav-label-ja">活動について</span>
       </a>
 
-      <!-- ABOUT サブメニュー -->
+      <!-- ABOUT配下の小タブ -->
       <div class="header-subnav header-subnav--about">
-        <a href="about-project.html" class="header-subnav-link">
+        <a href="about-project.html"
+           class="header-subnav-link subnav-project">
           <span class="subnav-en">Project</span>
           <span class="subnav-ja">ぎじえプロジェクトとは</span>
         </a>
 
-        <a href="about-world.html" class="header-subnav-link">
+        <a href="about-world.html"
+           class="header-subnav-link subnav-world">
           <span class="subnav-en">World</span>
           <span class="subnav-ja">どんな世界観なの？</span>
         </a>
 
-        <a href="about-creator.html" class="header-subnav-link">
+        <a href="about-creator.html"
+           class="header-subnav-link subnav-creator">
           <span class="subnav-en">Creator</span>
           <span class="subnav-ja">制作者について</span>
         </a>
 
-        <a href="about-terms.html" class="header-subnav-link">
+        <a href="about-terms.html"
+           class="header-subnav-link subnav-terms">
           <span class="subnav-en">Terms</span>
           <span class="subnav-ja">用語説明</span>
         </a>
@@ -59,11 +63,10 @@
         <span class="nav-label-en">OFFICIAL</span>
         <span class="nav-label-ja">オフィシャルリンク</span>
       </a>
-
     </nav>
   </div>
 
-  <!-- 中央：ロゴ -->
+  <!-- 中央：横長ロゴ -->
   <div class="header-center">
     <a href="index.html" class="header-logo-link">
       <img src="images/ui/logo-horizontal.png"
@@ -72,7 +75,7 @@
     </a>
   </div>
 
-  <!-- 右：検索・ヘルプ -->
+  <!-- 右：検索＆ヘルプボタン（index だけ表示される） -->
   <div class="header-right">
     <button id="search-open" class="header-icon-btn header-search-btn" aria-label="検索">
       <i class="fa-solid fa-magnifying-glass"></i>
@@ -81,8 +84,7 @@
       <i class="fa-regular fa-circle-question"></i>
     </button>
   </div>
-
 </header>
 
-<!-- オーバーレイ -->
+<!-- スライドメニュー用オーバーレイ -->
 <div id="nav-overlay" class="nav-overlay"></div>
