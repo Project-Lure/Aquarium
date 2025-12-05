@@ -2024,20 +2024,22 @@ body > .bubbles-body span:nth-child(9) {
 .hc-core   { bottom: 2%; right: 2%; }
 
 /* =========================
-   ヘルプ：カード四隅ラベル
+   ヘルプ：カード四隅ラベル（修正版）
    ========================= */
 
 .help-card-demo.help-card-quad {
-  position: relative;
+  position: relative;       /* ← これが必須！ */
   width: 200px;
+  height: 300px;
   margin: 0 auto 1.5rem;
 }
 
+/* カード枠 */
 .help-card-frame {
   width: 100%;
-  height: 280px;
+  height: 100%;
   border: 3px solid #ccc;
-  border-radius: 10px;
+  border-radius: 12px;
   background: linear-gradient(#f8f8f8, #f0f0f0);
 }
 
@@ -2048,7 +2050,7 @@ body > .bubbles-body span:nth-child(9) {
   flex-direction: column;
   align-items: center;
   gap: 2px;
-  transform: translate(-50%, -50%);
+  pointer-events: none;
 }
 
 .help-corner-box {
@@ -2060,30 +2062,29 @@ body > .bubbles-body span:nth-child(9) {
 }
 
 .help-corner-desc {
-  font-size: 0.7rem;
+  font-size: 0.65rem;
   color: #333;
-  white-space: nowrap;
 }
 
 /* ---- 四隅の位置指定 ---- */
 .help-corner.help-tl { /* 左上 */
-  top: 0;
-  left: 0;
+  top: -14px;
+  left: -14px;
 }
 
 .help-corner.help-tr { /* 右上 */
-  top: 0;
-  left: 100%;
+  top: -14px;
+  right: -14px;
 }
 
 .help-corner.help-bl { /* 左下 */
-  top: 100%;
-  left: 0;
+  bottom: -14px;
+  left: -14px;
 }
 
 .help-corner.help-br { /* 右下 */
-  top: 100%;
-  left: 100%;
+  bottom: -14px;
+  right: -14px;
 }
 
 /* スマホ向け調整 */
