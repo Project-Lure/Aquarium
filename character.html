@@ -2,13 +2,10 @@
 <html lang="ja">
 <head>
   <meta charset="utf-8">
-  <title>CHARACTER</title>
-
-  <!-- スマホ対応 -->
+  <title>Character Detail</title>
   <meta name="viewport"
         content="width=device-width, initial-scale=1, viewport-fit=cover">
 
-  <!-- 共通スタイル -->
   <link rel="stylesheet" href="css/style.css?v=4">
   <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -16,24 +13,24 @@
 
 <body class="page-detail">
 
-  <!-- ヘッダー（共通） -->
+  <!-- ヘッダー -->
   <div id="header-container"></div>
 
-  <!-- 本体（共通構造） -->
-  <main id="character-main">
+  <!-- 本文 -->
+  <main class="l-main page-detail-main">
     <div id="character-content"></div>
   </main>
 
-  <!-- バブル（詳細ページ専用・背景） -->
+  <!-- 泡エフェクト（キャラページ専用） -->
   <div class="bubbles">
     <span></span><span></span><span></span><span></span><span></span>
     <span></span><span></span><span></span><span></span>
   </div>
 
-  <!-- フッター（共通） -->
+  <!-- フッター -->
   <div id="footer-container"></div>
 
-  <!-- JS（必ず最後に） -->
+  <!-- JS を最後にまとめて読み込み -->
   <script src="js/loadHeader.js"></script>
   <script src="js/loadFooter.js"></script>
   <script src="js/character.js"></script>
