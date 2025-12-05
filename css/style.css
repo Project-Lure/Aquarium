@@ -1162,37 +1162,197 @@ body {
 /* =========================
    泡エフェクト
    ========================= */
+/* =========================
+   泡エフェクト 共通ベース
+   ========================= */
+
+/* コンテナ自体は「どこに乗るか」で position を変えるので
+   ここでは pointer-events だけ共有にしておく */
 .bubbles {
-  position: fixed;
-  inset: 0;
   pointer-events: none;
+}
+
+/* -------------------------
+   1) ヘッダー内の泡
+   ------------------------- */
+.site-header {
+  position: fixed;
+  /* 既存の指定はそのまま */
+}
+
+/* ヘッダーのグラデの上に乗る */
+.site-header .bubbles.bubbles-header {
+  position: absolute;
+  inset: 0;
   z-index: 0;
 }
 
-.bubbles span {
+/* ヘッダー用バブル */
+.site-header .bubbles.bubbles-header span {
   position: absolute;
-  bottom: -50px;
-  width: 12px;
-  height: 12px;
+  bottom: -16px;
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
-  animation: bubble 6s linear infinite;
-  filter: blur(1px);
-  box-shadow: 0 0 6px rgba(255,255,255,0.8);
 
+  /* ヘッダー内に収まる短めアニメ */
+  animation: bubble-header 6s linear infinite;
+  filter: blur(0.5px);
+
+  /* グラデを元にしたキラキラ感 */
   background: color-mix(
-     in srgb,
-     var(--char-main-color) 85%,
-     white 15%
+    in srgb,
+    var(--header-grad-left) 55%,
+    var(--header-grad-right) 25%
   );
+  box-shadow:
+    0 0 4px rgba(255,255,255,0.9),
+    0 0 10px rgba(255,255,255,0.8);
 }
 
-@keyframes bubble {
+/* -------------------------
+   2) ボディ背景の泡（全ページ共通）
+   ------------------------- */
+
+/* body直下の .bubbles.bubbles-body を画面全体の背景にする */
+body > .bubbles.bubbles-body {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+}
+
+/* デフォルト（非キャラ詳細ページ）はアクセント色ベース */
+body:not(.page-detail) > .bubbles.bubbles-body span {
+  position: absolute;
+  bottom: -60px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+
+  animation: bubble-body 12s linear infinite;
+  filter: blur(1px);
+
+  background: color-mix(
+    in srgb,
+    var(--accent) 80%,
+    white 20%
+  );
+  box-shadow: 0 0 8px rgba(255,255,255,0.7);
+}
+
+/* キャラ詳細ページだけ色をキャラメインカラーに切り替え */
+.page-detail > .bubbles.bubbles-body span {
+  position: absolute;
+  bottom: -60px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+
+  animation: bubble-body 12s linear infinite;
+  filter: blur(1px);
+
+  background: color-mix(
+    in srgb,
+    var(--char-main-color) 80%,
+    white 20%
+  );
+  box-shadow: 0 0 8px rgba(255,255,255,0.7);
+}
+
+/* 泡が背面、コンテンツが前面 */
+.page-detail main,
+.page-detail #footer-container,
+body:not(.page-detail) main,
+body:not(.page-detail) #footer-container {
+  position: relative;
+  z-index: 1;
+}
+
+/* -------------------------
+   バブルの位置ばらし（共通）
+   ------------------------- */
+.bubbles span:nth-child(1) {
+  left: 8%;
+  animation-duration: 10s;
+  animation-delay: 0s;
+}
+
+.bubbles span:nth-child(2) {
+  left: 20%;
+  animation-duration: 12s;
+  animation-delay: -1s;
+}
+
+.bubbles span:nth-child(3) {
+  left: 32%;
+  animation-duration: 9s;
+  animation-delay: -0.5s;
+}
+
+.bubbles span:nth-child(4) {
+  left: 44%;
+  animation-duration: 11s;
+  animation-delay: -1.8s;
+}
+
+.bubbles span:nth-child(5) {
+  left: 56%;
+  animation-duration: 9.5s;
+  animation-delay: -0.9s;
+}
+
+.bubbles span:nth-child(6) {
+  left: 68%;
+  animation-duration: 12.5s;
+  animation-delay: -2.2s;
+}
+
+.bubbles span:nth-child(7) {
+  left: 78%;
+  animation-duration: 10.5s;
+  animation-delay: -1.3s;
+}
+
+.bubbles span:nth-child(8) {
+  left: 88%;
+  animation-duration: 9.2s;
+  animation-delay: -0.4s;
+}
+
+.bubbles span:nth-child(9) {
+  left: 95%;
+  animation-duration: 13s;
+  animation-delay: -2.6s;
+}
+
+/* -------------------------
+   ヘッダー用アニメ（高さ120pxくらい）
+   ------------------------- */
+@keyframes bubble-header {
   0% {
-    transform: translateY(0) scale(1);
-    opacity: 0.7;
+    transform: translateY(0) scale(0.8);
+    opacity: 0.5;
   }
   100% {
-    transform: translateY(-180px) scale(1.8);
+    transform: translateY(-120px) scale(1.2);
+    opacity: 0;
+  }
+}
+
+/* -------------------------
+   ボディ用アニメ（画面上部まで）
+   ------------------------- */
+@keyframes bubble-body {
+  0% {
+    transform: translateY(0) scale(0.9);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.6;
+  }
+  100% {
+    /* ほぼ1画面ぶん上まで */
+    transform: translateY(-110vh) scale(1.8);
     opacity: 0;
   }
 }
@@ -1202,6 +1362,66 @@ body {
 .page-detail #footer-container {
   position: relative;
   z-index: 1;
+}
+
+/* 共通設定は今のままでOK
+.bubbles span { ... }
+@keyframes bubble { ... }
+*/
+
+/* それぞれ位置と動きをずらす */
+.bubbles span:nth-child(1) {
+  left: 8%;
+  animation-duration: 6s;
+  animation-delay: 0s;
+}
+
+.bubbles span:nth-child(2) {
+  left: 20%;
+  animation-duration: 7s;
+  animation-delay: -1s;
+}
+
+.bubbles span:nth-child(3) {
+  left: 32%;
+  animation-duration: 5.5s;
+  animation-delay: -0.5s;
+}
+
+.bubbles span:nth-child(4) {
+  left: 44%;
+  animation-duration: 6.8s;
+  animation-delay: -1.8s;
+}
+
+.bubbles span:nth-child(5) {
+  left: 56%;
+  animation-duration: 5.8s;
+  animation-delay: -0.9s;
+}
+
+.bubbles span:nth-child(6) {
+  left: 68%;
+  animation-duration: 7.2s;
+  animation-delay: -2.2s;
+}
+
+.bubbles span:nth-child(7) {
+  left: 78%;
+  animation-duration: 6.4s;
+  animation-delay: -1.3s;
+}
+
+.bubbles span:nth-child(8) {
+  left: 88%;
+  animation-duration: 5.6s;
+  animation-delay: -0.4s;
+}
+
+.bubbles span:nth-child(9) {
+  left: 95%;
+  animation-duration: 7.5s;
+  animation-delay: -2.6s;
 }
 
 /* =========================
