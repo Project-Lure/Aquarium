@@ -1,48 +1,90 @@
-<main class="l-main l-main--narrow about-page">
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <title>ABOUT | プロジェクト</title>
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <link rel="stylesheet" href="css/style.css?v=4">
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
 
-  <section class="about-intro">
-    <p>
-      <a href="about.html" class="char-back-link">← ABOUTトップに戻る</a>
-    </p>
-    <h1>Project</h1>
-    <p>
-      「ぎじえプロジェクト / Project LURE」全体のコンセプトをまとめたページです。<br>
-      なぜ「色」と「キャラクター」を組み合わせているのか、このプロジェクトでやりたいことは何か、
-      といった大枠の話をここに集約します。
-    </p>
-  </section>
+<body class="about-page about-project-page">
 
-  <!-- コンセプト -->
-  <section class="section-card about-section">
-    <h2 class="section-card__title">プロジェクトのコンセプト</h2>
-    <p>
-      ここに、「色×キャラクター×物語×キャラソン」という軸の説明を入れる想定です。<br>
-      ・色からキャラクターが生まれること<br>
-      ・キャラクターの物語がイラストや楽曲に落とし込まれること<br>
-      ・単発ではなくシリーズとして世界を広げていくこと<br>
-      など、全体の方針を整理して書いておきます。
-    </p>
-  </section>
+  <!-- ヘッダー -->
+  <div id="header-container"></div>
 
-  <!-- シリーズ構成 -->
-  <section class="section-card about-section" style="margin-top: 16px;">
-    <h2 class="section-card__title">シリーズ構成</h2>
-    <p>
-      0_Occupation（そまりものがたり）を起点に、1_Instinct、2_Zone … と続いていく、
-      シリーズ全体の「棚」のイメージを説明します。<br>
-      それぞれどんなテーマを扱うシリーズなのか、簡単な箇条書きで載せておくと見やすいです。
-    </p>
-  </section>
+  <main class="l-main l-main--narrow about-page">
 
-  <!-- 目指しているゴール -->
-  <section class="section-card about-section" style="margin-top: 16px;">
-    <h2 class="section-card__title">このプロジェクトで目指していること</h2>
-    <p>
-      展示会やグッズ、配信、アルバム制作など、将来的にやりたいことの方向性を書いておく想定です。<br>
-      「こういう形で作品に触れてもらいたい」「最終的にはここまで行きたい」といった、
-      ビジョンのメモ置き場として使えます。
-    </p>
-  </section>
+    <!-- 戻るリンク -->
+    <a href="about.html" class="char-back-link">&laquo; ABOUT に戻る</a>
 
-  <a href="about.html" class="char-back-btn bottom">ABOUTトップに戻る</a>
-</main>
+    <!-- 見出しブロック -->
+    <section class="about-intro">
+      <h1>Project / ぎじえプロジェクトとは</h1>
+      <p>
+        「ぎじえプロジェクト / Project LURE」は、<br>
+        「色」をモチーフにしたキャラクターと、そのキャラクターたちの断片的な物語・楽曲・ビジュアルを
+        組み合わせて楽しむ創作プロジェクトです。
+      </p>
+      <p>
+        ここでは、プロジェクト全体のコンセプトや、シリーズ構成のざっくりとした見取り図をまとめています。
+      </p>
+    </section>
+
+    <!-- コンセプト概要 -->
+    <section class="section-card about-section">
+      <h2 class="section-card__title">CONCEPT</h2>
+      <p>
+        Project LURE のいちばん大きな軸は「色 × キャラクター」です。<br>
+        ひとつの色に対して、<strong>コード（番号）・職業や属性・テーマソング候補・キャッチコピー</strong>などを設定し、
+        ひとりのキャラクターとして立ち上げていきます。
+      </p>
+      <p>
+        小説や長編ストーリーを主軸にするのではなく、<strong>ビジュアルとキャラソン</strong>を中心に、
+        断片的なテキストや設定資料で世界を補うスタイルを想定しています。
+      </p>
+    </section>
+
+    <!-- シリーズ構成 -->
+    <section class="section-card about-section">
+      <h2 class="section-card__title">SERIES</h2>
+      <p>
+        Project LURE の中には、いくつかの「シリーズ（大テーマ）」があります。<br>
+        たとえば、職業や立場を扱う <strong>0_Occupation / そまりものがたり</strong> のほか、
+        感情や欲望を扱う <strong>1_Instinct / こころものがたり</strong> などです。
+      </p>
+      <p>
+        シリーズごとにコード体系やテーマが決まっており、<br>
+        「どのキャラがどのシリーズに属しているか」で、そのキャラが背負っている物語の方向性が変わります。
+      </p>
+      <div class="info-card">
+        シリーズ一覧や大テーマの詳しい説明は、<br>
+        <a href="about-terms.html">Terms / 用語説明</a> で整理する予定です。
+      </div>
+    </section>
+
+    <!-- 今後の展開・目標 -->
+    <section class="section-card about-section">
+      <h2 class="section-card__title">GOAL &amp; FUTURE</h2>
+      <p>
+        当面の目標は、<strong>各キャラクターの立ち絵と、対応するキャラソン（またはイメージ楽曲）</strong> を順番に制作し、
+        ギャラリーや配信プラットフォームで見られる形にしていくことです。
+      </p>
+      <p>
+        それぞれのキャラクターは「単発キャラ」で終わらせず、<br>
+        企画・展示・グッズ・コラボレーションなど、さまざまな形で再利用できるIP（キャラクター資産）として
+        育てていくことを目標にしています。
+      </p>
+    </section>
+
+  </main>
+
+  <!-- フッター -->
+  <div id="footer-container"></div>
+
+  <script src="js/loadHeader.js"></script>
+  <script src="js/loadFooter.js"></script>
+</body>
+</html>
