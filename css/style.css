@@ -1259,6 +1259,12 @@ body {
   transform: translateX(2px);
 }
 
+.about-toc-desc {
+  font-size: 12px;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
 /* ABOUT内の section は .section-card を併用する想定 */
 
 /* アーク一覧 */
