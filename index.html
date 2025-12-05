@@ -62,32 +62,39 @@
         <section class="help-section">
           <h3>カード1枚に入っている情報</h3>
 
-          <!-- カードの見本（中は空のままでOK） -->
-          <div class="help-card-demo">
-            <div class="help-card-frame">
-              <div class="help-card-inner"></div>
-            </div>
-          </div>
+<!-- カード見本：四隅ラベル付き -->
+<div class="help-card-demo help-card-quad">
+  
+  <!-- 左上：SERIES -->
+  <div class="help-corner help-tl">
+    <span class="help-corner-box">SERIES</span>
+    <span class="help-corner-desc">シリーズ</span>
+  </div>
 
-          <!-- カード外に置く凡例リスト -->
-          <ul class="help-card-legend">
-            <li>
-              <span class="legend-badge">SERIES</span>
-              <span class="legend-text">シリーズ</span>
-            </li>
-            <li>
-              <span class="legend-badge">EX</span>
-              <span class="legend-text">エクスアーク</span>
-            </li>
-            <li>
-              <span class="legend-badge">CODE</span>
-              <span class="legend-text">キャラクターコード（000〜）</span>
-            </li>
-            <li>
-              <span class="legend-badge">CORE</span>
-              <span class="legend-text">コアアーク</span>
-            </li>
-          </ul>
+  <!-- 右上：EX -->
+  <div class="help-corner help-tr">
+    <span class="help-corner-box">EX</span>
+    <span class="help-corner-desc">エクスアーク</span>
+  </div>
+
+  <!-- 左下：CODE -->
+  <div class="help-corner help-bl">
+    <span class="help-corner-box">CODE</span>
+    <span class="help-corner-desc">キャラクターコード</span>
+  </div>
+
+  <!-- 右下：CORE -->
+  <div class="help-corner help-br">
+    <span class="help-corner-box">CORE</span>
+    <span class="help-corner-desc">コアアーク</span>
+  </div>
+
+  <!-- カード枠 -->
+  <div class="help-card-frame">
+    <div class="help-card-inner"></div>
+  </div>
+
+</div>
 
           <p class="help-note">
             一覧では「タイトル」と「イラスト」を中心に眺め、
