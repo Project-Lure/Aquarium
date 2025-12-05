@@ -1285,8 +1285,8 @@ body:not(.page-detail) > .bubbles-body span,
 .page-detail > .bubbles-body span {
   position: absolute;
   bottom: -60px;
-  width: 18px;
-  height: 18px;
+  width: 24px;
+  height: 24px;
   border-radius: 50%;
 
   animation-name: bubble-body;
@@ -1409,7 +1409,7 @@ body > .bubbles-body span:nth-child(9) {
     opacity: 0.6;
   }
   100% {
-    transform: translateY(-110vh) scale(1.8);
+    transform: translateY(-110vh) scale(2.1);
     opacity: 0;
   }
 }
