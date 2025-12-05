@@ -1,6 +1,6 @@
 // js/loadHeader.js
 
-// 1. header.html を読み込んで #header-container に挿入
+// 1. components/header.html を読み込んで #header-container に挿入
 document.addEventListener('DOMContentLoaded', async () => {
   const headerContainer = document.getElementById('header-container');
 
@@ -10,20 +10,19 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   try {
-    // index.html と同じ階層に header.html がある前提
-    const res = await fetch('header.html');
+    // index.html と同じ階層に components/ フォルダがある前提
+    const res = await fetch('components/header.html');
     if (!res.ok) {
-      throw new Error('header.html の読み込みに失敗しました');
+      throw new Error('components/header.html の読み込みに失敗しました');
     }
     const html = await res.text();
     headerContainer.innerHTML = html;
   } catch (err) {
     console.error('ヘッダー読み込みエラー:', err);
-    // ここで終わる＝ヘッダーが無いままになる
-    return;
+    return; // 失敗したら初期化せず終了
   }
 
-  // HTMLを挿入してから、イベント類を設定
+  // HTML を差し込んでから初期化
   initHeader();
 });
 
