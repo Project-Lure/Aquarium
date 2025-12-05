@@ -1490,21 +1490,45 @@ body {
   opacity: 0.9;
 }
 
-/* 縦の三角（▽） */
+/* 縦セパレーター */
 .arrow-sep {
   width: 100%;
-  height: 26px;
+  height: 36px;
   position: relative;
 }
 
+/* 上の▽（薄め） */
+.arrow-sep::before {
+  content: "▽";
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 4px;
+  font-size: 16px;
+  opacity: 0.45;
+  color: var(--accent);
+}
+
+/* 下の▽（濃い＋点滅） */
 .arrow-sep::after {
   content: "▽";
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
+  top: 16px;
   font-size: 18px;
-  opacity: 0.55;
+  opacity: 0.9;
   color: var(--accent);
+
+  /* ▼ 点滅アニメーション ▼ */
+  animation: arrowBlink 1.6s ease-in-out infinite;
+}
+
+/* 点滅アニメーション（透明度がゆっくり変わる） */
+@keyframes arrowBlink {
+  0%   { opacity: 0.2; }
+  50%  { opacity: 1; }
+  100% { opacity: 0.2; }
 }
 
 /* Terms は別ブロック */
