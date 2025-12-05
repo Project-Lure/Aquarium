@@ -1234,11 +1234,6 @@ body {
   letter-spacing: 0.12em;
 }
 
-/* 目次（ABOUT） */
-.about-toc {
-  margin: 0 0 24px;
-}
-
 .about-toc h2 {
   margin: 0 0 8px;
   font-size: 18px;
@@ -1478,13 +1473,13 @@ body {
 }
 
 /* タイトル・本文 */
-.card-title {
+.about-card-title {
   font-size: 15px;
   font-weight: 600;
   margin-bottom: 6px;
 }
 
-.card-desc {
+.about-card-desc {
   font-size: 13px;
   line-height: 1.7;
   opacity: 0.9;
@@ -1751,7 +1746,56 @@ body {
 .hc-text {
   white-space: nowrap;
 }
+/* ヘルプ：カード凡例（SERIES / EX / CODE / CORE） */
+.help-card-legend {
+  list-style: none;
+  padding: 6px 0 0;
+  margin: 4px 0 0;
+  display: flex;
+  flex-direction: column;   /* 縦並び */
+  gap: 4px;
+  font-size: 12px;
+}
 
+/* 1行ずつ：バッジ + 説明テキスト */
+.help-card-legend li {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* 左側のラベルバッジ（SERIES / EX / CODE / CORE） */
+.legend-badge {
+  min-width: 64px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: #05334a;
+  color: #ffffff;
+  font-size: 10px;
+  text-align: center;
+  letter-spacing: 0.08em;
+}
+
+/* 右側の説明テキスト */
+.legend-text {
+  font-size: 12px;
+  color: var(--text-main);
+}
+
+/* スマホ：少し詰める */
+@media (max-width: 480px) {
+  .help-card-legend {
+    gap: 3px;
+  }
+  .legend-badge {
+    min-width: 56px;
+    font-size: 9px;
+    padding: 2px 6px;
+  }
+  .legend-text {
+    font-size: 11px;
+  }
+}
 /* バッジ */
 .hc-badge {
   min-width: 26px;
