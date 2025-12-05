@@ -5,13 +5,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
   fetch("data/officialLinks.json")
     .then(res => {
-      if (!res.ok) {
-        throw new Error("officialLinks.json の読み込みに失敗しました");
-      }
+      if (!res.ok) throw new Error("officialLinks.json の読み込みに失敗しました");
       return res.json();
     })
     .then(data => {
-      // 各カテゴリの見出し名・アイコン定義
+      // 各カテゴリの見出し名・アイコンをここで定義
       const platformMeta = {
         SNS: {
           label: "SNS / 配信",
@@ -31,7 +29,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       };
 
-      // data は { SNS: [...], PORTFOLIO: [...], ... } 形式
+      // data は { SNS: [...], PORTFOLIO: [...], ... } というオブジェクト
       Object.entries(data).forEach(([platformId, accounts]) => {
         if (!Array.isArray(accounts) || accounts.length === 0) return;
 
@@ -40,9 +38,9 @@ document.addEventListener("DOMContentLoaded", () => {
           icon: "fa-solid fa-link"
         };
 
-        // ---- セクション ----
+        // ---- セクション（★ section-card を付ける） ----
         const section = document.createElement("section");
-        section.className = "links-platform-section";
+        section.className = "section-card links-platform-section";
 
         const heading = document.createElement("h2");
         heading.className = "links-platform-title";
@@ -65,8 +63,9 @@ document.addEventListener("DOMContentLoaded", () => {
         list.className = "links-account-list";
 
         accounts.forEach(acc => {
+          // ★ info-card / info-card--link を付与
           const card = document.createElement("a");
-          card.className = "links-account-card";
+          card.className = "info-card info-card--link links-account-card";
           card.href = acc.url;
           card.target = "_blank";
           card.rel = "noopener noreferrer";
@@ -78,16 +77,17 @@ document.addEventListener("DOMContentLoaded", () => {
           const nameSpan = document.createElement("span");
           nameSpan.className = "links-account-label";
           nameSpan.textContent = acc.label;
-          top.appendChild(nameSpan);
 
+          const handleSpan = document.createElement("span");
+          handleSpan.className = "links-account-handle";
           if (acc.handle) {
-            const handleSpan = document.createElement("span");
-            handleSpan.className = "links-account-handle";
             handleSpan.textContent = acc.handle;
             top.appendChild(handleSpan);
           }
 
-          // 下段：説明
+          top.insertBefore(nameSpan, top.firstChild);
+
+          // 下段：説明（JSON のキー名は desc）
           const desc = document.createElement("p");
           desc.className = "links-account-desc";
           desc.textContent = acc.desc || "";
