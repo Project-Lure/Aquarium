@@ -1265,59 +1265,67 @@ body:not(.page-detail) #footer-container {
 
 /* -------------------------
    バブルの位置・タイミングばらし（ヘッダー／ボディ共通）
+   → 横位置・時間・ディレイをかなりバラけさせる
    ------------------------- */
+
+/* 位置・時間をいじるだけにするので、position はここで指定 */
+.bubbles span {
+  position: absolute;
+}
+
+/* 1〜9個前提（spanの数に合わせて調整） */
 .bubbles span:nth-child(1) {
-  left: 8%;
-  animation-duration: 10s;
-  animation-delay: 0s;
+  left: 4%;
+  animation-duration: 9.5s;
+  animation-delay: -0.3s;
 }
 
 .bubbles span:nth-child(2) {
-  left: 20%;
-  animation-duration: 12s;
-  animation-delay: -1s;
+  left: 13%;
+  animation-duration: 13s;
+  animation-delay: -2.1s;
 }
 
 .bubbles span:nth-child(3) {
-  left: 32%;
-  animation-duration: 9s;
-  animation-delay: -0.5s;
+  left: 23%;
+  animation-duration: 8s;
+  animation-delay: 0.4s;
 }
 
 .bubbles span:nth-child(4) {
-  left: 44%;
-  animation-duration: 11s;
-  animation-delay: -1.8s;
+  left: 37%;
+  animation-duration: 11.5s;
+  animation-delay: -1.2s;
 }
 
 .bubbles span:nth-child(5) {
-  left: 56%;
-  animation-duration: 9.5s;
-  animation-delay: -0.9s;
+  left: 52%;
+  animation-duration: 10s;
+  animation-delay: -3.0s;
 }
 
 .bubbles span:nth-child(6) {
-  left: 68%;
-  animation-duration: 12.5s;
-  animation-delay: -2.2s;
+  left: 61%;
+  animation-duration: 14s;
+  animation-delay: -0.8s;
 }
 
 .bubbles span:nth-child(7) {
-  left: 78%;
-  animation-duration: 10.5s;
-  animation-delay: -1.3s;
+  left: 73%;
+  animation-duration: 9s;
+  animation-delay: 1s;
 }
 
 .bubbles span:nth-child(8) {
-  left: 88%;
-  animation-duration: 9.2s;
-  animation-delay: -0.4s;
+  left: 84%;
+  animation-duration: 12.5s;
+  animation-delay: -1.7s;
 }
 
 .bubbles span:nth-child(9) {
-  left: 95%;
-  animation-duration: 13s;
-  animation-delay: -2.6s;
+  left: 93%;
+  animation-duration: 15s;
+  animation-delay: -3.4s;
 }
 
 /* -------------------------
