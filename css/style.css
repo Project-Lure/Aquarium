@@ -383,7 +383,7 @@ body {
 
   .header-logo {
     max-height: 40px;
-    max-width: 48vw;   /* ロゴがアイコン側にはみ出さないよう制限 */
+    max-width: 56vw;   /* ロゴがアイコン側にはみ出さないよう制限 */
     height: auto;
     width: auto;
   }
