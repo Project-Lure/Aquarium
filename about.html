@@ -1,72 +1,102 @@
-<main class="l-main l-main--narrow about-page">
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <title>ABOUT | ぎじえプロジェクト</title>
 
-  <!-- ABOUT の導入（ここが実質「はじめに」） -->
-  <section class="about-intro">
-    <h1>ABOUT</h1>
-    <p>
-      「ぎじえプロジェクト / Project LURE」の全体像を案内するページです。<br>
-      プロジェクトの成り立ちや世界観、制作者のこと、そして作中で使われる用語を、
-      4つの章に分けてまとめています。
-    </p>
-    <p>
-      詳しい内容は、それぞれの専用ページで解説しています。<br>
-      気になるところから読んでみてください。
-    </p>
-  </section>
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1, viewport-fit=cover">
 
-  <!-- 4つの章への誘導カード -->
-  <section class="section-card about-section">
-    <h2 class="section-card__title">CONTENTS</h2>
+  <link rel="stylesheet" href="css/style.css?v=4">
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
 
-    <nav class="about-toc">
-      <ul class="about-toc-list">
+<body class="about-page">
 
-        <!-- Project -->
-        <li>
-          <a href="about-project.html">
-            <strong>Project / ぎじえプロジェクトとは</strong><br>
-            <span class="about-toc-desc">
-              シリーズ全体のコンセプト、軸になっている「色×キャラクター」の考え方、
-              今後の展開イメージなどをまとめたページです。
-            </span>
-          </a>
-        </li>
+  <!-- ▼ ヘッダー読み込み -->
+  <div id="header-container"></div>
 
-        <!-- World -->
-        <li>
-          <a href="about-world.html">
-            <strong>World / どんな世界観なの？</strong><br>
-            <span class="about-toc-desc">
-              舞台となる世界の雰囲気やルール、シリーズごとの位置づけなど、
-              作品世界の「空気感」を紹介します。
-            </span>
-          </a>
-        </li>
+  <!-- ▼ 本文 -->
+  <main class="l-main l-main--narrow about-page">
 
-        <!-- Creator -->
-        <li>
-          <a href="about-creator.html">
-            <strong>Creator / 制作者について</strong><br>
-            <span class="about-toc-desc">
-              制作者のプロフィール、創作のスタンスや得意分野、
-              このプロジェクトに込めている個人的なテーマなどを記載します。
-            </span>
-          </a>
-        </li>
+    <!-- ABOUT の導入 -->
+    <section class="about-intro">
+      <h1>ABOUT</h1>
+      <p>
+        「ぎじえプロジェクト / Project LURE」の全体像を案内するページです。<br>
+        プロジェクトの成り立ちや世界観、制作者のこと、そして作中で使われる用語を、
+        4つの章に分けてまとめています。
+      </p>
+      <p>
+        詳しい内容は、それぞれの専用ページで解説しています。<br>
+        気になるところから読んでみてください。
+      </p>
+    </section>
 
-        <!-- Terms -->
-        <li>
-          <a href="about-terms.html">
-            <strong>Terms / 用語説明</strong><br>
-            <span class="about-toc-desc">
-              「アーク」「コード」「そまりものがたり」など、
-              作品内で出てくる専門用語や略語を一覧で解説する用語集です。
-            </span>
-          </a>
-        </li>
+    <!-- 4つの章への誘導カード -->
+    <section class="section-card about-section">
+      <h2 class="section-card__title">CONTENTS</h2>
 
-      </ul>
-    </nav>
-  </section>
+      <nav class="about-toc">
+        <ul class="about-toc-list">
 
-</main>
+          <!-- Project -->
+          <li>
+            <a href="about-project.html">
+              <strong>Project / ぎじえプロジェクトとは</strong><br>
+              <span class="about-toc-desc">
+                シリーズ全体のコンセプト、軸になっている「色×キャラクター」の考え方、
+                今後の展開イメージなどをまとめたページです。
+              </span>
+            </a>
+          </li>
+
+          <!-- World -->
+          <li>
+            <a href="about-world.html">
+              <strong>World / どんな世界観なの？</strong><br>
+              <span class="about-toc-desc">
+                舞台となる世界の雰囲気やルール、シリーズごとの位置づけなど、
+                作品世界の「空気感」を紹介します。
+              </span>
+            </a>
+          </li>
+
+          <!-- Creator -->
+          <li>
+            <a href="about-creator.html">
+              <strong>Creator / 制作者について</strong><br>
+              <span class="about-toc-desc">
+                制作者のプロフィール、創作のスタンスや得意分野、
+                このプロジェクトに込めている個人的なテーマなどを記載します。
+              </span>
+            </a>
+          </li>
+
+          <!-- Terms -->
+          <li>
+            <a href="about-terms.html">
+              <strong>Terms / 用語説明</strong><br>
+              <span class="about-toc-desc">
+                「アーク」「コード」「そまりものがたり」など、
+                作品内で出てくる専門用語や略語を一覧で解説する用語集です。
+              </span>
+            </a>
+          </li>
+
+        </ul>
+      </nav>
+    </section>
+
+  </main>
+
+  <!-- ▼ フッター読み込み -->
+  <div id="footer-container"></div>
+
+  <!-- ▼ 共通スクリプト -->
+  <script src="js/loadHeader.js"></script>
+  <script src="js/loadFooter.js"></script>
+
+</body>
+</html>
