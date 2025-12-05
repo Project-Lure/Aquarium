@@ -88,10 +88,10 @@ body {
   background: linear-gradient(90deg, var(--header-grad-left), var(--header-grad-right));
   color: #fff;
   border-bottom: 1px solid rgba(0,0,0,0.06);
-  z-index: 2000;
+  z-index: 2100; /* navよりは下、overlayより上にしない */
 }
 
-/* 左ブロック：左端に固定 */
+/* 左・中央・右ブロック */
 .header-left {
   position: absolute;
   left: 16px;
@@ -100,7 +100,11 @@ body {
   gap: 8px;
 }
 
-/* 右ブロック：右端に固定 */
+.header-center {
+  display: flex;
+  justify-content: center;
+}
+
 .header-right {
   position: absolute;
   right: 16px;
@@ -109,45 +113,14 @@ body {
   gap: 8px;
 }
 
-/* 中央ロゴ */
-.header-center {
-  display: flex;
-  justify-content: center;
-}
-
-/* 横長ロゴ（PC基準） */
+/* ロゴ */
 .header-logo {
   max-height: 100px;
   height: auto;
   width: auto;
 }
 
-/* 丸ロゴ */
-.brand-link {
-  display: inline-flex;
-  align-items: center;
-}
-
-.brand-icon {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-}
-
-/* =========================
-   ナビゲーション・ボタン類
-   ========================= */
-.header-nav {
-  margin-left: 12px;
-}
-
-.header-nav a {
-  margin-right: 12px;
-  text-decoration: none;
-  color: inherit;
-}
-
-/* アイコン系ボタン共通 */
+/* アイコンボタン共通 */
 .header-icon-btn,
 .header-menu-btn {
   border: none;
@@ -160,35 +133,96 @@ body {
   color: inherit;
 }
 
-/* アイコンサイズ */
 .header-icon-btn i,
 .header-menu-btn i {
   font-size: 24px;
 }
 
-/* 検索ボタン（デフォルト非表示） */
-.header-search-btn {
-  display: none !important;
-}
-
-.page-index .header-search-btn {
-  display: inline-flex !important;
-}
-
-/* ヘルプボタン（デフォルト非表示） */
+/* 検索・ヘルプボタンはデフォルト非表示 */
+.header-search-btn,
 .header-help-btn {
   display: none !important;
 }
 
+/* 一覧ページだけ表示させる */
+.page-index .header-search-btn,
 .page-index .header-help-btn {
   display: inline-flex !important;
 }
 
 /* =========================
-   スマホ表示（〜768px）
+   スライドメニュー本体
+   ========================= */
+
+/* ナビ自体を「左からスライドしてくるパネル」にする */
+.header-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  width: 260px;
+  max-width: 80%;
+  height: 100vh;
+
+  padding: 80px 20px 24px;
+  box-sizing: border-box;
+
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  background: #ffffff;
+  color: #05334a;
+  box-shadow: 2px 0 16px rgba(0, 0, 0, 0.18);
+  border-right: 1px solid rgba(0, 40, 80, 0.08);
+
+  transform: translateX(-100%);
+  transition: transform 0.2s ease-out;
+
+  z-index: 2500;
+}
+
+/* 開いた状態 */
+.header-nav.is-open {
+  transform: translateX(0);
+}
+
+.header-nav a {
+  text-decoration: none;
+  color: inherit;
+  font-size: 15px;
+}
+
+/* PCでもスマホでも同じ挙動：ハンバーガーで開閉 */
+.header-menu-btn {
+  display: inline-flex;
+}
+
+/* =========================
+   ナビ用オーバーレイ
+   ========================= */
+.nav-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(2px);
+
+  opacity: 0;
+  pointer-events: none;
+
+  transition: opacity 0.18s ease;
+  z-index: 2400;
+}
+
+.nav-overlay.is-active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* =========================
+   スマホでのヘッダー高さ調整
    ========================= */
 @media (max-width: 768px) {
-
   :root {
     --header-height: 96px;
   }
@@ -199,60 +233,6 @@ body {
 
   .header-logo {
     max-height: 60px;
-    width: auto;
-    height: auto;
-  }
-
-  /* ハンバーガーメニューから出てくるナビ */
-  .header-nav {
-    display: none;
-    position: fixed;
-    top: var(--header-height);
-    left: 16px;
-
-    min-width: 180px;
-    padding: 12px 20px;
-
-    background: #fff;
-    border: 1px solid #ddd;
-    border-radius: 12px;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.18);
-
-    flex-direction: column;
-    gap: 12px;
-
-    z-index: 3000;
-    color: #05334a;
-    font-size: 16px;
-  }
-
-  .header-nav.is-open {
-    display: flex;
-  }
-
-  .header-nav a {
-    margin: 0;
-    text-decoration: none;
-    color: #05334a;
-  }
-
-  .header-menu-btn {
-    display: inline-flex;
-  }
-}
-
-/* =========================
-   PC表示（769px〜）
-   ========================= */
-@media (min-width: 769px) {
-  .header-nav {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-
-  .header-menu-btn {
-    display: none;
   }
 }
 
