@@ -90,6 +90,9 @@ body {
   color: #fff;
   border-bottom: 1px solid rgba(0,0,0,0.06);
   z-index: 2610; /* navよりは下、overlayより上にしない */
+  
+  overflow: hidden;
+  position: relative;
 }
 
 /* 左・中央・右ブロック */
@@ -1162,67 +1165,64 @@ body {
 /* =========================
    泡エフェクト
    ========================= */
-/* =========================
-   泡エフェクト 共通ベース
-   ========================= */
 
-/* コンテナ自体は「どこに乗るか」で position を変えるので
-   ここでは pointer-events だけ共有にしておく */
+/* 共通：泡コンテナ */
 .bubbles {
   pointer-events: none;
 }
 
 /* -------------------------
-   1) ヘッダー内の泡
+   ヘッダー用の泡
    ------------------------- */
+
+/* ヘッダーの中に閉じ込める */
 .site-header {
-  position: fixed;
-  /* 既存の指定はそのまま */
+  overflow: hidden; /* 既存の .site-header に追加してOK */
 }
 
-/* ヘッダーのグラデの上に乗る */
-.site-header .bubbles.bubbles-header {
+/* ヘッダー内の泡コンテナ（loadHeader側で
+   <div class="bubbles bubbles-header">…</div> を入れておく想定） */
+.site-header .bubbles-header {
   position: absolute;
   inset: 0;
   z-index: 0;
 }
 
-/* ヘッダー用バブル */
-.site-header .bubbles.bubbles-header span {
+/* ヘッダー用の泡1粒 */
+.site-header .bubbles-header span {
   position: absolute;
   bottom: -16px;
   width: 8px;
   height: 8px;
   border-radius: 50%;
 
-  /* ヘッダー内に収まる短めアニメ */
   animation: bubble-header 6s linear infinite;
   filter: blur(0.5px);
 
-  /* グラデを元にしたキラキラ感 */
+  /* グラデ由来のキラキラ色 */
   background: color-mix(
     in srgb,
     var(--header-grad-left) 55%,
     var(--header-grad-right) 25%
   );
   box-shadow:
-    0 0 4px rgba(255,255,255,0.9),
-    0 0 10px rgba(255,255,255,0.8);
+    0 0 4px rgba(255, 255, 255, 0.9),
+    0 0 10px rgba(255, 255, 255, 0.8);
 }
 
 /* -------------------------
-   2) ボディ背景の泡（全ページ共通）
+   ボディ背景の泡（全ページ）
    ------------------------- */
 
 /* body直下の .bubbles.bubbles-body を画面全体の背景にする */
-body > .bubbles.bubbles-body {
+body > .bubbles-body {
   position: fixed;
   inset: 0;
   z-index: 0;
 }
 
-/* デフォルト（非キャラ詳細ページ）はアクセント色ベース */
-body:not(.page-detail) > .bubbles.bubbles-body span {
+/* 一覧など通常ページ：アクセント色ベース */
+body:not(.page-detail) > .bubbles-body span {
   position: absolute;
   bottom: -60px;
   width: 18px;
@@ -1237,11 +1237,11 @@ body:not(.page-detail) > .bubbles.bubbles-body span {
     var(--accent) 80%,
     white 20%
   );
-  box-shadow: 0 0 8px rgba(255,255,255,0.7);
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.7);
 }
 
-/* キャラ詳細ページだけ色をキャラメインカラーに切り替え */
-.page-detail > .bubbles.bubbles-body span {
+/* キャラ詳細ページ：キャラ固有色ベース */
+.page-detail > .bubbles-body span {
   position: absolute;
   bottom: -60px;
   width: 18px;
@@ -1256,10 +1256,10 @@ body:not(.page-detail) > .bubbles.bubbles-body span {
     var(--char-main-color) 80%,
     white 20%
   );
-  box-shadow: 0 0 8px rgba(255,255,255,0.7);
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.7);
 }
 
-/* 泡が背面、コンテンツが前面 */
+/* 泡は背面、コンテンツは前面 */
 .page-detail main,
 .page-detail #footer-container,
 body:not(.page-detail) main,
@@ -1269,7 +1269,7 @@ body:not(.page-detail) #footer-container {
 }
 
 /* -------------------------
-   バブルの位置ばらし（共通）
+   バブルの位置・タイミングばらし（ヘッダー／ボディ共通）
    ------------------------- */
 .bubbles span:nth-child(1) {
   left: 8%;
@@ -1326,12 +1326,15 @@ body:not(.page-detail) #footer-container {
 }
 
 /* -------------------------
-   ヘッダー用アニメ（高さ120pxくらい）
+   ヘッダー用アニメ（ヘッダー高さ分）
    ------------------------- */
 @keyframes bubble-header {
   0% {
     transform: translateY(0) scale(0.8);
-    opacity: 0.5;
+    opacity: 0.4;
+  }
+  40% {
+    opacity: 1;
   }
   100% {
     transform: translateY(-120px) scale(1.2);
@@ -1351,7 +1354,6 @@ body:not(.page-detail) #footer-container {
     opacity: 0.6;
   }
   100% {
-    /* ほぼ1画面ぶん上まで */
     transform: translateY(-110vh) scale(1.8);
     opacity: 0;
   }
