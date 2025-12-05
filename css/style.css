@@ -182,24 +182,12 @@ body {
   z-index: 2500;
 }
 
-/* スマホではフル幅スライド＋余白調整 */
+/* スマホでは「画面のだいたい 8割幅」にする */
 @media (max-width: 768px) {
-  :root {
-    --header-height: 96px;
-  }
-
-  .site-header {
-    padding: 0 8px;
-  }
-
-  .header-logo {
-    max-height: 60px;
-  }
-
   .header-nav {
-    width: 100%;
-    max-width: 100%;
-    padding-top: 96px;
+    width: min(320px, 80vw); /* 画面に対して 8割くらい */
+    max-width: 80vw;
+    padding-top: 96px; /* ヘッダー高さぶん下げる */
     gap: 12px;
   }
 
@@ -211,6 +199,20 @@ body {
 /* 開いた状態 */
 .header-nav.is-open {
   transform: translateX(0);
+}
+
+/* ナビ内の ×ボタン */
+.nav-close-btn {
+  position: absolute;
+  top: 12px;
+  left: 14px;
+  border: none;
+  background: transparent;
+  color: #05334a;
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 4px;
 }
 
 /* ナビリンク全体（英語＋日本語2行セット） */
@@ -254,11 +256,59 @@ body {
   opacity: 0.8;
 }
 
-/* 現在ページ */
+/* ABOUT 配下のサブメニュー */
+.header-subnav {
+  margin: -4px 0 8px 24px;  /* 親より少し右にずらす */
+  padding-left: 10px;
+  border-left: 1px solid rgba(0, 80, 140, 0.15);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.header-subnav-link {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: inherit;
+  padding: 4px 8px;
+  border-radius: 8px;
+  font-size: 11px;
+  line-height: 1.3;
+  opacity: 0.9;
+}
+
+.header-subnav-link .subnav-en {
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-family:
+    ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    Monaco,
+    Consolas,
+    "Liberation Mono",
+    "Courier New",
+    monospace;
+}
+
+.header-subnav-link .subnav-ja {
+  font-size: 10px;
+  opacity: 0.9;
+}
+
+/* 今いるページ（メイン項目） */
 .header-nav-link.is-current {
   border-color: rgba(0, 80, 140, 0.4);
   box-shadow: 0 0 0 1px rgba(0, 80, 140, 0.35);
-  background: #edf5ff;
+}
+
+/* 今いるページ（サブ項目） */
+.header-subnav-link.is-current {
+  background: linear-gradient(90deg, var(--header-grad-left), var(--header-grad-right));
+  color: #ffffff;
+  box-shadow: 0 1px 5px rgba(0, 40, 80, 0.25);
 }
 
 /* PCでもスマホでも同じ挙動：ハンバーガーで開閉 */
@@ -287,6 +337,23 @@ body {
   pointer-events: auto;
 }
 
+/* =========================
+   スマホでのヘッダー高さ調整
+   ========================= */
+@media (max-width: 768px) {
+  :root {
+    --header-height: 96px;
+  }
+
+  .site-header {
+    padding: 0 8px;
+  }
+
+  .header-logo {
+    max-height: 60px;
+  }
+}
+
 /* PC ホバー時の装飾 */
 @media (min-width: 769px) and (hover:hover) and (pointer:fine) {
   .header-nav-link {
@@ -306,14 +373,17 @@ body {
     transform: translateY(-1px);
   }
 
-  /* 現在ページはホバーしてもハイライト維持 */
-  .header-nav-link.is-current,
-  .header-nav-link.is-current:hover {
-    background: #edf5ff;
-    color: inherit;
-    border-color: rgba(0, 80, 140, 0.6);
-    box-shadow: 0 0 0 1px rgba(0, 80, 140, 0.55);
-    transform: none;
+  .header-subnav-link {
+    transition:
+      background-color 0.15s ease,
+      color 0.15s ease,
+      box-shadow 0.15s ease,
+      transform 0.12s ease-out;
+  }
+
+  .header-subnav-link:hover {
+    background: rgba(0, 136, 255, 0.08);
+    transform: translateX(2px);
   }
 
   .header-icon-btn:hover {
@@ -1372,7 +1442,7 @@ body {
 }
 
 .help-section h3 {
-  font-size: 14px;
+  fontサイズ: 14px;
   margin: 0 0 4px;
 }
 
