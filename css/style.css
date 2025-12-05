@@ -1450,6 +1450,70 @@ body {
   }
 }
 
+/* 四角いカード本体 */
+.about-card {
+  padding: 16px 18px;
+  border-radius: 12px;
+  background: #ffffff;
+  border: 1px solid rgba(0,80,140,0.1);
+  box-shadow: 0 2px 6px rgba(0,40,80,0.06);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.about-card a {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.about-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 3px 10px rgba(0,40,80,0.15);
+  background: linear-gradient(
+    90deg,
+    var(--header-grad-left),
+    var(--header-grad-right)
+  );
+  color: #fff;
+}
+
+/* タイトル・本文 */
+.card-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.card-desc {
+  font-size: 13px;
+  line-height: 1.7;
+  opacity: 0.9;
+}
+
+/* 縦の三角（▽） */
+.arrow-sep {
+  width: 100%;
+  height: 26px;
+  position: relative;
+}
+
+.arrow-sep::after {
+  content: "▽";
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 18px;
+  opacity: 0.55;
+  color: var(--accent);
+}
+
+/* Terms は別ブロック */
+.about-terms-block {
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(0,80,140,0.15);
+}
+
 /* =========================
    LINKS / OFFICIAL ページ
    ========================= */
