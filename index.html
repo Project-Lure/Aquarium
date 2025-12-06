@@ -54,7 +54,7 @@
     <div id="help-modal" role="dialog" aria-modal="true" aria-labelledby="help-title">
       <header id="help-header">
         <h2 id="help-title">ぎじえPRJの見方ガイド</h2>
-        <button id="help-close" aria-label="ヘルプを閉じる">&times;</button>
+        <button id="help-close" type="button" aria-label="ヘルプを閉じる">&times;</button>
       </header>
 
       <div id="help-body">
@@ -62,39 +62,41 @@
         <section class="help-section">
           <h3>カード1枚に入っている情報</h3>
 
-<!-- カード見本：四隅ラベル付き -->
-<div class="help-card-demo help-card-quad">
-  
-  <!-- 左上：SERIES -->
-  <div class="help-corner help-tl">
-    <span class="help-corner-box">SERIES</span>
-    <span class="help-corner-desc">シリーズ</span>
-  </div>
+          <!-- カード見本：四隅番号付き -->
+          <div class="help-card-demo">
+            <div class="help-card-frame">
+              <div class="help-card-inner">
+                <!-- 左下：① CODE -->
+                <div class="help-corner-num help-corner-1">①</div>
+                <!-- 左上：② SERIES -->
+                <div class="help-corner-num help-corner-2">②</div>
+                <!-- 右上：③ EX -->
+                <div class="help-corner-num help-corner-3">③</div>
+                <!-- 右下：④ CORE -->
+                <div class="help-corner-num help-corner-4">④</div>
+              </div>
+            </div>
+          </div>
 
-  <!-- 右上：EX -->
-  <div class="help-corner help-tr">
-    <span class="help-corner-box">EX</span>
-    <span class="help-corner-desc">エクスアーク</span>
-  </div>
-
-  <!-- 左下：CODE -->
-  <div class="help-corner help-bl">
-    <span class="help-corner-box">CODE</span>
-    <span class="help-corner-desc">キャラクターコード</span>
-  </div>
-
-  <!-- 右下：CORE -->
-  <div class="help-corner help-br">
-    <span class="help-corner-box">CORE</span>
-    <span class="help-corner-desc">コアアーク</span>
-  </div>
-
-  <!-- カード枠 -->
-  <div class="help-card-frame">
-    <div class="help-card-inner"></div>
-  </div>
-
-</div>
+          <!-- 凡例リスト -->
+          <ul class="help-legend-list">
+            <li>
+              <span class="help-legend-num">①</span>
+              <span>CODE（キャラクターコード）</span>
+            </li>
+            <li>
+              <span class="help-legend-num">②</span>
+              <span>SERIES（シリーズ）</span>
+            </li>
+            <li>
+              <span class="help-legend-num">③</span>
+              <span>EX（エクスアーク）</span>
+            </li>
+            <li>
+              <span class="help-legend-num">④</span>
+              <span>CORE（コアアーク）</span>
+            </li>
+          </ul>
 
           <p class="help-note">
             一覧では「タイトル」と「イラスト」を中心に眺め、
@@ -106,11 +108,11 @@
         <section class="help-section">
           <h3>Coming Soon について</h3>
           <p>
-            まだイラストが未公開のキャラクターは、  
+            まだイラストが未公開のキャラクターは、<br>
             「Coming Soon」と書かれたプレースホルダカードで表示されます。
           </p>
           <p class="help-note">
-            クリックしても詳細ページには移動しません。
+            クリックしても詳細ページには移動しません。<br>
             公開準備中のキャラクターとしてお待ちください。
           </p>
         </section>
@@ -119,11 +121,11 @@
   </div>
 
   <!-- 検索ポップアップ -->
-  <div id="search-overlay">
-    <div id="search-modal">
+  <div id="search-overlay" aria-hidden="true">
+    <div id="search-modal" role="dialog" aria-modal="true" aria-labelledby="search-title">
       <div id="search-header">
-        <span>キャラクター検索</span>
-        <button id="search-close" aria-label="検索を閉じる">×</button>
+        <span id="search-title">キャラクター検索</span>
+        <button id="search-close" type="button" aria-label="検索を閉じる">&times;</button>
       </div>
 
       <div class="search-bar">
@@ -147,8 +149,8 @@
       </div>
 
       <div class="search-btn-row">
-        <button id="search-reset" class="search-reset-btn">リセット</button>
-        <button id="search-decide" class="search-decide-btn">絞り込む</button>
+        <button id="search-reset" class="search-reset-btn" type="button">リセット</button>
+        <button id="search-decide" class="search-decide-btn" type="button">絞り込む</button>
       </div>
     </div>
   </div>
