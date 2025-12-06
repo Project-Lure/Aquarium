@@ -33,12 +33,7 @@
     <section class="about-intro">
       <h1>Terms / 用語説明</h1>
       <p>
-        Project LURE の中で頻出する専門用語や略語を、<br>
-        まとめて確認できる用語集です。
-      </p>
-      <p>
-        アーク（Arc）やシリーズ（大テーマ）の一覧は、<br>
-        JSONデータ（<code>arcList.json</code> / <code>series.json</code>）から自動生成しています。
+        専門用語や略語を確認できる用語集です。
       </p>
     </section>
 
@@ -46,9 +41,9 @@
     <section class="section-card about-section">
       <h2 class="section-card__title">ARC / アーク</h2>
       <p>
-        アーク（Arc）は、キャラクターの内面や役割を象徴する<strong>属性ラベル</strong>です。<br>
-        戦闘の有利不利を決めるゲーム的な属性ではなく、
+        アーク（Arc）は、キャラクターの内面や役割を象徴する<strong>属性</strong>です。<br>
         そのキャラがどんな方向の「物語」を持っているかを整理するための分類として使います。
+        
       </p>
 
       <!-- ここに arcList.json から生成したカードを流し込む -->
@@ -57,35 +52,15 @@
       </div>
 
       <p style="margin-top:8px; font-size:12px; color:var(--text-muted);">
-        ※ アークは <code>arcList.json</code> の内容をもとに自動表示しています。
-        キーワードを変更したい場合は、JSON側を編集してください。
       </p>
-    </section>
-
-    <!-- コード体系（説明文だけ静的） -->
-    <section class="section-card about-section">
-      <h2 class="section-card__title">CODE / コード</h2>
-      <p>
-        各キャラクターには、<strong>3桁の英数字コード</strong>が割り振られます。<br>
-        例：<code>000</code> / <code>004</code> / <code>40A</code> など。
-      </p>
-      <p>
-        コードは、<br>
-        「どのシリーズに属するか」「その中で何番目のキャラクターか」などを<br>
-        構造的に表すために使います。
-      </p>
-      <div class="info-card">
-        そまりものがたり（0_Occupation）など、シリーズごとのコードルールは、<br>
-        データが固まり次第、別途まとめていきます。
-      </div>
     </section>
 
     <!-- シリーズ名・総称（series.jsonから自動生成） -->
     <section class="section-card about-section">
       <h2 class="section-card__title">SERIES / シリーズと総称</h2>
       <p>
-        Project LURE の中には、いくつかの大きなシリーズ（大テーマ）が存在します。<br>
-        下のリストは <code>series.json</code> の内容から自動で生成しています。
+        キャラクターたちは10個のシリーズに分類されます。<br>
+        
       </p>
 
       <!-- ここに series.json から生成したカードを流し込む -->
