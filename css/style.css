@@ -1729,7 +1729,55 @@ body > .bubbles-body span:nth-child(9) {
   padding-top: 16px;
   border-top: 1px solid rgba(0,80,140,0.15);
 }
+/* =========================
+   ABOUT 前後ナビゲーション
+   ========================= */
+.about-nav {
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(0,80,140,0.15);
 
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+/* char-back-btn をベースに、ABOUT用レイアウトだけ上書き */
+.about-nav-btn {
+  margin-bottom: 0;          /* char-back-btn の下マージンを消す */
+  align-self: stretch;       /* ナビ内で高さを揃える */
+  text-align: center;        /* テキスト中央寄せ */
+  display: inline-flex;      /* 中身を中央寄せしやすくする */
+  justify-content: center;
+  align-items: center;
+}
+
+/* 左右で“矢印方向”を意識したい場合の微調整（任意） */
+.about-nav-btn--prev {
+  justify-content: flex-start;
+}
+
+.about-nav-btn--next {
+  justify-content: flex-end;
+}
+
+/* 前だけ / 次だけ しかないページ → 中央に1つだけ表示 */
+.about-nav-btn:only-child {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* スマホでは縦並び */
+@media (max-width: 768px) {
+  .about-nav {
+    flex-direction: column;
+  }
+
+  .about-nav-btn {
+    width: 100%;
+    justify-content: center;  /* スマホでは左右差をなくして中央寄せ */
+  }
+}
 /* =========================
    LINKS / OFFICIAL ページ
    ========================= */
