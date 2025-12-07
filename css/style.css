@@ -1777,6 +1777,10 @@ body > .bubbles-body span:nth-child(9) {
     width: 100%;
     justify-content: center;  /* スマホでは左右差をなくして中央寄せ */
   }
+  
+  .about-nav-btn {
+    width: 70%;
+  }
 }
 /* =========================
    LINKS / OFFICIAL ページ
