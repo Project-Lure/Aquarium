@@ -1782,6 +1782,74 @@ body > .bubbles-body span:nth-child(9) {
     width: 70%;
   }
 }
+
+/* =========================
+   ABOUT：番号付きセクション（Projectページ用）
+   ========================= */
+
+/* Projectページでは、about-section を自動で 01,02,03... と振る */
+body.about-project-page {
+  counter-reset: about-step;
+}
+
+/* 番号ブロックぶん左に余白を空ける */
+.about-project-page .section-card.about-section {
+  position: relative;
+  padding-left: 110px;  /* 数字ブロックの幅＋余白 */
+  margin-top: 24px;
+}
+
+/* 左側のグラデ四角＋番号 */
+.about-project-page .section-card.about-section::before {
+  counter-increment: about-step;
+  content: counter(about-step, decimal-leading-zero);  /* 01,02,03... */
+
+  position: absolute;
+  top: 18px;
+  left: 18px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 72px;
+  height: 48px;
+  padding: 4px 10px;
+
+  border-radius: 10px;
+  background: linear-gradient(
+    180deg,
+    var(--header-grad-left),
+    var(--header-grad-right)
+  );
+  color: #ffffff;
+
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+
+  box-shadow: 0 2px 6px rgba(0, 40, 80, 0.26);
+}
+
+/* 見出しとのバランス微調整 */
+.about-project-page .section-card.about-section .section-card__title {
+  margin-top: 0;
+}
+
+/* スマホ向け（少しコンパクトに） */
+@media (max-width: 768px) {
+  .about-project-page .section-card.about-section {
+    padding-left: 92px;
+  }
+
+  .about-project-page .section-card.about-section::before {
+    min-width: 60px;
+    height: 40px;
+    left: 14px;
+    top: 16px;
+    font-size: 18px;
+  }
+}
 /* =========================
    LINKS / OFFICIAL ページ
    ========================= */
