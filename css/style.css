@@ -1814,24 +1814,28 @@ body > .bubbles-body span:nth-child(9) {
   position: absolute;
   top: 18px;
   left: 18px;
-  min-width: 72px;
-  height: 48px;
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  /* テキストだけを表示 */
+  display: inline-block;
+  font-size: 22px;          /* ← 文字を少し大きく */
+  font-weight: 700;
+  letter-spacing: 0.18em;
 
-  border-radius: 12px;
+  /* グラデを文字色として使う */
   background: linear-gradient(
     180deg,
     var(--header-grad-left),
     var(--header-grad-right)
   );
-  color: #ffffff;
-  font-size: 18px;
-  font-weight: 700;
-  letter-spacing: 0.18em;
-  box-shadow: 0 2px 6px rgba(0, 40, 80, 0.26);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+
+  /* 元バッジの見た目を消す */
+  min-width: auto;
+  height: auto;
+  border-radius: 0;
+  box-shadow: none;
 }
 
 @media (max-width: 768px) {
