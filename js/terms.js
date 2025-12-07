@@ -57,8 +57,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const nameSpan = document.createElement('span');
       nameSpan.className = 'arc-name';
-      // 例: 「ブレイズ（B）」のように略号も表示
-      nameSpan.textContent = `${arc.name || ''}（${arcKey}）`;
+      // 例: 「ブレイズ（Blaze）」のように英語名も表示
+      nameSpan.textContent = `${arc.name || ''}（${eng}）`;
 
       header.appendChild(iconSpan);
       header.appendChild(nameSpan);
