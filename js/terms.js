@@ -7,105 +7,143 @@ document.addEventListener('DOMContentLoaded', () => {
   const arcListContainer = document.getElementById('arc-list');
   const seriesListContainer = document.getElementById('series-list');
 
-  if (!arcListContainer || !seriesListContainer) return;
+  // コンテナが無ければ何もしない
+  if (!arcListContainer || !seriesListContainer) {
+    console.warn('Terms: id="arc-list" / id="series-list" が見つかりません。');
+    return;
+  }
 
+  // 共通 fetch ヘルパー
   async function fetchJson(url) {
     try {
       const res = await fetch(url, { cache: 'no-cache' });
-      if (!res.ok) return null;
+      if (!res.ok) {
+        console.error(`Terms: ${url} の読み込みに失敗しました (status: ${res.status})`);
+        return null;
+      }
       return await res.json();
-    } catch {
+    } catch (err) {
+      console.error(`Terms: ${url} の読み込み時にエラーが発生しました`, err);
       return null;
     }
   }
 
-  // ---- アーク一覧 ----
+  // ========== アーク一覧描画 ==========
   function renderArcs(arcData) {
+    // arcData: { "B": { icon, name, eng, keywords:[] }, ... }
     const keys = Object.keys(arcData);
+    // JSONの記述順をそのまま使う
 
-    const wrap = document.createElement('div');
-    wrap.className = 'arc-list-block';
+    const frag = document.createDocumentFragment();
 
-    keys.forEach(key => {
-      const arc = arcData[key];
+    keys.forEach(arcKey => {
+      const arc = arcData[arcKey];
       if (!arc) return;
 
       const card = document.createElement('div');
-      card.className = 'arc-card info-card';
+      card.className = 'info-card about-arc-item';
 
-      // ヘッダー部分
+      // ---- ヘッダー（アイコン＋名前） ----
       const header = document.createElement('div');
-      header.className = 'arc-card-header';
+      header.className = 'about-arc-item-header';
 
-      const icon = document.createElement('span');
-      icon.className = 'arc-icon';
-      icon.textContent = arc.icon;
+      const iconSpan = document.createElement('span');
+      iconSpan.className = 'arc-icon';
+      iconSpan.textContent = arc.icon || '';
 
-      const name = document.createElement('span');
-      name.className = 'arc-name';
-      name.textContent = `${arc.name}（${arc.eng}）`;
+      const nameSpan = document.createElement('span');
+      nameSpan.className = 'arc-name';
+      // ★ () 内を key ではなく eng に変更
+      // 例: 「ブレイズ（Blaze）」の表記
+      const eng = arc.eng || '';
+      nameSpan.textContent = eng
+        ? `${arc.name || ''}（${eng}）`
+        : (arc.name || '');
 
-      header.appendChild(icon);
-      header.appendChild(name);
+      header.appendChild(iconSpan);
+      header.appendChild(nameSpan);
 
-      // キーワード部分
-      const tagWrap = document.createElement('div');
-      tagWrap.className = 'arc-tag-list';
+      // ---- キーワード部分 ----
+      const keywordsWrap = document.createElement('div');
+      keywordsWrap.className = 'about-arc-keywords';
 
-      arc.keywords.forEach(kw => {
-        const t = document.createElement('span');
-        t.className = 'arc-tag';
-        t.textContent = kw;
-        tagWrap.appendChild(t);
-      });
+      if (Array.isArray(arc.keywords)) {
+        arc.keywords.forEach(kw => {
+          const kwSpan = document.createElement('span');
+          kwSpan.className = 'about-arc-tag';
+          kwSpan.textContent = kw;
+          keywordsWrap.appendChild(kwSpan);
+        });
+      }
 
       card.appendChild(header);
-      card.appendChild(tagWrap);
-      wrap.appendChild(card);
+      card.appendChild(keywordsWrap);
+      frag.appendChild(card);
     });
 
+    // CSS で .about-arc-list が用意されているので、それをラッパーに使う
+    const wrapper = document.createElement('div');
+    wrapper.className = 'about-arc-list';
+    wrapper.appendChild(frag);
+
     arcListContainer.innerHTML = '';
-    arcListContainer.appendChild(wrap);
+    arcListContainer.appendChild(wrapper);
   }
 
-  // ---- シリーズ一覧 ----
+  // ========== シリーズ一覧描画 ==========
   function renderSeries(seriesData) {
-    const keys = Object.keys(seriesData).sort((a, b) => Number(a) - Number(b));
+    // seriesData: { "0": {...}, "1": {...}, ... }
+    const ids = Object.keys(seriesData).sort((a, b) => Number(a) - Number(b));
 
-    const wrap = document.createElement('div');
-    wrap.className = 'series-list-block';
+    const frag = document.createDocumentFragment();
 
-    keys.forEach(id => {
+    ids.forEach(id => {
       const s = seriesData[id];
       if (!s) return;
 
       const card = document.createElement('div');
-      card.className = 'series-card info-card';
+      card.className = 'info-card about-theme-item';
 
       const title = document.createElement('h3');
+      // 例: 「0_Occupation / そまりものがたり」
       title.textContent = `${s.id}_${s.key} / ${s.nameJa}`;
 
-      const desc = document.createElement('p');
-      desc.className = 'series-desc';
-      desc.textContent = s.description;
+      const sub = document.createElement('p');
+      sub.className = 'about-theme-sub';
+      sub.textContent = s.description || '';
 
       card.appendChild(title);
-      card.appendChild(desc);
-      wrap.appendChild(card);
+      card.appendChild(sub);
+      frag.appendChild(card);
     });
 
+    const wrapper = document.createElement('div');
+    wrapper.className = 'about-theme-grid';
+    wrapper.appendChild(frag);
+
     seriesListContainer.innerHTML = '';
-    seriesListContainer.appendChild(wrap);
+    seriesListContainer.appendChild(wrapper);
   }
 
-  // ---- 読み込み ----
+  // ========== メイン処理 ==========
   (async () => {
     const [arcData, seriesData] = await Promise.all([
       fetchJson(ARC_JSON_URL),
       fetchJson(SERIES_JSON_URL)
     ]);
 
-    if (arcData) renderArcs(arcData);
-    if (seriesData) renderSeries(seriesData);
+    if (arcData) {
+      renderArcs(arcData);
+    } else {
+      arcListContainer.innerHTML =
+        '<p style="font-size:12px; color:var(--text-muted);">アーク一覧を読み込めませんでした。</p>';
+    }
+
+    if (seriesData) {
+      renderSeries(seriesData);
+    } else {
+      seriesListContainer.innerHTML =
+        '<p style="font-size:12px; color:var(--text-muted);">シリーズ一覧を読み込めませんでした。</p>';
+    }
   })();
 });
