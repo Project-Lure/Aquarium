@@ -75,6 +75,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // GALLERY / MV 用リンク
       const linkData = linksMap[c.code] || {};
+      const musicArr = Array.isArray(linkData.music) ? linkData.music : [];
       const videoArr = Array.isArray(linkData.video) ? linkData.video : [];
 
       // ===== STORY（あらすじ＋キーワード） =====
@@ -127,18 +128,27 @@ document.addEventListener("DOMContentLoaded", () => {
         galleryHtml = `<p class="char-gallery-empty">関連コンテンツは準備中です。</p>`;
       }
 
-      // ===== MV 埋め込み用 HTML（video 配列の中から embed:true を 1本だけ拾う） =====
+      // ===== MV 埋め込み用 HTML =====
+      // 優先度：
+      // 1) music 配列の中で embed:true のもの
+      // 2) なければ video 配列の中で embed:true のもの
       let mvSectionHtml = "";
-      if (videoArr.length) {
-        const mvItem = videoArr.find(v => v.embed) || null;
+      let mvItem = null;
 
-        if (mvItem && mvItem.url) {
-          const mvId = extractYouTubeId(mvItem.url);
+      if (musicArr.length) {
+        mvItem = musicArr.find(v => v.embed);
+      }
+      if (!mvItem && videoArr.length) {
+        mvItem = videoArr.find(v => v.embed);
+      }
 
-          if (mvId) {
-            const caption = mvItem.label || `${c.title} - Music Video`;
+      if (mvItem && mvItem.url) {
+        const mvId = extractYouTubeId(mvItem.url);
 
-            mvSectionHtml = `
+        if (mvId) {
+          const caption = mvItem.label || `${c.title} - Music Video`;
+
+          mvSectionHtml = `
 <section class="section-card char-section char-mv-section">
   <h2 class="char-section-title">MUSIC VIDEO</h2>
   <div class="char-mv-body">
@@ -158,7 +168,6 @@ document.addEventListener("DOMContentLoaded", () => {
   </div>
 </section>
 `;
-          }
         }
       }
 
