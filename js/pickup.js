@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // アーク表示用テキスト
     let arcLine = '';
-    const formatArc = (a) => a ? `${a.icon || ''} ${a.name || ''}（${a.eng || ''}）` : '';
+    const formatArc = (a) => a ? `${a.icon || ''} ${a.name || ''}` : '';
 
     if (exArc && coreArc) {
       arcLine = `${formatArc(exArc)} / ${formatArc(coreArc)}`;
@@ -95,7 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
 <section class="section-card pickup-section" id="pickup-section">
   <button type="button" class="pickup-close-btn" aria-label="ピックアップを閉じる">×</button>
 
-  <div class="pickup-label">本日のピックアップ</div>
+  <div class="pickup-label">PICKUP</div>
 
   <div class="pickup-inner">
     <div class="pickup-thumb">
