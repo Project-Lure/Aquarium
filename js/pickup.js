@@ -244,27 +244,30 @@ document.addEventListener('DOMContentLoaded', () => {
       }, 0);
     }
 
-    // スクロール時：無限ループ処理＋アクティブ更新
-    let scrollTimer = null;
-    track.addEventListener('scroll', () => {
-      const max = track.scrollWidth - track.clientWidth;
+// スクロール時：アクティブ更新（ワープ処理はコメントアウト）
+let scrollTimer = null;
+track.addEventListener('scroll', () => {
+  const max = track.scrollWidth - track.clientWidth;
 
-      if (warpReady && max > 0) {
-        // 右端 → 左端へワープ
-        if (track.scrollLeft >= max - 5) {
-          track.scrollLeft = 1;
-        }
-        // 左端 → 右端へワープ
-        else if (track.scrollLeft <= 0) {
-          track.scrollLeft = max - 2;
-        }
-      }
+  /*
+  // --- 無限ループスクロール（今は使わない） ---
+  if (warpReady && max > 0) {
+    // 右端 → 左端へワープ
+    if (track.scrollLeft >= max - 5) {
+      track.scrollLeft = 1;
+    }
+    // 左端 → 右端へワープ
+    else if (track.scrollLeft <= 0) {
+      track.scrollLeft = max - 2;
+    }
+  }
+  */
 
-      if (scrollTimer) clearTimeout(scrollTimer);
-      scrollTimer = setTimeout(() => {
-        updateActiveByScroll();
-      }, 80);
-    });
+  if (scrollTimer) clearTimeout(scrollTimer);
+  scrollTimer = setTimeout(() => {
+    updateActiveByScroll();
+  }, 80);
+});
 
     // ドットクリック → 対応するカードを中央にスクロール
     dots.forEach(dot => {
