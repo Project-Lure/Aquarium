@@ -928,7 +928,7 @@ body {
   border: 1px solid rgba(0, 80, 140, 0.08);
 }
 
-/* アーク表示行（emoji + name(eng)）*/
+/* アーク表示行 */
 .pickup-arc-row {
   font-size: 12px;
   margin-bottom: 6px;
@@ -947,7 +947,7 @@ body {
   overflow: hidden;
 }
 
-/* 詳細へボタン（既存のグラデボタンを少し小さめに） */
+/* 詳細へボタン */
 .pickup-cta {
   display: inline-block;
   padding: 6px 14px;
@@ -983,6 +983,89 @@ body {
 
 .pickup-close-btn:hover {
   background: rgba(0, 0, 0, 0.08);
+}
+
+/* =========================
+   PC向け調整
+   ========================= */
+@media (min-width: 769px) {
+
+  /* セクション全体：少し余白を増やす */
+  .pickup-section {
+    margin-top: 20px;
+    margin-bottom: 24px;
+    padding-right: 32px; /* 閉じるボタン分 + 余白 */
+  }
+
+  /* トラックは中央寄せ＋左右に少し余白を足す */
+  .pickup-track {
+    gap: 16px;
+    padding: 8px 64px 12px;   /* 左右 64px で、中央カードの横にチラ見えを作る */
+    justify-content: center;
+  }
+
+  /* 1枚＝全幅の 60% 程度にして、左右のカードが覗く */
+  .pickup-card {
+    flex: 0 0 60%;
+    max-width: 520px;
+    scroll-snap-align: center;
+  }
+
+  .pickup-inner {
+    align-items: center;
+    gap: 18px;
+  }
+
+  /* サムネを少しだけ大きくしつつ、高さを抑えめに */
+  .pickup-thumb {
+    flex: 0 0 96px;
+    max-width: 96px;
+  }
+
+  .pickup-thumb-img {
+    border-radius: 12px;
+    box-shadow: 0 3px 8px rgba(0, 40, 80, 0.14);
+  }
+
+  .pickup-main {
+    flex: 1 1 auto;
+  }
+
+  .pickup-code {
+    font-size: 12px;
+    letter-spacing: 0.08em;
+  }
+
+  .pickup-title {
+    font-size: 18px;
+  }
+
+  .pickup-meta {
+    font-size: 12px;
+    gap: 6px 10px;
+  }
+
+  .pickup-series,
+  .pickup-theme {
+    font-size: 12px;
+    padding: 3px 8px;
+  }
+
+  .pickup-arc-row {
+    font-size: 13px;
+    margin-bottom: 4px;
+  }
+
+  .pickup-summary {
+    font-size: 13px;
+    margin: 4px 0 8px;
+  }
+
+  .pickup-cta {
+    font-size: 13px;
+    padding: 6px 16px;
+    margin-top: 2px;
+  }
 }
 
 /* =========================
