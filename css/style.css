@@ -1064,6 +1064,7 @@ body {
     margin-top: 20px;
     margin-bottom: 24px;
     padding-right: 32px; /* ×ボタン分＋少し余裕 */
+    width: 90%;
   }
 
   /* 横レール：中央寄せ＋幅を絞る */
