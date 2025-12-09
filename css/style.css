@@ -1054,12 +1054,24 @@ body {
   }
 }
 
-/* PC向け：少し余白を増やすだけ（サイズ感は上記のまま） */
+/* PC向け：中央カードを大きく、左右は半分だけ見せる */
 @media (min-width: 769px) {
   .pickup-section {
     margin-top: 20px;
     margin-bottom: 20px;
     padding-bottom: 18px;
+  }
+
+  /* トラック両端に少し余白を付けて、端でカードが潰れないように */
+  .pickup-track {
+    padding: 8px 40px 10px;
+  }
+
+  /* カード幅：画面の 60% 程度
+     → 中央を表示すると左右が 1/2 くらい覗く */
+  .pickup-card {
+    flex: 0 0 60%;
+    max-width: 520px;
   }
 
   .pickup-inner {
