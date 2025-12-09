@@ -1064,23 +1064,29 @@ body {
     margin-top: 20px;
     margin-bottom: 24px;
     padding-right: 32px; /* ×ボタン分＋少し余裕 */
-    width: 90%;
   }
 
-  /* 横レール：中央寄せ＋幅を絞る */
+  /* 横レール：中央寄せ */
   .pickup-track {
-    max-width: 980px;    /* 真ん中に細めで置く */
+    max-width: 980px;
     margin: 0 auto;
     padding: 8px 0 14px;
     overflow-x: auto;
   }
 
+  /* 左右に“見えないカード”を置いて、端のカードも中央に寄せられるようにする */
+  .pickup-track::before,
+  .pickup-track::after {
+    content: "";
+    flex: 0 0 10%;   /* 画面幅の 10% をダミー余白として確保 */
+  }
+
   /* 1枚ぶん：
-     - PC では 画面幅の 70% くらい
-     - 非アクティブは少し小さく＆薄くして存在感を落とす
+     - PC では 画面幅の 80% くらい
+     - 非アクティブは少し小さく＆薄く
    */
   .pickup-card {
-    flex: 0 0 70%;
+    flex: 0 0 80%;
     box-sizing: border-box;
     transition:
       transform 0.25s ease,
@@ -1098,7 +1104,6 @@ body {
     z-index: 1;
   }
 
-  /* カード中身：画像＋テキストのバランスをPC向けに少し広げる */
   .pickup-inner {
     display: flex;
     align-items: center;
@@ -1157,7 +1162,6 @@ body {
     padding: 7px 16px;
   }
 
-  /* ドットは下中央に */
   .pickup-dots {
     display: flex;
     justify-content: center;
