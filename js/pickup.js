@@ -225,11 +225,15 @@ document.addEventListener('DOMContentLoaded', () => {
     // 無限ループ処理を有効にして良いかどうかのフラグ
     let warpReady = false;
 
-    // 初期状態：0番目を中央寄せ＆アクティブ
-    if (cards[0]) {
-      setActive(0);
+    // 初期状態：真ん中のカードを中央寄せ＆アクティブ
+    if (cards.length > 0) {
+      // 例：3枚 → 1番目、2枚 → 1番目、1枚 → 0番目
+      const initialIndex = Math.floor(cards.length / 2);
+
+      setActive(initialIndex);
+
       setTimeout(() => {
-        cards[0].scrollIntoView({
+        cards[initialIndex].scrollIntoView({
           behavior: 'auto',
           inline: 'center',
           block: 'nearest'
