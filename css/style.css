@@ -1085,7 +1085,7 @@ body {
 
   /* --- 文字を全体的に+2px〜+3px --- */
   .pickup-label {
-    font-size: 15px;         /* PCだけ大きくする */
+    font-size: 25px;         /* PCだけ大きくする */
     font-weight: 600;        /* 読みやすく強調 */
     letter-spacing: 0.22em;  /* 少し広めに */
     opacity: 0.9;            /* 視認性アップ */
