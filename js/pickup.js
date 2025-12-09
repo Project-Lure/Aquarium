@@ -63,13 +63,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ランダムに最大3件選択
     const picks = pickRandomN(pool, 3);
-
-    // 1件も無ければ終了
     if (!picks.length) return;
 
     // 1件分のカード HTML を組み立てるヘルパー
     function buildCardHtml(c) {
-      // シリーズ名
+      // シリーズ
       const series = seriesMap[c.series];
 
       // アーク
@@ -112,42 +110,54 @@ document.addEventListener('DOMContentLoaded', () => {
       const thumbPath = `images/characters/${c.code}.png`;
 
       return `
-      <div class="pickup-card">
-        <div class="pickup-inner">
-          <div class="pickup-thumb">
-            <a href="${detailUrl}">
-              <img src="${thumbPath}" alt="${c.title}" class="pickup-thumb-img">
-            </a>
-          </div>
-
-          <div class="pickup-main">
-            <div class="pickup-title-row">
-              <span class="pickup-code">No.${c.code}</span>
-              <a href="${detailUrl}" class="pickup-title">${c.title}</a>
+        <div class="pickup-card">
+          <div class="pickup-inner">
+            <div class="pickup-thumb">
+              <a href="${detailUrl}">
+                <img src="${thumbPath}" alt="${c.title}" class="pickup-thumb-img">
+              </a>
             </div>
 
-            <div class="pickup-meta">
-              ${series ? `<span class="pickup-series">シリーズ：${series.nameJa}</span>` : ''}
-              ${c.theme ? `<span class="pickup-theme">テーマ：${c.theme}</span>` : ''}
+            <div class="pickup-main">
+              <div class="pickup-title-row">
+                <span class="pickup-code">No.${c.code}</span>
+                <a href="${detailUrl}" class="pickup-title">${c.title}</a>
+              </div>
+
+              <div class="pickup-meta">
+                ${series ? `<span class="pickup-series">シリーズ：${series.nameJa}</span>` : ''}
+                ${c.theme ? `<span class="pickup-theme">テーマ：${c.theme}</span>` : ''}
+              </div>
+
+              ${arcLine ? `<div class="pickup-arc-row">${arcLine}</div>` : ''}
+
+              ${
+                summaryForDisplay
+                  ? `<p class="pickup-summary">${summaryForDisplay}</p>`
+                  : ''
+              }
+
+              <a href="${detailUrl}" class="pickup-cta">キャラ詳細を見る</a>
             </div>
-
-            ${arcLine ? `<div class="pickup-arc-row">${arcLine}</div>` : ''}
-
-            ${
-              summaryForDisplay
-                ? `<p class="pickup-summary">${summaryForDisplay}</p>`
-                : ''
-            }
-
-            <a href="${detailUrl}" class="pickup-cta">キャラ詳細を見る</a>
           </div>
         </div>
-      </div>
       `;
     }
 
     // 全カード HTML
     const cardsHtml = picks.map(buildCardHtml).join('');
+
+    // ドット HTML
+    const dotsHtml = `
+      <div class="pickup-dots">
+        ${picks
+          .map(
+            (_c, i) =>
+              `<button type="button" class="pickup-dot" data-index="${i}" aria-label="ピックアップ ${i + 1}"></button>`
+          )
+          .join('')}
+      </div>
+    `;
 
     // セクション HTML 全体
     const pickupHtml = `
@@ -159,24 +169,91 @@ document.addEventListener('DOMContentLoaded', () => {
   <div class="pickup-track">
     ${cardsHtml}
   </div>
+
+  ${dotsHtml}
 </section>
 `;
 
     // main の先頭に差し込む
     main.insertAdjacentHTML('afterbegin', pickupHtml);
 
-    // 画像404時はプレースホルダに差し替え（複数枚対応）
-    const imgs = document.querySelectorAll('#pickup-section .pickup-thumb-img');
+    const section   = document.getElementById('pickup-section');
+    const track     = section.querySelector('.pickup-track');
+    const cards     = Array.from(section.querySelectorAll('.pickup-card'));
+    const dots      = Array.from(section.querySelectorAll('.pickup-dot'));
+
+    // 画像404時はプレースホルダに差し替え
+    const imgs = section.querySelectorAll('.pickup-thumb-img');
     imgs.forEach(img => {
       img.addEventListener('error', () => {
         img.src = 'images/ui/card-placeholder.png';
       });
     });
 
+    // アクティブ状態の更新
+    function setActive(index) {
+      cards.forEach((card, i) => {
+        card.classList.toggle('is-active', i === index);
+      });
+      dots.forEach((dot, i) => {
+        dot.classList.toggle('is-active', i === index);
+      });
+    }
+
+    // スクロール位置から「中央のカード」を判定
+    function updateActiveByScroll() {
+      if (!track) return;
+      const trackRect = track.getBoundingClientRect();
+      const centerX = trackRect.left + trackRect.width / 2;
+
+      let closestIndex = 0;
+      let minDist = Infinity;
+
+      cards.forEach((card, idx) => {
+        const rect = card.getBoundingClientRect();
+        const cardCenter = rect.left + rect.width / 2;
+        const dist = Math.abs(cardCenter - centerX);
+        if (dist < minDist) {
+          minDist = dist;
+          closestIndex = idx;
+        }
+      });
+
+      setActive(closestIndex);
+    }
+
+    // 初期状態：0番目を中央寄せ＆アクティブ
+    if (cards[0]) {
+      setActive(0);
+      // 少し遅らせて中央にスクロール（PCで左右が少し見えるように）
+      setTimeout(() => {
+        cards[0].scrollIntoView({ behavior: 'auto', inline: 'center', block: 'nearest' });
+        updateActiveByScroll();
+      }, 0);
+    }
+
+    // スクロール時にアクティブ更新
+    let scrollTimer = null;
+    track.addEventListener('scroll', () => {
+      // スクロール中に何度も計算しないよう軽くディレイ
+      if (scrollTimer) clearTimeout(scrollTimer);
+      scrollTimer = setTimeout(() => {
+        updateActiveByScroll();
+      }, 80);
+    });
+
+    // ドットクリック → 対応するカードを中央にスクロール
+    dots.forEach(dot => {
+      const idx = Number(dot.dataset.index || '0') || 0;
+      dot.addEventListener('click', () => {
+        if (!cards[idx]) return;
+        cards[idx].scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+      });
+    });
+
     // 閉じるボタン
-    const closeBtn = document.querySelector('#pickup-section .pickup-close-btn');
-    const section  = document.getElementById('pickup-section');
-    if (closeBtn && section) {
+    const closeBtn = section.querySelector('.pickup-close-btn');
+    if (closeBtn) {
       closeBtn.addEventListener('click', () => {
         section.remove();
       });
