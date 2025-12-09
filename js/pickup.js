@@ -222,63 +222,48 @@ document.addEventListener('DOMContentLoaded', () => {
       setActive(closestIndex);
     }
 
-    // 無限ループ処理を有効にして良いかどうかのフラグ
-    let warpReady = false;
-
-    // 初期状態：真ん中のカードを中央寄せ＆アクティブ
-    if (cards.length > 0) {
-      // 例：3枚 → 1番目、2枚 → 1番目、1枚 → 0番目
+    // 初期状態：真ん中のカードを中央付近に寄せる（縦スクロールはいじらない）
+    if (cards.length > 0 && track) {
       const initialIndex = Math.floor(cards.length / 2);
-
       setActive(initialIndex);
 
       setTimeout(() => {
-        cards[initialIndex].scrollIntoView({
-          behavior: 'auto',
-          inline: 'center',
-          block: 'nearest'
-        });
+        const trackRect = track.getBoundingClientRect();
+        const cardRect  = cards[initialIndex].getBoundingClientRect();
+
+        const trackCenter = trackRect.left + trackRect.width / 2;
+        const cardCenter  = cardRect.left  + cardRect.width  / 2;
+
+        const delta = cardCenter - trackCenter;
+
+        // 横方向だけ調整
+        track.scrollLeft += delta;
         updateActiveByScroll();
-        // 初期レイアウト調整が終わったあとでワープを許可
-        warpReady = true;
       }, 0);
     }
 
-// スクロール時：アクティブ更新（ワープ処理はコメントアウト）
-let scrollTimer = null;
-track.addEventListener('scroll', () => {
-  const max = track.scrollWidth - track.clientWidth;
-
-  /*
-  // --- 無限ループスクロール（今は使わない） ---
-  if (warpReady && max > 0) {
-    // 右端 → 左端へワープ
-    if (track.scrollLeft >= max - 5) {
-      track.scrollLeft = 1;
-    }
-    // 左端 → 右端へワープ
-    else if (track.scrollLeft <= 0) {
-      track.scrollLeft = max - 2;
-    }
-  }
-  */
-
-  if (scrollTimer) clearTimeout(scrollTimer);
-  scrollTimer = setTimeout(() => {
-    updateActiveByScroll();
-  }, 80);
-});
+    // スクロール時：中央カードを更新
+    let scrollTimer = null;
+    track.addEventListener('scroll', () => {
+      if (scrollTimer) clearTimeout(scrollTimer);
+      scrollTimer = setTimeout(() => {
+        updateActiveByScroll();
+      }, 80);
+    });
 
     // ドットクリック → 対応するカードを中央にスクロール
     dots.forEach(dot => {
       const idx = Number(dot.dataset.index || '0') || 0;
       dot.addEventListener('click', () => {
         if (!cards[idx]) return;
-        cards[idx].scrollIntoView({
-          behavior: 'smooth',
-          inline: 'center',
-          block: 'nearest'
-        });
+
+        const trackRect = track.getBoundingClientRect();
+        const cardRect  = cards[idx].getBoundingClientRect();
+        const trackCenter = trackRect.left + trackRect.width / 2;
+        const cardCenter  = cardRect.left  + cardRect.width  / 2;
+        const delta = cardCenter - trackCenter;
+
+        track.scrollLeft += delta;
       });
     });
 
