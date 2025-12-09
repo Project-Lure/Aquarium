@@ -25,6 +25,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  // 配列から重複なしで最大 n 件ランダムに取り出す
+  function pickRandomN(arr, n) {
+    const copy = arr.slice();
+    for (let i = copy.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [copy[i], copy[j]] = [copy[j], copy[i]];
+    }
+    return copy.slice(0, n);
+  }
+
   (async () => {
     const [chars, arcMap, seriesMap, synopsisMapRaw] = await Promise.all([
       fetchJson(CHAR_JSON_URL),
@@ -51,76 +61,104 @@ document.addEventListener('DOMContentLoaded', () => {
     const pool = withText.length ? withText : chars;
     if (!pool.length) return;
 
-    // ランダムに1件選択
-    const pick = pool[Math.floor(Math.random() * pool.length)];
+    // ランダムに最大3件選択
+    const picks = pickRandomN(pool, 3);
 
-    // シリーズ名
-    const series = seriesMap[pick.series];
+    // 1件も無ければ終了
+    if (!picks.length) return;
 
-    // アーク
-    const exArc   = pick.arc && pick.arc.ex ? arcMap[pick.arc.ex]   : null;
-    const coreArc = pick.arc && pick.arc.core ? arcMap[pick.arc.core] : null;
+    // 1件分のカード HTML を組み立てるヘルパー
+    function buildCardHtml(c) {
+      // シリーズ名
+      const series = seriesMap[c.series];
 
-    // アーク表示用テキスト
-    let arcLine = '';
-    const formatArc = (a) => a ? `${a.icon || ''} ${a.name || ''}` : '';
+      // アーク
+      const exArc   = c.arc && c.arc.ex   ? arcMap[c.arc.ex]   : null;
+      const coreArc = c.arc && c.arc.core ? arcMap[c.arc.core] : null;
 
-    if (exArc && coreArc) {
-      arcLine = `${formatArc(exArc)} / ${formatArc(coreArc)}`;
-    } else if (exArc) {
-      arcLine = formatArc(exArc);
-    } else if (coreArc) {
-      arcLine = formatArc(coreArc);
-    }
+      // アーク表示用テキスト（emoji + name (eng)）
+      const formatArc = (a) =>
+        const formatArc = (a) =>
+        a ? `${a.icon || ''} ${a.name || ''}` : '';
 
-    // 説明テキスト（キャッチコピー優先 → synopsis の1行目）
-    let summary = '';
-    if (pick.catchcopy && String(pick.catchcopy).trim() !== '') {
-      summary = String(pick.catchcopy).trim();
-    } else {
-      const syn = synopsisMap[pick.code];
-      if (syn && syn.summary) {
-        summary = String(syn.summary).split('\n')[0].trim();
+      let arcLine = '';
+      if (exArc && coreArc) {
+        arcLine = `${formatArc(exArc)} / ${formatArc(coreArc)}`;
+      } else if (exArc) {
+        arcLine = formatArc(exArc);
+      } else if (coreArc) {
+        arcLine = formatArc(coreArc);
       }
+
+      // 説明テキスト（キャッチコピー優先 → synopsis の1行目）
+      let summary = '';
+      if (c.catchcopy && String(c.catchcopy).trim() !== '') {
+        summary = String(c.catchcopy).trim();
+      } else {
+        const syn = synopsisMap[c.code];
+        if (syn && syn.summary) {
+          summary = String(syn.summary).split('\n')[0].trim();
+        }
+      }
+
+      // 〝〟が元から入っていたら除去して二重にならないようにする
+      const summaryForDisplay = summary
+        ? `〝${summary.replace(/[〝〟]/g, '')}〟`
+        : '';
+
+      // 詳細ページURL
+      const detailUrl = `character.html?code=${encodeURIComponent(c.code)}`;
+
+      // サムネ画像
+      const thumbPath = `images/characters/${c.code}.png`;
+
+      return `
+      <div class="pickup-card">
+        <div class="pickup-inner">
+          <div class="pickup-thumb">
+            <a href="${detailUrl}">
+              <img src="${thumbPath}" alt="${c.title}" class="pickup-thumb-img">
+            </a>
+          </div>
+
+          <div class="pickup-main">
+            <div class="pickup-title-row">
+              <span class="pickup-code">No.${c.code}</span>
+              <a href="${detailUrl}" class="pickup-title">${c.title}</a>
+            </div>
+
+            <div class="pickup-meta">
+              ${series ? `<span class="pickup-series">シリーズ：${series.nameJa}</span>` : ''}
+              ${c.theme ? `<span class="pickup-theme">テーマ：${c.theme}</span>` : ''}
+            </div>
+
+            ${arcLine ? `<div class="pickup-arc-row">${arcLine}</div>` : ''}
+
+            ${
+              summaryForDisplay
+                ? `<p class="pickup-summary">${summaryForDisplay}</p>`
+                : ''
+            }
+
+            <a href="${detailUrl}" class="pickup-cta">キャラ詳細を見る</a>
+          </div>
+        </div>
+      </div>
+      `;
     }
 
-    // 詳細ページURL（必要に応じてファイル名だけ変更）
-    const detailUrl = `character.html?code=${encodeURIComponent(pick.code)}`;
+    // 全カード HTML
+    const cardsHtml = picks.map(buildCardHtml).join('');
 
-    // サムネ画像（なければ自動でプレースホルダに差し替え）
-    const thumbPath = `images/characters/${pick.code}.png`;
-
-    // カードHTMLを生成
+    // セクション HTML 全体
     const pickupHtml = `
 <section class="section-card pickup-section" id="pickup-section">
   <button type="button" class="pickup-close-btn" aria-label="ピックアップを閉じる">×</button>
 
   <div class="pickup-label">PICKUP</div>
 
-  <div class="pickup-inner">
-    <div class="pickup-thumb">
-      <a href="${detailUrl}">
-        <img src="${thumbPath}" alt="${pick.title}" class="pickup-thumb-img">
-      </a>
-    </div>
-
-    <div class="pickup-main">
-      <div class="pickup-title-row">
-        <span class="pickup-code">No.${pick.code}</span>
-        <a href="${detailUrl}" class="pickup-title">${pick.title}</a>
-      </div>
-
-      <div class="pickup-meta">
-        ${series ? `<span class="pickup-series">シリーズ：${series.nameJa}</span>` : ''}
-        ${pick.theme ? `<span class="pickup-theme">テーマ：${pick.theme}</span>` : ''}
-      </div>
-
-      ${arcLine ? `<div class="pickup-arc-row">${arcLine}</div>` : ''}
-
-      ${summary ? `<p class="pickup-summary">〝${summary.replace(/[〝〟]/g, '')}〟</p>` : ''}
-
-      <a href="${detailUrl}" class="pickup-cta">キャラ詳細を見る</a>
-    </div>
+  <div class="pickup-track">
+    ${cardsHtml}
   </div>
 </section>
 `;
@@ -128,13 +166,13 @@ document.addEventListener('DOMContentLoaded', () => {
     // main の先頭に差し込む
     main.insertAdjacentHTML('afterbegin', pickupHtml);
 
-    // 画像404時はプレースホルダに差し替え
-    const img = document.querySelector('#pickup-section .pickup-thumb-img');
-    if (img) {
+    // 画像404時はプレースホルダに差し替え（複数枚対応）
+    const imgs = document.querySelectorAll('#pickup-section .pickup-thumb-img');
+    imgs.forEach(img => {
       img.addEventListener('error', () => {
         img.src = 'images/ui/card-placeholder.png';
       });
-    }
+    });
 
     // 閉じるボタン
     const closeBtn = document.querySelector('#pickup-section .pickup-close-btn');
