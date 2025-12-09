@@ -12,15 +12,15 @@ document.addEventListener("DOMContentLoaded", () => {
   // 色系統定義（9グループ）
   // ========================
   const COLOR_GROUPS = [
-    { key: "red",    label: "赤",   emoji: "🟥" },
-    { key: "pink",   label: "桃",   emoji: "🌸" },
-    { key: "orange", label: "橙",   emoji: "🟧" },
-    { key: "yellow", label: "黄",   emoji: "🟨" },
-    { key: "green",  label: "緑",   emoji: "🟩" },
-    { key: "cyan",   label: "水",   emoji: "💠" },
-    { key: "blue",   label: "青",   emoji: "🟦" },
-    { key: "purple", label: "紫",   emoji: "🟪" },
-    { key: "mono",   label: "白黒", emoji: "⬜" } // 無彩色
+    { key: "red",    label: "赤"   },
+    { key: "orange", label: "橙"   },
+    { key: "yellow", label: "黄"   },
+    { key: "green",  label: "緑"   },
+    { key: "mono",   label: "白黒" }, // 真ん中に置きたい無彩色
+    { key: "cyan",   label: "水"   },
+    { key: "blue",   label: "青"   },
+    { key: "purple", label: "紫"   },
+    { key: "pink",   label: "桃"   }
   ];
 
   // ========================
@@ -240,17 +240,23 @@ document.addEventListener("DOMContentLoaded", () => {
       arcOptions.appendChild(label);
     });
 
-    // 色フィルタ（3×3）の生成
+    // 色フィルタ（3×3）の生成：◾️に色を塗る形式
     if (colorOptionsWrap) {
       colorOptionsWrap.innerHTML = "";
       COLOR_GROUPS.forEach(cg => {
         const div = document.createElement("div");
-        div.className = "color-option" + (cg.key === "mono" ? " gray-tone" : "");
+        div.className = `color-option color-${cg.key}`;
         div.dataset.color = cg.key;
-        div.innerHTML = `<span class="color-badge">${cg.emoji}</span>${cg.label}`;
+
+        div.innerHTML = `
+          <span class="color-badge"></span>
+          <span class="color-label">${cg.label}</span>
+        `;
+
         div.addEventListener("click", () => {
           div.classList.toggle("active");
         });
+
         colorOptionsWrap.appendChild(div);
       });
     }
