@@ -1054,36 +1054,127 @@ body {
   }
 }
 
-/* PC向け：中央カードを大きく、左右は半分だけ見せる */
+/* =========================
+   HOME用：PICKUP（PC向けレイアウト調整）
+   ========================= */
 @media (min-width: 769px) {
+
+  /* セクション全体：少し余白を広めに */
   .pickup-section {
     margin-top: 20px;
-    margin-bottom: 20px;
-    padding-bottom: 18px;
+    margin-bottom: 24px;
+    padding-right: 32px; /* ×ボタン分＋少し余裕 */
   }
 
-  /* トラック両端に少し余白を付けて、端でカードが潰れないように */
+  /* 横レール：中央寄せ＋幅を絞る */
   .pickup-track {
-    padding: 8px 40px 10px;
+    max-width: 980px;    /* 真ん中に細めで置く */
+    margin: 0 auto;
+    padding: 8px 0 14px;
+    overflow-x: auto;
   }
 
-  /* カード幅：画面の 60% 程度
-     → 中央を表示すると左右が 1/2 くらい覗く */
+  /* 1枚ぶん：
+     - PC では 画面幅の 70% くらい
+     - 非アクティブは少し小さく＆薄くして存在感を落とす
+   */
   .pickup-card {
-    flex: 0 0 60%;
-    max-width: 520px;
+    flex: 0 0 70%;
+    box-sizing: border-box;
+    transition:
+      transform 0.25s ease,
+      opacity 0.25s ease,
+      box-shadow 0.25s ease;
+    opacity: 0.5;
+    transform: scale(0.95);
   }
 
+  /* 中央カード（.is-active）は強調 */
+  .pickup-card.is-active {
+    opacity: 1;
+    transform: scale(1.02);
+    box-shadow: 0 10px 24px rgba(0, 40, 80, 0.15);
+    z-index: 1;
+  }
+
+  /* カード中身：画像＋テキストのバランスをPC向けに少し広げる */
   .pickup-inner {
+    display: flex;
     align-items: center;
+    gap: 20px;
+  }
+
+  .pickup-thumb {
+    flex: 0 0 220px;
+    max-width: 220px;
+  }
+
+  .pickup-thumb-img {
+    border-radius: 12px;
+    border: 1px solid rgba(0, 40, 80, 0.12);
+    box-shadow: 0 4px 10px rgba(0, 40, 80, 0.12);
+    object-fit: contain;
+  }
+
+  .pickup-main {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .pickup-title-row {
+    gap: 10px;
+    margin-bottom: 4px;
+  }
+
+  .pickup-code {
+    font-size: 13px;
+    letter-spacing: 0.08em;
   }
 
   .pickup-title {
-    font-size: 16px;
+    font-size: 20px;
+  }
+
+  .pickup-meta {
+    font-size: 13px;
+    gap: 6px 10px;
+    margin-bottom: 4px;
+  }
+
+  .pickup-arc-row {
+    font-size: 13px;
+    margin-bottom: 4px;
   }
 
   .pickup-summary {
     font-size: 13px;
+    margin: 4px 0 8px;
+  }
+
+  .pickup-cta {
+    font-size: 13px;
+    padding: 7px 16px;
+  }
+
+  /* ドットは下中央に */
+  .pickup-dots {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin-bottom: 4px;
+  }
+
+  .pickup-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(0, 80, 160, 0.25);
+    cursor: pointer;
+  }
+
+  .pickup-dot.is-active {
+    background: rgba(0, 120, 220, 1);
   }
 }
 
