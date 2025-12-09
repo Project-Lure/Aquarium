@@ -998,6 +998,109 @@ body {
 }
 
 /* =========================
+   PICKUP セクション（PC向け調整）
+   ========================= */
+@media (min-width: 769px) {
+
+  /* セクション全体：他のカードより少しだけ目立たせる */
+  .pickup-section {
+    margin-top: 24px;
+    margin-bottom: 24px;
+    padding: 18px 20px;
+  }
+
+  .pickup-inner {
+    display: flex;
+    align-items: stretch;
+    gap: 20px;
+  }
+
+  /* 左：サムネエリア */
+  .pickup-thumb {
+    flex: 0 0 240px;          /* 画像幅（PCでは少し大きめ） */
+    max-width: 260px;
+  }
+
+  .pickup-thumb a {
+    display: block;
+  }
+
+  .pickup-thumb-img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+    border: 1px solid rgba(0, 40, 80, 0.12);
+    box-shadow: 0 4px 10px rgba(0, 40, 80, 0.12);
+    object-fit: contain;
+  }
+
+  /* 右：本文エリア */
+  .pickup-main {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .pickup-title-row {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 4px;
+  }
+
+  .pickup-code {
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    opacity: 0.7;
+  }
+
+  .pickup-title {
+    font-size: 20px;
+    font-weight: 700;
+    text-decoration: none;
+    color: var(--text-main);
+  }
+
+  .pickup-title:hover {
+    text-decoration: underline;
+  }
+
+  .pickup-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 10px;
+    font-size: 12px;
+    margin-bottom: 4px;
+  }
+
+  .pickup-arc-row {
+    font-size: 13px;
+    margin-bottom: 4px;
+  }
+
+  .pickup-summary {
+    font-size: 13px;
+    line-height: 1.7;
+    margin: 4px 0 8px;
+  }
+
+  .pickup-cta {
+    align-self: flex-start;
+    margin-top: auto; /* テキスト量に関係なく下寄せ */
+    padding: 6px 14px;
+    font-size: 13px;
+  }
+
+  /* 閉じるボタンは端に寄せる（既存レイアウトがあるなら微調整用） */
+  .pickup-close-btn {
+    top: 10px;
+    right: 10px;
+  }
+}
+
+/* =========================
    全ページ共通：メインレイアウト
    ========================= */
 /* ベース */
