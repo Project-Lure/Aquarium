@@ -76,9 +76,8 @@ document.addEventListener('DOMContentLoaded', () => {
       const exArc   = c.arc && c.arc.ex   ? arcMap[c.arc.ex]   : null;
       const coreArc = c.arc && c.arc.core ? arcMap[c.arc.core] : null;
 
-      // アーク表示用テキスト（emoji + name (eng)）
+      // アーク表示用テキスト（emoji + 日本語名）
       const formatArc = (a) =>
-        const formatArc = (a) =>
         a ? `${a.icon || ''} ${a.name || ''}` : '';
 
       let arcLine = '';
