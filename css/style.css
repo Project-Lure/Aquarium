@@ -885,6 +885,40 @@ body {
   overflow-y: auto;
 }
 
+/* =====================================
+   検索モーダル：スマホ時の高さ＆ボタン操作性改善
+   ===================================== */
+@media (max-width: 768px) {
+
+  /* モーダル全体を画面内に収める＋中身だけスクロール */
+  #search-modal {
+    max-height: calc(100vh - 40px);  /* 画面から上下20pxずつ余裕 */
+    width: calc(100% - 24px);        /* 左右にも少し余白 */
+    margin: 12px auto;               /* 画面中央寄せ */
+    padding: 12px 14px 10px;
+    overflow-y: auto;                /* 中身をスクロールさせる */
+    box-sizing: border-box;
+  }
+
+  /* フィルタ群の間隔を少し詰める */
+  .filter-group {
+    margin-bottom: 10px;
+  }
+
+  /* 下端のボタン行：少し大きめ＋押しやすく */
+  .search-btn-row {
+    margin-top: 14px;
+    padding-bottom: 4px;   /* 画面端との間に余白 */
+    gap: 8px;
+  }
+
+  .search-reset-btn,
+  .search-decide-btn {
+    min-height: 44px;      /* タップしやすい高さ */
+    font-size: 14px;
+  }
+}
+
 /* =========================
    HOME用：ピックアップカード（共通）
    ========================= */
