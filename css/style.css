@@ -769,57 +769,82 @@ body {
   margin-top: 8px;
 }
 
-/* 個々の色ボタン */
+/* 基本：正方形の色ボタン */
 .color-option {
+  width: 70px;
+  height: 70px;
+  border-radius: 12px;
+  border: 2px solid transparent;
   display: flex;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
-  padding: 6px 8px;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.9);
-  border: 1px solid rgba(0, 40, 80, 0.12);
-  font-size: 12px;
   cursor: pointer;
-  transition: background-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
+  transition: all 0.25s ease;
+  background: #fff;
 }
 
-.color-option:hover {
-  background: #f5fbff;
-  box-shadow: 0 0 0 1px rgba(0, 120, 220, 0.15);
-}
+/* ─────────────────────────
+   各色のベース色 （バッジの色）
+────────────────────────── */
+.color-red    .color-badge { background: #ff4b4b; }
+.color-orange .color-badge { background: #ff8d2e; }
+.color-yellow .color-badge { background: #ffd541; }
+.color-green  .color-badge { background: #3ed36a; }
+.color-mono   .color-badge { background: #bfbfbf; }
+.color-cyan   .color-badge { background: #4fd8ff; }
+.color-blue   .color-badge { background: #4a7ee6; }
+.color-purple .color-badge { background: #b46cff; }
+.color-pink   .color-badge { background: #ff88cc; }
 
-.color-option.active {
-  background: rgba(0, 120, 220, 0.06);
-  box-shadow: 0 0 0 1px rgba(0, 120, 220, 0.5);
-  transform: translateY(-1px);
-}
-
-/* 小さな正方形バッジ（◾️） */
+/* バッジ本体 */
 .color-badge {
-  width: 14px;
-  height: 14px;
-  border-radius: 2px; /* 角丸ほぼ無し → ◾️ */
-  margin-right: 6px;
-  background: #d0d0d0;
-  border: 1px solid rgba(0, 0, 0, 0.15);
-  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
 }
 
-/* ラベル文字 */
+/* ラベルは下に小さく */
 .color-label {
+  margin-top: 4px;
   font-size: 12px;
+  color: var(--text-main);
 }
 
-/* === 色ごとのバッジ色指定 === */
+/* ─────────────────────────
+   選択状態：押した色で背景＋枠を染める
+────────────────────────── */
+.color-option.active {
+  transform: scale(1.05);
+  border-color: currentColor;    /* 後述の色指定が効く */
+  box-shadow: 0 0 10px rgba(0,0,0,0.12);
+}
 
-.color-option.color-red    .color-badge { background: #ff6b6b; }
-.color-option.color-orange .color-badge { background: #ff9b42; }
-.color-option.color-yellow .color-badge { background: #ffd93b; }
-.color-option.color-green  .color-badge { background: #7bd88f; }
-.color-option.color-cyan   .color-badge { background: #4fd2ff; }
-.color-option.color-blue   .color-badge { background: #4d88ff; }
-.color-option.color-purple .color-badge { background: #b28cff; }
-.color-option.color-pink   .color-badge { background: #ff8acb; }
-.color-option.color-mono   .color-badge { background: #c4c4c4; }
+/* active 時の背景色（薄くつける） */
+.color-option.active.color-red    { background: rgba(255, 75, 75, 0.18); color: #ff4b4b; }
+.color-option.active.color-orange { background: rgba(255,140, 50, 0.18); color: #ff8d2e; }
+.color-option.active.color-yellow { background: rgba(255,213, 65, 0.22); color: #ffd541; }
+.color-option.active.color-green  { background: rgba( 62,211,106, 0.18); color: #3ed36a; }
+.color-option.active.color-mono   { background: rgba(180,180,180, 0.20); color: #777; }
+.color-option.active.color-cyan   { background: rgba( 79,216,255, 0.18); color: #4fd8ff; }
+.color-option.active.color-blue   { background: rgba( 74,126,230,0.18); color: #4a7ee6; }
+.color-option.active.color-purple { background: rgba(180,108,255,0.20); color: #b46cff; }
+.color-option.active.color-pink   { background: rgba(255,136,204,0.22); color: #ff88cc; }
+
+/* =========================
+   PC だけ hover 効果をつける
+========================= */
+@media (hover: hover) and (pointer: fine) {
+  .color-option:hover {
+    transform: scale(1.03);
+    box-shadow: 0 0 12px rgba(0,0,0,0.12);
+  }
+
+  /* hover 時に少し明るくする（active ではない時だけ） */
+  .color-option:hover .color-badge {
+    filter: brightness(1.15);
+  }
+}
 
 /* チップ */
 .filter-chip {
