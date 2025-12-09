@@ -66,83 +66,73 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!picks.length) return;
 
     // 1件分のカード HTML を組み立てるヘルパー
-    function buildCardHtml(c) {
-      // シリーズ
-      const series = seriesMap[c.series];
+function buildCardHtml(c) {
+  const series = seriesMap[c.series];
 
-      // アーク
-      const exArc   = c.arc && c.arc.ex   ? arcMap[c.arc.ex]   : null;
-      const coreArc = c.arc && c.arc.core ? arcMap[c.arc.core] : null;
+  const exArc   = c.arc && c.arc.ex   ? arcMap[c.arc.ex]   : null;
+  const coreArc = c.arc && c.arc.core ? arcMap[c.arc.core] : null;
 
-      // アーク表示用テキスト（emoji + 日本語名）
-      const formatArc = (a) =>
-        a ? `${a.icon || ''} ${a.name || ''}` : '';
+  const formatArc = (a) =>
+    a ? `${a.icon || ''} ${a.name || ''}` : '';
 
-      let arcLine = '';
-      if (exArc && coreArc) {
-        arcLine = `${formatArc(exArc)} / ${formatArc(coreArc)}`;
-      } else if (exArc) {
-        arcLine = formatArc(exArc);
-      } else if (coreArc) {
-        arcLine = formatArc(coreArc);
-      }
+  let arcLine = '';
+  if (exArc && coreArc) {
+    arcLine = `${formatArc(exArc)} / ${formatArc(coreArc)}`;
+  } else if (exArc) {
+    arcLine = formatArc(exArc);
+  } else if (coreArc) {
+    arcLine = formatArc(coreArc);
+  }
 
-      // 説明テキスト（キャッチコピー優先 → synopsis の1行目）
-      let summary = '';
-      if (c.catchcopy && String(c.catchcopy).trim() !== '') {
-        summary = String(c.catchcopy).trim();
-      } else {
-        const syn = synopsisMap[c.code];
-        if (syn && syn.summary) {
-          summary = String(syn.summary).split('\n')[0].trim();
-        }
-      }
+  let summary = '';
+  if (c.catchcopy && String(c.catchcopy).trim() !== '') {
+    summary = String(c.catchcopy).trim();
+  } else {
+    const syn = synopsisMap[c.code];
+    if (syn && syn.summary) {
+      summary = String(syn.summary).split('\n')[0].trim();
+    }
+  }
 
-      // 〝〟が元から入っていたら除去して二重にならないようにする
-      const summaryForDisplay = summary
-        ? `〝${summary.replace(/[〝〟]/g, '')}〟`
-        : '';
+  const summaryForDisplay = summary
+    ? `〝${summary.replace(/[〝〟]/g, '')}〟`
+    : '';
 
-      // 詳細ページURL
-      const detailUrl = `character.html?code=${encodeURIComponent(c.code)}`;
+  const detailUrl = `character.html?code=${encodeURIComponent(c.code)}`;
+  const thumbPath = `images/characters/${c.code}.png`;
 
-      // サムネ画像
-      const thumbPath = `images/characters/${c.code}.png`;
+  return `
+    <div class="pickup-card">
+      <a href="${detailUrl}" class="pickup-card-link">
+        <div class="pickup-inner">
+          <div class="pickup-thumb">
+            <img src="${thumbPath}" alt="${c.title}" class="pickup-thumb-img">
+          </div>
 
-      return `
-        <div class="pickup-card">
-          <div class="pickup-inner">
-            <div class="pickup-thumb">
-              <a href="${detailUrl}">
-                <img src="${thumbPath}" alt="${c.title}" class="pickup-thumb-img">
-              </a>
+          <div class="pickup-main">
+            <div class="pickup-title-row">
+              <span class="pickup-code">No.${c.code}</span>
+              <span class="pickup-title">${c.title}</span>
             </div>
 
-            <div class="pickup-main">
-              <div class="pickup-title-row">
-                <span class="pickup-code">No.${c.code}</span>
-                <a href="${detailUrl}" class="pickup-title">${c.title}</a>
-              </div>
-
-              <div class="pickup-meta">
-                ${series ? `<span class="pickup-series">シリーズ：${series.nameJa}</span>` : ''}
-                ${c.theme ? `<span class="pickup-theme">テーマ：${c.theme}</span>` : ''}
-              </div>
-
-              ${arcLine ? `<div class="pickup-arc-row">${arcLine}</div>` : ''}
-
-              ${
-                summaryForDisplay
-                  ? `<p class="pickup-summary">${summaryForDisplay}</p>`
-                  : ''
-              }
-
-              <a href="${detailUrl}" class="pickup-cta">キャラ詳細を見る</a>
+            <div class="pickup-meta">
+              ${series ? `<span class="pickup-series">シリーズ：${series.nameJa}</span>` : ''}
+              ${c.theme ? `<span class="pickup-theme">テーマ：${c.theme}</span>` : ''}
             </div>
+
+            ${arcLine ? `<div class="pickup-arc-row">${arcLine}</div>` : ''}
+
+            ${
+              summaryForDisplay
+                ? `<p class="pickup-summary">${summaryForDisplay}</p>`
+                : ''
+            }
           </div>
         </div>
-      `;
-    }
+      </a>
+    </div>
+  `;
+}
 
     // 全カード HTML
     const cardsHtml = picks.map(buildCardHtml).join('');
