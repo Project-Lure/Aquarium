@@ -954,7 +954,7 @@ body {
   margin: 12px auto 16px;
   padding: 12px 14px 12px;
   padding-right: 34px; /* ×ボタン分 */
-  width: 80%;
+  max-width: 1100px;
   overflow: hidden;
 }
 
@@ -1157,7 +1157,7 @@ body {
 
   /* 外枠の左右余白を詰める（×ボタン分は右だけ残す） */
   .pickup-section{
-    width: 100%;
+    width: 80%;
     max-width: none;
     margin: 10px auto 12px;
     padding-left: 8px;      /* ← 左を詰める */
@@ -1174,7 +1174,7 @@ body {
 
   /* カードは1枚100%でOK（チラ見せしない） */
   .pickup-card{
-    flex: 0 0 100%;
+    flex: 0 0 90%;
   }
 
   /* PC用の“次が見える余白”をスマホでは殺す */
