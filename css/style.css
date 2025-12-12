@@ -1151,7 +1151,7 @@ body {
 }
 
 /* =========================
-   スマホ用：チラ見せしない（常に1枚が可視領域いっぱい）
+   スマホ用：チラ見せしない＋短辺が見切れない
    セクション幅：90%
    ========================= */
 @media (max-width: 768px){
@@ -1162,33 +1162,42 @@ body {
     overflow: hidden;
   }
 
-  /* レール：余計な左右の“見え”を作らない */
+  /* レール：左右に“安全余白”を作る（短辺切れ防止） */
   .pickup-track{
-    padding: 6px 4px 10px;  /* 左右は通常の余白 */
+    padding: 8px 14px 12px;          /* ← 左右を増やす */
     gap: 10px;
+    scroll-padding-left: 14px;       /* ← スナップ時の基準 */
+    scroll-padding-right: 14px;
   }
 
-  /* チラ見せの原因を潰す：カードは100%固定 */
+  /* スマホは1枚きっちり（チラ見せしない） */
   .pickup-card{
-    flex: 0 0 90%;
+    flex: 0 0 100%;
     scroll-snap-align: center;
+    transform: none !important;      /* ← scale完全停止 */
+    opacity: 1 !important;
   }
 
-  /* チラ見せ用のダミー余白は無効化 */
+  .pickup-card.is-active{
+    transform: none !important;      /* ← アクティブscaleも停止 */
+    opacity: 1 !important;
+  }
+
+  /* 余計なダミー余白（チラ見せ用）は無効化 */
   .pickup-track::before,
   .pickup-track::after{
     content: none !important;
     flex: none !important;
   }
 
-  /* スマホの見やすさだけ調整（必要なら） */
+  /* スマホの可読性 */
   .pickup-title{
     font-size: 16px;
     line-height: 1.25;
   }
 
   .pickup-summary{
-    font-size: 14px;
+    font-size: 15px;
     line-height: 1.6;
     margin-top: 8px;
 
@@ -1196,8 +1205,6 @@ body {
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
-
-    word-break: normal;
     overflow-wrap: anywhere;
   }
 }
@@ -1273,7 +1280,7 @@ body {
 
   /* キャッチコピー：主役級に引き上げる */
   .pickup-summary{
-    font-size: 24px;          /* ← 20px → 24px */
+    font-size: 30px;          /* ← 20px → 24px */
     line-height: 1.7;
     margin-top: 16px;
     font-weight: 500;         /* 少しだけ芯を足す */
