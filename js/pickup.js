@@ -1,20 +1,15 @@
 // js/pickup.js
-
+// HOME以外では動かさない
 document.addEventListener('DOMContentLoaded', () => {
   if (!document.body.classList.contains('page-index')) return;
 
   const main = document.querySelector('.l-main');
   if (!main) return;
 
-  const CHAR_JSON_URL   = 'data/characters.json';
-  const SERIES_JSON_URL = 'data/series.json';
-  const SYN_JSON_URL    = 'data/synopsis.json';
+  // 必要JSONパス（synopsis は使わない）
+  const CHAR_JSON_URL = 'data/characters.json';
 
-  const AUTO_SLIDE_MS = 7000;
-  let autoTimer = null;
-  let autoEnabled = true;
-  let autoIndex = 0;
-
+  // 共通 fetch ヘルパー
   async function fetchJson(url) {
     try {
       const res = await fetch(url, { cache: 'no-cache' });
@@ -26,6 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  // 配列から重複なしで最大 n 件ランダムに取り出す
   function pickRandomN(arr, n) {
     const copy = arr.slice();
     for (let i = copy.length - 1; i > 0; i--) {
@@ -35,71 +31,28 @@ document.addEventListener('DOMContentLoaded', () => {
     return copy.slice(0, n);
   }
 
-  function wrapQuote(text) {
-    const t = String(text || '').replace(/[〝〟]/g, '').trim();
-    return t ? `〝${t}〟` : '';
-  }
-
-  // 画像の存在チェック（png を実際に読み込んで判定）
-  function imageExists(src) {
-    return new Promise(resolve => {
-      const img = new Image();
-      img.onload = () => resolve(true);
-      img.onerror = () => resolve(false);
-      img.src = src;
-    });
-  }
-
   (async () => {
-    const [chars, seriesMap, synopsisMapRaw] = await Promise.all([
-      fetchJson(CHAR_JSON_URL),
-      fetchJson(SERIES_JSON_URL),
-      fetchJson(SYN_JSON_URL).catch(() => null)
-    ]);
+    const chars = await fetchJson(CHAR_JSON_URL);
+    if (!Array.isArray(chars)) return;
 
-    const synopsisMap = synopsisMapRaw || {};
-    if (!Array.isArray(chars) || !seriesMap) return;
-
-    // 「紹介文を出せるキャラ」を優先（ただし最終的に画像ありに絞る）
-    const withText = chars.filter(c => {
-      if (c.catchcopy && String(c.catchcopy).trim() !== '') return true;
-      const syn = synopsisMap[c.code];
-      return syn && syn.summary && String(syn.summary).trim() !== '';
+    // キャッチコピーがあるキャラだけを候補にする（全面押し出し方針）
+    const pool = chars.filter(c => {
+      return c && c.catchcopy && String(c.catchcopy).trim() !== '';
     });
+    if (!pool.length) return;
 
-    const poolBase = withText.length ? withText : chars;
-    if (!poolBase.length) return;
-
-    // 先にある程度多めに候補を取り、画像ありだけに絞る（最大3枚確保のため）
-    const prePicks = pickRandomN(poolBase, Math.min(12, poolBase.length));
-
-    // 画像あり判定
-    const checks = await Promise.all(
-      prePicks.map(async c => {
-        const src = `images/characters/${c.code}.png`;
-        const ok = await imageExists(src);
-        return ok ? c : null;
-      })
-    );
-
-    const poolWithImage = checks.filter(Boolean);
-    const picks = poolWithImage.slice(0, 3);
-
-    // 0件ならPICKUP自体を作らない
+    // ランダムに最大3件選択
+    const picks = pickRandomN(pool, 3);
     if (!picks.length) return;
 
+    // 1件分のカード HTML
     function buildCardHtml(c) {
-      const series = seriesMap[c.series];
+      const title = (c.title || '').toString();
+      const catchcopy = String(c.catchcopy || '').trim();
+      const summaryForDisplay = catchcopy
+        ? `〝${catchcopy.replace(/[〝〟]/g, '')}〟`
+        : '';
 
-      let summary = '';
-      if (c.catchcopy && String(c.catchcopy).trim() !== '') {
-        summary = String(c.catchcopy).trim();
-      } else {
-        const syn = synopsisMap[c.code];
-        if (syn && syn.summary) summary = String(syn.summary).split('\n')[0].trim();
-      }
-
-      const summaryForDisplay = wrapQuote(summary);
       const detailUrl = `character.html?code=${encodeURIComponent(c.code)}`;
       const thumbPath = `images/characters/${c.code}.png`;
 
@@ -108,16 +61,14 @@ document.addEventListener('DOMContentLoaded', () => {
           <a href="${detailUrl}" class="pickup-card-link">
             <div class="pickup-inner">
               <div class="pickup-thumb">
-                <img src="${thumbPath}" alt="${c.title}" class="pickup-thumb-img">
+                <img src="${thumbPath}" alt="${title}" class="pickup-thumb-img">
               </div>
+
               <div class="pickup-main">
                 <div class="pickup-title-row">
-                  <span class="pickup-title">${c.title}</span>
+                  <span class="pickup-title">${title}</span>
                 </div>
-                <div class="pickup-meta">
-                  ${series ? `<span class="pickup-series">シリーズ：${series.nameJa}</span>` : ''}
-                  ${c.theme ? `<span class="pickup-theme">テーマ：${c.theme}</span>` : ''}
-                </div>
+
                 ${summaryForDisplay ? `<p class="pickup-summary">${summaryForDisplay}</p>` : ''}
               </div>
             </div>
@@ -126,27 +77,36 @@ document.addEventListener('DOMContentLoaded', () => {
       `;
     }
 
+    // 全カード HTML
     const cardsHtml = picks.map(buildCardHtml).join('');
 
+    // ドット HTML
     const dotsHtml = `
       <div class="pickup-dots">
-        ${picks.map((_c, i) =>
-          `<button type="button" class="pickup-dot" data-index="${i}" aria-label="ピックアップ ${i + 1}"></button>`
-        ).join('')}
+        ${picks
+          .map((_, i) =>
+            `<button type="button" class="pickup-dot" data-index="${i}" aria-label="ピックアップ ${i + 1}"></button>`
+          )
+          .join('')}
       </div>
     `;
 
+    // セクション HTML
     const pickupHtml = `
 <section class="section-card pickup-section" id="pickup-section">
   <button type="button" class="pickup-close-btn" aria-label="ピックアップを閉じる">×</button>
+
   <div class="pickup-label">PICKUP</div>
+
   <div class="pickup-track">
     ${cardsHtml}
   </div>
+
   ${dotsHtml}
 </section>
 `;
 
+    // main の先頭に差し込む
     main.insertAdjacentHTML('afterbegin', pickupHtml);
 
     const section = document.getElementById('pickup-section');
@@ -154,33 +114,22 @@ document.addEventListener('DOMContentLoaded', () => {
     const cards   = Array.from(section.querySelectorAll('.pickup-card'));
     const dots    = Array.from(section.querySelectorAll('.pickup-dot'));
 
-    if (!track || !cards.length) return;
+    // 画像404時はプレースホルダに差し替え（リンクは残す方針）
+    const imgs = section.querySelectorAll('.pickup-thumb-img');
+    imgs.forEach(img => {
+      img.addEventListener('error', () => {
+        img.src = 'images/ui/card-placeholder.png';
+      });
+    });
 
+    // アクティブ更新
     function setActive(index) {
       cards.forEach((card, i) => card.classList.toggle('is-active', i === index));
-      dots.forEach((dot, i)  => dot.classList.toggle('is-active', i === index));
-    }
-
-    function scrollToIndex(index, behavior = 'smooth') {
-      if (!cards[index]) return;
-
-      const trackRect = track.getBoundingClientRect();
-      const cardRect  = cards[index].getBoundingClientRect();
-
-      const trackCenter = trackRect.left + trackRect.width / 2;
-      const cardCenter  = cardRect.left + cardRect.width / 2;
-      const delta = cardCenter - trackCenter;
-
-      try {
-        track.scrollTo({ left: track.scrollLeft + delta, behavior });
-      } catch (_e) {
-        track.scrollLeft += delta;
-      }
-
-      setActive(index);
+      dots.forEach((dot, i) => dot.classList.toggle('is-active', i === index));
     }
 
     function updateActiveByScroll() {
+      if (!track) return;
       const trackRect = track.getBoundingClientRect();
       const centerX = trackRect.left + trackRect.width / 2;
 
@@ -197,69 +146,58 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       });
 
-      autoIndex = closestIndex;
       setActive(closestIndex);
     }
 
-    function startAutoSlide() {
-      stopAutoSlide(false);
-      if (cards.length <= 1) return;
-      autoEnabled = true;
+    // 初期状態：1枚目を基準にして、横方向だけ中央寄せ（縦スクロールはいじらない）
+    if (cards.length > 0 && track) {
+      const initialIndex = 0;
+      setActive(initialIndex);
 
-      autoTimer = setInterval(() => {
-        if (!autoEnabled) return;
-        autoIndex = (autoIndex + 1) % cards.length;
-        scrollToIndex(autoIndex, 'smooth');
-      }, AUTO_SLIDE_MS);
-    }
-
-    function stopAutoSlide(stopHard = true) {
-      if (autoTimer) {
-        clearInterval(autoTimer);
-        autoTimer = null;
-      }
-      if (stopHard) autoEnabled = false;
-    }
-
-    const stopByUser = () => stopAutoSlide(true);
-
-    // 初期：1枚目
-    const initialIndex = 0;
-    autoIndex = initialIndex;
-    setActive(initialIndex);
-
-    requestAnimationFrame(() => {
       requestAnimationFrame(() => {
-        scrollToIndex(initialIndex, 'auto');
-        updateActiveByScroll();
-        section.classList.add('pickup-ready');
-        startAutoSlide();
-      });
-    });
+        const trackRect = track.getBoundingClientRect();
+        const cardRect  = cards[initialIndex].getBoundingClientRect();
 
+        const trackCenter = trackRect.left + trackRect.width / 2;
+        const cardCenter  = cardRect.left  + cardRect.width  / 2;
+        const delta = cardCenter - trackCenter;
+
+        track.scrollLeft += delta;
+
+        updateActiveByScroll();
+
+        // ready フラグ：CSS側で拡大演出などをここから許可
+        section.classList.add('pickup-ready');
+      });
+    }
+
+    // スクロール時：中央カードを更新
     let scrollTimer = null;
     track.addEventListener('scroll', () => {
-      stopByUser();
       if (scrollTimer) clearTimeout(scrollTimer);
       scrollTimer = setTimeout(updateActiveByScroll, 80);
-    }, { passive: true });
+    });
 
+    // ドットクリック：対応カードを中央に
     dots.forEach(dot => {
       const idx = Number(dot.dataset.index || '0') || 0;
       dot.addEventListener('click', () => {
-        stopByUser();
-        scrollToIndex(idx, 'smooth');
+        if (!cards[idx]) return;
+
+        const trackRect = track.getBoundingClientRect();
+        const cardRect  = cards[idx].getBoundingClientRect();
+        const trackCenter = trackRect.left + trackRect.width / 2;
+        const cardCenter  = cardRect.left  + cardRect.width  / 2;
+        const delta = cardCenter - trackCenter;
+
+        track.scrollLeft += delta;
       });
     });
 
-    section.addEventListener('pointerdown', () => {
-      stopByUser();
-    }, { passive: true });
-
+    // 閉じる
     const closeBtn = section.querySelector('.pickup-close-btn');
     if (closeBtn) {
       closeBtn.addEventListener('click', () => {
-        stopAutoSlide(true);
         section.remove();
       });
     }
