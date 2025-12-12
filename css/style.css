@@ -1151,38 +1151,55 @@ body {
 }
 
 /* =========================
-   スマホ（〜768px）：チラ見せしない前提で左右の無駄を削る
+   スマホ専用：PICKUP中央固定（チラ見せしない）
    ========================= */
-@media (max-width:768px){
+@media (max-width: 768px) {
 
-  /* 外枠の左右余白を詰める（×ボタン分は右だけ残す） */
+  /* セクション自体は画面いっぱいでOK */
   .pickup-section{
     width: 80%;
-    max-width: none;
-    margin: 10px auto 12px;
-    padding-left: 32px;      /* ← 左を詰める */
-    padding-right: 32px;    /* ← ×ボタン分は確保 */
-    overflow: hidden;       /* ← スマホははみ出し不要なら戻してOK */
-  }
-
-  /* レールの左右パディングを削る（ここが“白い帯”の主因になりやすい） */
-  .pickup-track{
     padding-left: 0;
     padding-right: 0;
-    gap: 10px;              /* 好みで */
+    overflow: hidden;
   }
 
-  /* カードは1枚100%でOK（チラ見せしない） */
+  /* レールに左右の“安全余白”を入れる */
+  .pickup-track{
+    padding-left: 16px;   /* ← ここが重要 */
+    padding-right: 16px;  /* ← ここが重要 */
+    gap: 12px;
+  }
+
+  /* カードは「画面幅 − 余白分」 */
   .pickup-card{
-    flex: 0 0 90%;
+    flex: 0 0 calc(100% - 32px);
+    scroll-snap-align: center;
   }
 
-  /* PC用の“次が見える余白”をスマホでは殺す */
-  .pickup-track::after{
-    content: none !important;
+  /* 拡大・縮小は控えめに（中央感を優先） */
+  .pickup-card{
+    transform: scale(0.98);
+    opacity: 0.85;
+  }
+
+  .pickup-card.is-active{
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  /* テキスト：スマホでは“読めるサイズ”を最優先 */
+  .pickup-title{
+    font-size: 17px;
+    line-height: 1.25;
+  }
+
+  .pickup-summary{
+    font-size: 14px;
+    line-height: 1.6;
+    margin-top: 10px;
+    -webkit-line-clamp: 3;
   }
 }
-
 /* =========================
    PC（769px〜）
    PICKUP：次カードチラ見せ強化版
