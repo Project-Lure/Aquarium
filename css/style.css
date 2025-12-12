@@ -945,95 +945,121 @@ body {
 }
 
 /* =========================
-   PICKUP：文字を主役に（上書き専用）
+   PICKUP：JS最小構成（タイトル＋キャッチコピーのみ）に最適化
+   ※ 既存CSSの「一番下」に追記して上書き用
    ========================= */
 
-/* ラベルを「タイトル感」に寄せる（PCのみ） */
-@media (min-width: 769px) {
-  .pickup-label{
-    font-size: 28px;          /* 25→28 */
-    font-weight: 800;         /* ドン */
-    letter-spacing: 0.18em;   /* 広げすぎると読めないので少し戻す */
-    opacity: 1;
-    margin-bottom: 12px;
-    line-height: 1.1;
+/* 余計な行の余白を削って“予告編カード”っぽく締める */
+.pickup-title-row {
+  margin: 0;
+  padding: 0;
+}
+
+/* タイトル＝主役 */
+.pickup-title {
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: 0.01em;
+  margin: 0;
+}
+
+/* キャッチコピー＝読む場所（2行） */
+.pickup-summary {
+  font-size: 12.5px;
+  line-height: 1.55;
+  margin: 6px 0 0;
+  opacity: 0.88;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* カード全体リンク：ホバー時の“触った感”は枠で出す（タイトル下線は維持） */
+.pickup-card-link:hover {
+  border-color: rgba(0, 120, 220, 0.35);
+  box-shadow: 0 8px 18px rgba(0, 40, 80, 0.10);
+  transform: translateY(-1px);
+}
+
+/* ===== ready前：初期拡大・初期アニメを抑える（あなたの方針通り） ===== */
+.pickup-section:not(.pickup-ready) .pickup-card,
+.pickup-section:not(.pickup-ready) .pickup-card-link {
+  transition: none !important;
+}
+
+/* ===== スマホ（〜768px）：今の完成形を崩さない微調整だけ ===== */
+@media (max-width: 768px) {
+  .pickup-title {
+    font-size: 14px;
+  }
+  .pickup-summary {
+    font-size: 12.5px;
+    margin-top: 6px;
   }
 }
 
-/* 非アクティブは読む気を削ぐ＝存在感を落とす（文字も） */
+/* ===== PC（769px〜）：文字“ドン”＋中央だけ強く ===== */
 @media (min-width: 769px) {
-  .pickup-card{
-    opacity: 0.45;          /* 0.65→0.45 */
-    transform: scale(0.95); /* 0.96→0.95 */
+
+  /* セクション：左右余白と中央寄せは現状踏襲（必要ならここだけ微調整） */
+  .pickup-section {
+    margin-bottom: 1px; /* 一覧との隙間を詰めたい方針 */
   }
 
-  .pickup-card .pickup-title{
-    font-size: 17px;        /* 19→17（非アクティブ用に落とす） */
-    opacity: 0.75;
-  }
-
-  .pickup-card .pickup-code{
-    opacity: 0.55;
-  }
-
-  .pickup-card .pickup-summary{
-    font-size: 13px;        /* 14→13（非アクティブ用に落とす） */
-    opacity: 0.65;
-  }
-}
-
-/* 中央カードだけ「予告編」として強く読む */
-@media (min-width: 769px) {
-  .pickup-card.is-active{
-    opacity: 1;
-    transform: scale(1.03); /* 1.02→1.03 */
-  }
-
-  .pickup-card.is-active .pickup-card-link{
-    border-color: var(--accent);
-    box-shadow: 0 10px 26px rgba(0, 40, 80, 0.18);
-  }
-
-  .pickup-card.is-active .pickup-title{
-    font-size: 26px;        /* 19→26：ここが“ドン” */
-    font-weight: 900;
-    letter-spacing: 0.02em;
-    line-height: 1.18;
-    opacity: 1;
-  }
-
-  .pickup-card.is-active .pickup-code{
-    font-size: 14px;        /* 13→14 */
+  /* ラベル：PCは大きく。カードとの距離も確保 */
+  .pickup-label {
+    font-size: 26px;
     font-weight: 700;
-    opacity: 0.85;
+    letter-spacing: 0.22em;
+    opacity: 0.92;
+    margin-bottom: 12px;
   }
 
-  .pickup-card.is-active .pickup-summary{
-    font-size: 17px;        /* 14→17：キャッチコピーを主役化 */
-    line-height: 1.75;
-    opacity: 0.95;
+  /* 非アクティブは“脇役”に落とす */
+  .pickup-card {
+    opacity: 0.35;
+    transform: scale(0.94);
+  }
+
+  /* 中央カード：存在感を“枠＋文字”で出す（画像は脇役） */
+  .pickup-card.is-active {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+
+  .pickup-card.is-active .pickup-card-link {
+    border-color: var(--accent);
+    box-shadow: 0 10px 26px rgba(0, 40, 80, 0.16);
+  }
+
+  /* タイトルを強く（予告編の見出し） */
+  .pickup-card.is-active .pickup-title {
+    font-size: 30px;
+    font-weight: 900;
+    line-height: 1.12;
+    letter-spacing: 0.02em;
+  }
+
+  /* キャッチコピーを読ませる（2行、太めで） */
+  .pickup-card.is-active .pickup-summary {
+    font-size: 18px;
+    line-height: 1.7;
     margin-top: 10px;
-  }
-}
+    opacity: 1;
 
-/* テキストの詰まりを軽くする（pillが消えても破綻しない） */
-@media (min-width: 769px) {
-  .pickup-title-row{
-    margin-bottom: 6px;  /* 2px相当→増やす */
-    gap: 8px;
+    -webkit-line-clamp: 2;
   }
 
-  .pickup-meta,
-  .pickup-arc-row{
-    margin-bottom: 6px;  /* 情報がある時だけ呼吸 */
+  /* 画像は“添え”に：少しだけ小さく＆落ち着かせる */
+  .pickup-thumb {
+    flex: 0 0 140px;
+    max-width: 170px;
   }
-}
-
-/* ホバー：枠全体リンクなので、中央だけ“押せる”感を増やす */
-@media (min-width: 769px) {
-  .pickup-card-link:hover{
-    transform: translateY(-1px);
-    box-shadow: 0 10px 22px rgba(0, 40, 80, 0.16);
+  .pickup-thumb-img {
+    opacity: 0.95;
   }
 }
 /* =========================
