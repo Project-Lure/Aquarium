@@ -947,46 +947,69 @@ body {
 /* =========================
    HOME用：PICKUP（予告編特化・強め）
    表示：画像／タイトル／キャッチコピーのみ
+   そのまま全行コピペで上書き用
    ========================= */
 
 .pickup-section{
   position: relative;
   margin: 12px auto 16px;
-  padding: 12px 14px 12px;
-  padding-right: 34px; /* ×ボタン分 */
+  width: 90%;
   max-width: 1100px;
-  overflow: hidden;
+  padding: 10px 12px 10px;      /* 縦を少し締める */
+  padding-right: 34px;          /* ×ボタン分 */
+  overflow: hidden;             /* セクション外にはみ出さない */
 }
 
 /* ラベル */
 .pickup-label{
-  font-size: 11px;
+  font-size: 12px;
   letter-spacing: .2em;
   text-transform: uppercase;
-  opacity: .8;
+  opacity: .85;
   margin: 0 0 8px;
 }
 
-/* レール */
+/* レール（中央スナップ安定＋左右の“内側余白”を確保） */
 .pickup-track{
   display:flex;
   gap: 12px;
   overflow-x:auto;
   scroll-snap-type:x mandatory;
   -webkit-overflow-scrolling:touch;
-  padding: 6px 4px 10px;
+
+  /* ★ここが「短辺が見切れない」主因：左右に余白を入れる */
+  padding: 8px 14px 10px;
+
+  /* ★スナップ位置の基準も内側余白に合わせる（3枚とも中央に来やすい） */
+  scroll-padding-left: 14px;
+  scroll-padding-right: 14px;
 }
 
-/* カード（非アクティブは控えめ） */
+/* スクロールバー見た目（任意：残したいなら） */
+.pickup-track::-webkit-scrollbar{
+  height: 6px;
+}
+.pickup-track::-webkit-scrollbar-track{
+  background: rgba(0,40,80,.06);
+  border-radius: 999px;
+}
+.pickup-track::-webkit-scrollbar-thumb{
+  background: rgba(0,40,80,.22);
+  border-radius: 999px;
+}
+
+/* カード */
 .pickup-card{
-  scroll-snap-align:center;
-  flex: 0 0 100%;
+  scroll-snap-align: center;
+  flex: 0 0 100%;               /* ★スマホはチラ見せ禁止：常に1枚=100% */
   box-sizing:border-box;
+
+  /* PCで効かせる。スマホは後で上書き（切れ防止） */
   transform: scale(.96);
   opacity: .55;
 }
 
-/* ready 以前はアニメ無効（初期ズーム防止） */
+/* ready 以前はアニメ無効（初期ズーム/ガタつき防止） */
 .pickup-section:not(.pickup-ready) .pickup-card,
 .pickup-section:not(.pickup-ready) .pickup-card-link{
   transition: none !important;
@@ -997,12 +1020,12 @@ body {
   display:block;
   width:100%;
   height:100%;
-  padding: 12px 12px;
-  border-radius: 14px;
+  padding: 14px 14px;
+  border-radius: 16px;
   box-sizing:border-box;
   text-decoration:none;
   color: inherit;
-  background: rgba(255,255,255,.94);
+  background: rgba(255,255,255,.95);
   border: 1px solid rgba(0,40,80,.08);
 }
 
@@ -1015,14 +1038,14 @@ body {
 
 /* サムネ */
 .pickup-thumb{
-  flex: 0 0 70px;
-  max-width: 70px;
+  flex: 0 0 72px;
+  max-width: 72px;
 }
 .pickup-thumb-img{
   width:100%;
   height:auto;
   display:block;
-  border-radius: 10px;
+  border-radius: 12px;
   border: 1px solid rgba(0,40,80,.14);
   background:#fff;
 }
@@ -1033,17 +1056,17 @@ body {
   min-width:0;
 }
 .pickup-title{
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 900;
   line-height: 1.18;
   letter-spacing: .01em;
   margin: 0;
 }
 .pickup-summary{
-  font-size: 12.8px;
-  line-height: 1.55;
-  margin: 8px 0 0;
-  opacity: .92;
+  font-size: 13.5px;            /* ★スマホでも小さすぎない */
+  line-height: 1.6;
+  margin: 10px 0 0;
+  opacity: .95;
 
   display:-webkit-box;
   -webkit-line-clamp: 2;
@@ -1051,17 +1074,16 @@ body {
   overflow:hidden;
 }
 
-/* アクティブ強調 */
+/* アクティブ強調（共通） */
 .pickup-card.is-active{
   opacity: 1;
-  transform: scale(1.03);
 }
 .pickup-card.is-active .pickup-card-link{
   border-color: var(--accent);
-  box-shadow: 0 12px 30px rgba(0,40,80,.16);
+  box-shadow: 0 12px 28px rgba(0,40,80,.14);
 }
 
-/* ホバー */
+/* ホバー（PCだけでもOKだが、共通で入れて問題なし） */
 .pickup-card-link:hover{
   border-color: rgba(0,120,220,.35);
   box-shadow: 0 10px 22px rgba(0,40,80,.12);
@@ -1111,166 +1133,104 @@ body {
   background: var(--accent);
   opacity:1;
 }
-/* =========================
-   チラ見せを「装飾」→「次の作品」に見せる調整
-   ========================= */
-
-/* 非アクティブでもカード感は残す */
-.pickup-card{
-  background: transparent;
-}
-
-.pickup-card:not(.is-active) .pickup-card-link{
-  background: rgba(255,255,255,.85); /* ★ 白すぎ防止 */
-  box-shadow: 0 6px 14px rgba(0,40,80,.08);
-  border-color: rgba(0,40,80,.06);
-}
-
-/* チラ見せ側をフェードアウトさせるマスク */
-.pickup-track{
-  mask-image: linear-gradient(
-    to right,
-    transparent 0%,
-    black 6%,
-    black 88%,
-    transparent 100%
-  );
-  -webkit-mask-image: linear-gradient(
-    to right,
-    transparent 0%,
-    black 6%,
-    black 88%,
-    transparent 100%
-  );
-}
-
-/* 非アクティブは「見えるが主張しない」 */
-.pickup-card:not(.is-active){
-  opacity: .6;          /* ★ 0.45〜0.6 が適正 */
-  transform: scale(.95);
-}
 
 /* =========================
-   スマホ用：チラ見せしない＋短辺が見切れない
-   セクション幅：90%
+   スマホ（〜768px）
+   チラ見せしない／短辺を絶対に切らない
    ========================= */
-@media (max-width: 768px){
-
+@media (max-width:768px){
   .pickup-section{
     width: 90%;
-    margin: 12px auto 16px;
-    overflow: hidden;
+    padding: 10px 10px 10px;
+    padding-right: 34px;
+    overflow: hidden;           /* セクション外へは出さない */
   }
 
-  /* レール：左右に“安全余白”を作る（短辺切れ防止） */
   .pickup-track{
-    padding: 8px 14px 12px;          /* ← 左右を増やす */
+    padding: 10px 12px 10px;    /* ★内側余白を確保＝短辺が見切れない */
+    scroll-padding-left: 12px;
+    scroll-padding-right: 12px;
     gap: 10px;
-    scroll-padding-left: 14px;       /* ← スナップ時の基準 */
-    scroll-padding-right: 14px;
   }
 
-  /* スマホは1枚きっちり（チラ見せしない） */
   .pickup-card{
-    flex: 0 0 100%;
-    scroll-snap-align: center;
-    transform: none !important;      /* ← scale完全停止 */
-    opacity: 1 !important;
+    flex: 0 0 100%;             /* ★必ず1枚だけ */
+    transform: none;            /* ★拡大しない＝切れない */
+    opacity: 1;                 /* スマホは薄くしない方が読みやすい */
   }
 
   .pickup-card.is-active{
-    transform: none !important;      /* ← アクティブscaleも停止 */
-    opacity: 1 !important;
+    transform: none;
   }
 
-  /* 余計なダミー余白（チラ見せ用）は無効化 */
-  .pickup-track::before,
-  .pickup-track::after{
-    content: none !important;
-    flex: none !important;
+  .pickup-thumb{
+    flex: 0 0 68px;
+    max-width: 68px;
   }
 
-  /* スマホの可読性 */
   .pickup-title{
     font-size: 16px;
-    line-height: 1.25;
   }
 
   .pickup-summary{
-    font-size: 15px;
-    line-height: 1.6;
-    margin-top: 8px;
-
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    overflow-wrap: anywhere;
+    font-size: 13.5px;
+    -webkit-line-clamp: 2;
   }
 }
+
 /* =========================
    PC（769px〜）
-   PICKUP：次カードチラ見せ強化版
+   予告編“ドン”＋次カードチラ見せOK
    ========================= */
 @media (min-width:769px){
-
-  /* セクション：意図的に細く */
   .pickup-section{
+    width: 90%;
     margin-top: 18px;
     margin-bottom: 2px;
-    width: 68%;                 /* ★ 72 → 68 */
-    padding: 18px 22px 16px;
-    overflow: visible;
+    padding: 14px 18px 12px;    /* 縦を少し締める */
+    padding-right: 34px;
+    overflow: visible;          /* ★PCはチラ見せ許可 */
   }
 
-  /* ラベル：これは勝っててOK */
   .pickup-label{
     font-size: 30px;
     font-weight: 800;
     letter-spacing: .22em;
     opacity: .95;
-    margin-bottom: 14px;
+    margin-bottom: 12px;
   }
 
-  /* レール：中央固定を解除 */
   .pickup-track{
-    display: flex;
+    max-width: none;
     width: 100%;
-    gap: 22px;                  /* ★ 少し広げる */
     margin: 0;
-    padding: 10px 0 14px;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
+    padding: 10px 0 12px;       /* 余白はカード側で作る */
+    gap: 18px;
+    scroll-padding-left: 0;
+    scroll-padding-right: 0;
   }
 
-  /* カード：ここがチラ見せの核 */
   .pickup-card{
-    flex: 0 0 76%;              /* ★ 82 → 76 */
-    opacity: .45;               /* ★ 0.28 → 0.45 */
-    transform: scale(.94);
-    scroll-snap-align: center;
+    flex: 0 0 82%;
+    opacity: .28;
+    transform: scale(.93);
   }
 
-  /* 主役カード */
   .pickup-card.is-active{
     opacity: 1;
     transform: scale(1.02);
   }
 
-  /* カード本体 */
   .pickup-card-link{
-    padding: 22px 24px;
+    padding: 18px 22px;         /* 縦を少し締めた“ドン” */
     border-radius: 18px;
-    background: #fff;
   }
 
-  /* サムネ：ちゃんと“見える”サイズ */
   .pickup-thumb{
     flex: 0 0 150px;
-    max-width: 180px;
+    max-width: 190px;
   }
 
-  /* タイトル：ロゴ級 */
   .pickup-title{
     font-size: 40px;
     font-weight: 900;
@@ -1278,57 +1238,40 @@ body {
     letter-spacing: .02em;
   }
 
-  /* キャッチコピー：主役級に引き上げる */
   .pickup-summary{
-    font-size: 30px;          /* ← 20px → 24px */
-    line-height: 1.7;
-    margin-top: 16px;
-    font-weight: 500;         /* 少しだけ芯を足す */
-    letter-spacing: .02em;
+    font-size: 20px;
+    line-height: 1.75;
+    margin-top: 12px;
     opacity: 1;
-
-    display: -webkit-box;
     -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
   }
 
-  /* 主役の予告編ライン */
+  /* 左アクセントライン */
   .pickup-card.is-active .pickup-card-link{
-    position: relative;
-    border-color: var(--accent);
     box-shadow: 0 18px 42px rgba(0,40,80,.18);
+    border-color: var(--accent);
+    position: relative;
   }
-
   .pickup-card.is-active .pickup-card-link::before{
     content:"";
     position:absolute;
     left: 0;
-    top: 12px;
-    bottom: 12px;
+    top: 10px;
+    bottom: 10px;
     width: 6px;
     border-radius: 999px;
     background: var(--accent);
+    opacity: .95;
   }
-
   .pickup-card.is-active .pickup-main{
     padding-left: 10px;
   }
 
-  /* ★ チラ見せ用の余白：次カードを確実に覗かせる */
+  /* 次カードチラ見せ用の“余白” */
   .pickup-track::after{
-    content:"";
-    flex: 0 0 14%;              /* ★ 6 → 14 */
+    content: "";
+    flex: 0 0 6%;
   }
-   /* =========================
-   PICKUP：左側にもチラ見せ余白を作る
-   ========================= */
-
-   /* 左側に「余白用ダミー」を追加 */
-   .pickup-track::before{
-     content: "";
-     flex: 0 0 6%;
-   }
 }
 /* =========================
    全ページ共通：メインレイアウト
