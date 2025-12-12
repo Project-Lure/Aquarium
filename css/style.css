@@ -945,312 +945,97 @@ body {
 }
 
 /* =========================
-   HOME用：ピックアップカード（共通）
+   PICKUP：文字を主役に（上書き専用）
    ========================= */
 
-.pickup-section {
-  position: relative;
-  margin: 12px auto 16px;
-  padding: 8px 12px 10px;
-  padding-right: 32px;          /* ×ボタン分だけ少し多め */
-  max-width: 1100px;            /* 画面内に収まるように */
-  overflow: hidden;
-}
-
-/* ラベル（PICKUP） */
-.pickup-label {
-  font-size: 11px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  opacity: 0.8;
-  margin-bottom: 4px;
-}
-
-/* 横スクロールのレール */
-.pickup-track {
-  display: flex;
-  gap: 10px;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
-  padding: 4px 4px 6px;
-}
-
-/* 1枚ぶんのカードコンテナ */
-.pickup-card {
-  scroll-snap-align: center;
-  flex: 0 0 100%;
-  box-sizing: border-box;
-  /*transition: transform 0.2s ease, opacity 0.2s ease;*/
-  transform: scale(0.97);
-  opacity: 0.9;
-}
-
-/* ★準備完了後だけアニメーションさせる */
-.pickup-section.pickup-ready .pickup-card {
-  transition: transform 0.2s ease, opacity 0.2s ease;
-}
-
-/* カード全体をリンクにする */
-.pickup-card-link {
-  display: block;
-  width: 100%;
-  height: 100%;
-  padding: 6px 8px;
-  border-radius: 12px;
-  box-sizing: border-box;
-  text-decoration: none;
-  color: inherit;
-  background: rgba(255, 255, 255, 0.9);
-  border: 1px solid rgba(0, 40, 80, 0.06);
-  transition:
-    background-color 0.2s ease,
-    border-color 0.2s ease,
-    box-shadow 0.2s ease,
-    transform 0.2s ease;
-}
-
-/* アクティブ時（中央）だけ装飾を強める */
-.pickup-card.is-active .pickup-card-link {
-  background: #fff;
-  border-color: var(--accent);
-  box-shadow: 0 6px 18px rgba(0, 40, 80, 0.14);
-}
-
-/* カード中身レイアウト */
-.pickup-inner {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-/* サムネ：共通で少し小さめ */
-.pickup-thumb {
-  flex: 0 0 60px;
-  max-width: 60px;
-}
-
-.pickup-thumb-img {
-  width: 100%;
-  height: auto;
-  display: block;
-  border-radius: 8px;
-  border: 1px solid rgba(0, 40, 80, 0.12);
-  background: #fff;
-}
-
-/* テキスト側 */
-.pickup-main {
-  flex: 1 1 auto;
-  min-width: 0;
-}
-
-/* タイトル行 */
-.pickup-title-row {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 4px;
-  margin-bottom: 2px;
-}
-
-.pickup-code {
-  font-size: 11px;
-  opacity: 0.7;
-}
-
-.pickup-title {
-  font-size: 13px;
-  font-weight: 700;
-  text-decoration: none;
-  color: var(--text-main);
-}
-
-/* 枠全体がリンクなので、ホバー時はタイトルだけ下線 */
-.pickup-card-link:hover .pickup-title {
-  text-decoration: underline;
-}
-
-/* シリーズ・テーマ：pill */
-.pickup-meta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px;
-  margin-bottom: 2px;
-}
-
-.pickup-series,
-.pickup-theme {
-  font-size: 11px;
-  padding: 1px 6px;
-  border-radius: 999px;
-  background: #f5fbff;
-  border: 1px solid rgba(0, 80, 140, 0.08);
-}
-
-/* アーク表示行 */
-.pickup-arc-row {
-  font-size: 11.5px;
-  margin-bottom: 2px;
-  line-height: 1.4;
-}
-
-/* 説明文：高さを抑える（1〜2行） */
-.pickup-summary {
-  font-size: 11.5px;
-  line-height: 1.5;
-  margin: 0 0 4px;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-/* 閉じるボタン（右上の×） */
-.pickup-close-btn {
-  position: absolute;
-  top: 6px;
-  right: 8px;
-  width: 20px;
-  height: 20px;
-  border-radius: 999px;
-  border: none;
-  background: rgba(0, 0, 0, 0.04);
-  color: var(--text-main);
-  font-size: 13px;
-  line-height: 1;
-  cursor: pointer;
-  padding: 0;
-}
-
-.pickup-close-btn:hover {
-  background: rgba(0, 0, 0, 0.08);
-}
-
-/* ドットインジケータ */
-.pickup-dots {
-  margin-top: 2px;
-  text-align: center;
-}
-
-.pickup-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 999px;
-  border: none;
-  padding: 0;
-  margin: 0 3px;
-  background: rgba(0, 40, 80, 0.2);
-  cursor: pointer;
-  opacity: 0.4;
-  transition: width 0.2s ease, background-color 0.2s ease, opacity 0.2s ease;
-}
-
-.pickup-dot.is-active {
-  width: 16px;
-  background: var(--accent);
-  opacity: 1;
-}
-
-/* =========================
-   スマホ向け（〜768px）
-   ========================= */
-@media (max-width: 768px) {
-  .pickup-section {
-    margin-bottom: 12px;
-    padding: 8px 10px 10px;
-  }
-
-  .pickup-card {
-    flex: 0 0 100%;
-    max-width: none;
-  }
-}
-
-/* =========================
-   PC向け（769px〜）
-   ========================= */
+/* ラベルを「タイトル感」に寄せる（PCのみ） */
 @media (min-width: 769px) {
+  .pickup-label{
+    font-size: 28px;          /* 25→28 */
+    font-weight: 800;         /* ドン */
+    letter-spacing: 0.18em;   /* 広げすぎると読めないので少し戻す */
+    opacity: 1;
+    margin-bottom: 12px;
+    line-height: 1.1;
+  }
+}
 
-  .pickup-section {
-    margin-top: 20px;
-    margin-bottom: 1px;
-    padding: 14px 20px 14px;
-    width: 80%;              /* ← 90% → 80%（左右余白を広げる） */
+/* 非アクティブは読む気を削ぐ＝存在感を落とす（文字も） */
+@media (min-width: 769px) {
+  .pickup-card{
+    opacity: 0.45;          /* 0.65→0.45 */
+    transform: scale(0.95); /* 0.96→0.95 */
   }
 
-  .pickup-track {
-    max-width: 820px;        /* ← 900px → 820px（情報を中央に寄せる） */
-    margin: 0 auto;
-    padding: 8px 4px 10px;
-    gap: 18px;
+  .pickup-card .pickup-title{
+    font-size: 17px;        /* 19→17（非アクティブ用に落とす） */
+    opacity: 0.75;
   }
 
-  .pickup-card {
-    flex: 0 0 78%;
-    max-width: 680px;
-    transform: scale(0.96);
+  .pickup-card .pickup-code{
+    opacity: 0.55;
+  }
+
+  .pickup-card .pickup-summary{
+    font-size: 13px;        /* 14→13（非アクティブ用に落とす） */
     opacity: 0.65;
   }
+}
 
-  .pickup-card.is-active {
-    transform: scale(1.02);
+/* 中央カードだけ「予告編」として強く読む */
+@media (min-width: 769px) {
+  .pickup-card.is-active{
     opacity: 1;
-    box-shadow: 0 8px 22px rgba(0, 40, 80, 0.16);
+    transform: scale(1.03); /* 1.02→1.03 */
   }
 
-  .pickup-thumb {
-    flex: 0 0 160px;
-    max-width: 190px;
+  .pickup-card.is-active .pickup-card-link{
+    border-color: var(--accent);
+    box-shadow: 0 10px 26px rgba(0, 40, 80, 0.18);
   }
 
-  .pickup-inner {
-    gap: 20px;
+  .pickup-card.is-active .pickup-title{
+    font-size: 26px;        /* 19→26：ここが“ドン” */
+    font-weight: 900;
+    letter-spacing: 0.02em;
+    line-height: 1.18;
+    opacity: 1;
   }
 
-  /* PICKUP ラベル */
-  .pickup-label {
-    font-size: 25px;
-    font-weight: 600;
-    letter-spacing: 0.22em;
-    opacity: 0.9;
-    margin-bottom: 10px;
-  }
-
-  .pickup-title {
-    font-size: 19px;
+  .pickup-card.is-active .pickup-code{
+    font-size: 14px;        /* 13→14 */
     font-weight: 700;
+    opacity: 0.85;
   }
 
-  .pickup-code {
-    font-size: 13px;
-    letter-spacing: 0.05em;
-  }
-
-  .pickup-meta {
-    font-size: 13.5px;
-    gap: 6px 10px;
-    margin-bottom: 4px;
-  }
-
-  .pickup-series,
-  .pickup-theme {
-    font-size: 13px;
-    padding: 2px 8px;
-  }
-
-  .pickup-arc-row {
-    font-size: 14px;
-    margin-bottom: 4px;
-  }
-
-  .pickup-summary {
-    font-size: 14px;
-    line-height: 1.6;
-    margin: 4px 0 6px;
+  .pickup-card.is-active .pickup-summary{
+    font-size: 17px;        /* 14→17：キャッチコピーを主役化 */
+    line-height: 1.75;
+    opacity: 0.95;
+    margin-top: 10px;
   }
 }
 
+/* テキストの詰まりを軽くする（pillが消えても破綻しない） */
+@media (min-width: 769px) {
+  .pickup-title-row{
+    margin-bottom: 6px;  /* 2px相当→増やす */
+    gap: 8px;
+  }
+
+  .pickup-meta,
+  .pickup-arc-row{
+    margin-bottom: 6px;  /* 情報がある時だけ呼吸 */
+  }
+}
+
+/* ホバー：枠全体リンクなので、中央だけ“押せる”感を増やす */
+@media (min-width: 769px) {
+  .pickup-card-link:hover{
+    transform: translateY(-1px);
+    box-shadow: 0 10px 22px rgba(0, 40, 80, 0.16);
+  }
+}
 /* =========================
    全ページ共通：メインレイアウト
    ========================= */
