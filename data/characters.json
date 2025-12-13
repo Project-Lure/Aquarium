@@ -107,7 +107,7 @@
     "theme": "ベーシスト",
     "mainColorLabel": "赤色",
     "colors": [""],
-    "catchcopy": "叫べ、衝動"
+    "catchcopy": ""
   },
   {
     "code": "010",
@@ -140,7 +140,7 @@
     "theme": "クイーン",
     "mainColorLabel": "クオーツ",
     "colors": [""],
-    "catchcopy": "従えたいならルールを変えればいいじゃない"
+    "catchcopy": ""
   },
   {
     "code": "013",
@@ -162,7 +162,7 @@
     "theme": "庭師",
     "mainColorLabel": "石竹色",
     "colors": [""],
-    "catchcopy": "咲かすも枯らすも私次第"
+    "catchcopy": ""
   },
   {
     "code": "016",
@@ -173,7 +173,7 @@
     "theme": "ラジオDJ",
     "mainColorLabel": "イエロー",
     "colors": [""],
-    "catchcopy": "君だけに届けるラブレター"
+    "catchcopy": ""
   },
   {
     "code": "017",
