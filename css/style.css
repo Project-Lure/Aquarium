@@ -2286,7 +2286,8 @@ body > .bubbles-body span:nth-child(9) {
 /* 対象：section-card.about-section のみに番号バッジ */
 .about-project-page .section-card.about-section,
 .about-world-page .section-card.about-section,
-.about-creator-page .section-card.about-section {
+.about-creator-page .section-card.about-section,
+.about-terms-page .section-card.about-section {
   position: relative;
   padding-left: 24px;
   padding-right: 24px;
