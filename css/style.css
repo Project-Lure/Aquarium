@@ -1321,7 +1321,7 @@ body {
 
 .section-card__title {
   display: flex;
-  align-itms: baseline;
+  align-items: baseline;
   font-size: 16px;
   margin: 0 0 12px;
   letter-spacing: 0.12em;
