@@ -2213,6 +2213,7 @@ body > .bubbles-body span:nth-child(9) {
 .about-nav {
   margin-top: 24px;
   padding-top: 16px;
+  padding-bottom: 16px;
   border-top: 1px solid rgba(0,80,140,0.15);
 
   display: flex;
