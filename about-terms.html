@@ -1,13 +1,12 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
   <meta charset="utf-8">
   <title>ABOUT | Terms / 用語説明</title>
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <link rel="stylesheet" href="css/style.css?v=4">
-  <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
   <link rel="icon" type="image/png" href="images/ui/logo-circle.png">
   <!-- ★ head-icons.html を読み込む共通スクリプト -->
@@ -18,12 +17,12 @@
 
   <!-- ヘッダー -->
   <div id="header-container"></div>
-  
+
   <div class="bubbles bubbles-body">
     <span></span><span></span><span></span><span></span><span></span>
     <span></span><span></span><span></span><span></span>
   </div>
-  
+
   <main class="l-main l-main--narrow about-page">
 
     <!-- 戻るリンク -->
@@ -34,6 +33,34 @@
       <h1>Terms / 用語説明</h1>
       <p>
         専門用語や略語を確認できる用語集です。
+      </p>
+    </section>
+    <!-- キャラクター構造（メインカラー・テーマ・コード・タイトル） -->
+    <section class="section-card about-section">
+      <h2 class="section-card__title">CHARACTER / キャラクターの構造</h2>
+
+      <p>
+        ぎじえプロジェクトのキャラクターは、<br>
+        <strong>メインカラー・テーマ・コード・タイトル</strong>の4つの要素で構成されています。<br>
+        一般的な“固有名”ではなく、<strong>作品タイトルそのものがキャラの呼称</strong>として扱われます。
+      </p>
+
+      <ul>
+        <li><strong>コード：</strong>キャラクターを識別するための番号（000〜）</li>
+        <li><strong>タイトル：</strong>作品そのものの名前であり、キャラの“呼び名”として機能する要素</li>
+        <li><strong>メインカラー：</strong>そのキャラクターの世界の見え方・価値観を象徴する色</li>
+        <li><strong>テーマ：</strong>職業・感情・季節など、物語の軸となる概念</li>
+      </ul>
+
+      <p>
+        この形式は、固有名から覚えるのではなく、<br>
+        <strong>色・テーマ・タイトルから直感的に入れる</strong>ように設計されています。
+      </p>
+
+      <p>
+        読者は、キャラクターを記号的に覚える必要はなく、<br>
+        <strong>色・タイトル・世界観</strong>から捉えられるようデザインされています。<br>
+        それぞれのキャラが“誰なのか”よりも、“どう生きてきたのか”に注目していただきたいです。
       </p>
     </section>
 
@@ -53,7 +80,26 @@
 
       <p style="margin-top:8px; font-size:12px; color:var(--text-muted);">
       </p>
+
+      <div class="about-card">
+        <p><strong>【アークの例】</strong></p>
+
+        <p>
+          <strong>エクス：🔥ブレイズ（Blaze）</strong><br>
+          外からは、熱い正義感と行動力を持つ人物に見える。
+        </p>
+
+        <p>
+          <strong>コア：🎭フォグ（Fog）</strong><br>
+          しかし内心では、善悪の境界が曖昧に揺れ続けており、「本当に正しいのか？」という霧のような迷いを抱えている。
+        </p>
+
+        <p>
+          <strong>→ 外の熱さと内の曇りが共存し、その矛盾そのものがキャラクターの物語を深くしていく。</strong>
+        </p>
+      </div>
     </section>
+
 
     <!-- シリーズ名・総称（series.jsonから自動生成） -->
     <section class="section-card about-section">
@@ -69,35 +115,7 @@
       </div>
     </section>
 
-    <!-- キャラクター構造（メインカラー・テーマ・コード・タイトル） -->
-    <section class="section-card about-section">
-      <h2 class="section-card__title">CHARACTER STRUCTURE / キャラクターの構造</h2>
 
-      <p>
-        ぎじえプロジェクトのキャラクターは、<br>
-        <strong>メインカラー・テーマ・コード・タイトル</strong>の4つの要素で構成されています。<br>
-        一般的な“固有名”ではなく、<strong>作品タイトルそのものがキャラの呼称</strong>として扱われます。
-      </p>
-
-      <ul>
-        <li><strong>メインカラー：</strong>そのキャラクターの世界の見え方・価値観を象徴する色</li>
-        <li><strong>テーマ：</strong>職業・感情・季節など、物語の軸となる概念</li>
-        <li><strong>コード：</strong>キャラクターを識別するための番号（000〜）。制作順・分類補助</li>
-        <li><strong>タイトル：</strong>作品そのものの名前であり、キャラの“呼び名”として機能する要素</li>
-      </ul>
-
-      <p>
-        この形式は、「名前を覚える必要があるキャラクター」ではなく、<br>
-        <strong>色とテーマから生まれた“ひとつの人生”を作品として提示する</strong>ために採用されています。
-      </p>
-
-      <p>
-        読者は、キャラクターを記号的に覚える必要はなく、<br>
-        <strong>色・タイトル・世界観</strong>から直感的に捉えられるようデザインされています。<br>
-        それぞれのキャラが“誰なのか”よりも、“どう生きてきたのか”に注目していただく構造です。
-      </p>
-    </section>
-    
   </main>
 
   <!-- フッター -->
@@ -108,4 +126,5 @@
   <!-- Terms専用：JSONから用語リストを生成するスクリプト -->
   <script src="js/terms.js"></script>
 </body>
+
 </html>
