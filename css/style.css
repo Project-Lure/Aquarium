@@ -2299,46 +2299,48 @@ body > .bubbles-body span:nth-child(9) {
   content: counter(about-step, decimal-leading-zero);
   display: inline-block;
   min-width: 2.4em;            /* 01/02/03 の桁ズレ防止 */
-  font-size: 18px;
+  font-size: 28px;
   font-weight: 800;
   letter-spacing: 0.18em;
   opacity: 0.95;
-/*
-  counter-increment: about-step;
-  content: counter(about-step, decimal-leading-zero);
 
-  position: absolute;
-  top: 18px;
-  left: 18px;
-  min-width: 72px;
-  height: 48px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  border-radius: 12px;
   background: linear-gradient(
-    180deg,
-    var(--header-grad-left),
-    var(--header-grad-right)
+     180deg,
+     var(--header-grad-left),
+     var(--header-grad-right)
   );
-  color: #ffffff;
-  font-size: 18px;
-  font-weight: 700;
-  letter-spacing: 0.18em;
-  box-shadow: 0 2px 6px rgba(0, 40, 80, 0.26);
-*/
-  counter-increment: about-step;
-  content: counter(about-step, decimal-leading-zero);
-  display: inline-block;
-  min-width: 2.4em;            /* 01/02/03 の桁ズレ防止 */
-  font-size: 18px;
-  font-weight: 800;
-  letter-spacing: 0.18em;
-  opacity: 0.95;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 
 }
+
+/* 英字タイトル */
+.section-card__title .about-sec-en{
+  font-size: 20px;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  color: var(--text-main);
+}
+
+/* 日本語タイトル */
+.section-card__title .about-sec-ja{
+  font-size: 16px;
+  font-weight: 800;
+  color: rgba(5,51,74,.88);
+}
+
+/* 区切りスラッシュ */
+.section-card__title .about-sec-sep{
+  opacity: .45;
+}
+
+/* 英字・日本語ともに「1文字目だけ」大きく */
+.section-card__title .about-sec-en::first-letter,
+.section-card__title .about-sec-ja::first-letter{
+  font-size: 1.35em;
+  letter-spacing: 0.02em;
+}
+
 
 /* 本文：セクション幅をもう少し使う（行が細すぎる圧迫感を減らす） */
 .section-card.about-section p{
@@ -2371,13 +2373,16 @@ body > .bubbles-body span:nth-child(9) {
   }
 
   .section-card__title{
-    gap: 8px;
+      display: flex;
+     align-items: baseline;
+     gap: 14px;
+     margin: 0 0 14px;
   }
 
   .about-project-page .section-card.about-section .section-card__title::before,
   .about-world-page .section-card.about-section .section-card__title::before,
   .about-creator-page .section-card.about-section .section-card__title::before{
-    font-size: 16px;
+    font-size: 22px;
     min-width: 2.2em;
   }
 
@@ -2387,12 +2392,6 @@ body > .bubbles-body span:nth-child(9) {
 
   .section-card__title .about-sec-ja{
     font-size: 15px;
-  }
-
-  .section-card.about-section p{
-    max-width: 100%;
-    font-size: 14px;
-    line-height: 1.9;
   }
 }
 
