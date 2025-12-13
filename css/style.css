@@ -1889,23 +1889,31 @@ body > .bubbles-body span:nth-child(9) {
    ABOUTページ
    ========================= */
 .about-intro {
-  margin-bottom: 20px;
+  margin-bottom: 22px;
 }
 
 .about-intro h1 {
   margin: 0 0 12px;
-  font-size: 22px;
+  font-size: 28px;
   font-weight: 900;
+  letter-spacing: 0.10em;
+  line-height: 1.18;
+}
+
+.about-intro .project-tagline{
+  margin: 0 0 6px;
+  font-size: 14px;
+  font-weight: 800;
   letter-spacing: 0.12em;
-  line-height: 1.15;
+  color: rgba(5, 51, 74, 0.78);
 }
 
 .about-intro p {
-  margin: 4px 0;
-  font-size: 14px;
-  line-height: 1.9;
-  color: rgba(5, 51, 74, 0.86); /* --text-main を少し薄めた扱い */
-  max-width: 72ch;              /* 行長を抑えて読みやすく */
+  margin: 6px 0;
+  font-size: 15px;
+  line-height: 2.0;
+  color: rgba(5, 51, 74, 0.90);
+  max-width: 78ch;
 }
 
 /* 目次 */
@@ -2279,13 +2287,23 @@ body > .bubbles-body span:nth-child(9) {
 .about-creator-page .section-card.about-section,
 .about-terms-page .section-card.about-section {
   position: relative;
-  padding-left: 120px;
-  margin-top: 24px;
+  padding-left: 24px;
+  padding-right: 24px;
+  margin-top: 22px;
 }
 
 .about-project-page .section-card.about-section::before,
 .about-world-page .section-card.about-section::before,
 .about-creator-page .section-card.about-section::before {
+  counter-increment: about-step;
+  content: counter(about-step, decimal-leading-zero);
+  display: inline-block;
+  min-width: 2.4em;            /* 01/02/03 の桁ズレ防止 */
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  opacity: 0.95;
+/*
   counter-increment: about-step;
   content: counter(about-step, decimal-leading-zero);
 
@@ -2310,23 +2328,71 @@ body > .bubbles-body span:nth-child(9) {
   font-weight: 700;
   letter-spacing: 0.18em;
   box-shadow: 0 2px 6px rgba(0, 40, 80, 0.26);
+*/
+  counter-increment: about-step;
+  content: counter(about-step, decimal-leading-zero);
+  display: inline-block;
+  min-width: 2.4em;            /* 01/02/03 の桁ズレ防止 */
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  opacity: 0.95;
+
 }
 
-@media (max-width: 768px) {
-  .about-project-page .section-card.about-section,
-  .about-world-page .section-card.about-section,
-  .about-creator-page .section-card.about-section {
-    padding-left: 110px;
+/* 本文：セクション幅をもう少し使う（行が細すぎる圧迫感を減らす） */
+.section-card.about-section p{
+  max-width: 92ch;
+  font-size: 14.5px;
+  line-height: 2.0;
+  color: rgba(5, 51, 74, 0.90);
+}
+
+/* スマホ微調整 */
+@media (max-width: 768px){
+
+  .about-intro h1{
+    font-size: 22px;
+    letter-spacing: 0.08em;
   }
 
-  .about-project-page .section-card.about-section::before,
-  .about-world-page .section-card.about-section::before,
-  .about-creator-page .section-card.about-section::before {
-    top: 16px;
-    left: 14px;
-    min-width: 66px;
-    height: 44px;
+  .about-intro p{
+    font-size: 14px;
+    line-height: 1.9;
+    max-width: 100%;
+  }
+
+  .about-project-page .section-card.about-section,
+  .about-world-page .section-card.about-section,
+  .about-creator-page .section-card.about-section,
+  .about-terms-page .section-card.about-section{
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .section-card__title{
+    gap: 8px;
+  }
+
+  .about-project-page .section-card.about-section .section-card__title::before,
+  .about-world-page .section-card.about-section .section-card__title::before,
+  .about-creator-page .section-card.about-section .section-card__title::before{
     font-size: 16px;
+    min-width: 2.2em;
+  }
+
+  .section-card__title .about-sec-en{
+    font-size: 18px;
+  }
+
+  .section-card__title .about-sec-ja{
+    font-size: 15px;
+  }
+
+  .section-card.about-section p{
+    max-width: 100%;
+    font-size: 14px;
+    line-height: 1.9;
   }
 }
 
