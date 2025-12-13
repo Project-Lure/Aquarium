@@ -1208,7 +1208,7 @@ body {
     /* ★追加：左端の“逃げ代” */
     padding: 10px 0 12px 18px;
 
-    gap: 18px;
+    gap: 24px;
 
     /* ★追加：スナップ基準も左余白に合わせる */
     scroll-padding-left: 18px;
