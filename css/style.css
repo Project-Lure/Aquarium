@@ -1895,13 +1895,17 @@ body > .bubbles-body span:nth-child(9) {
 .about-intro h1 {
   margin: 0 0 12px;
   font-size: 22px;
+  font-weight: 900;
   letter-spacing: 0.12em;
+  line-height: 1.15;
 }
 
 .about-intro p {
   margin: 4px 0;
   font-size: 14px;
-  line-height: 1.8;
+  line-height: 1.9;
+  color: rgba(5, 51, 74, 0.86); /* --text-main を少し薄めた扱い */
+  max-width: 72ch;              /* 行長を抑えて読みやすく */
 }
 
 /* 目次 */
