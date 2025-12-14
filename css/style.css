@@ -2267,12 +2267,8 @@ body > .bubbles-body span:nth-child(9) {
   }
 
   .about-nav-btn {
-    width: 100%;
-    justify-content: center;  /* スマホでは左右差をなくして中央寄せ */
-  }
-  
-  .about-nav-btn {
     width: 70%;
+    justify-content: center;  /* スマホでは左右差をなくして中央寄せ */
   }
 }
 
@@ -2318,7 +2314,7 @@ body > .bubbles-body span:nth-child(9) {
 
 /* 英字タイトル */
 .section-card__title .about-sec-en{
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 900;
   letter-spacing: 0.12em;
   color: var(--text-main);
