@@ -2260,7 +2260,7 @@ body > .bubbles-body span:nth-child(9) {
   margin-right: auto;
 }
 
-/* スマホでは縦並び */
+/* スマホでは縦並び 
 @media (max-width: 768px) {
   .about-nav {
     flex-direction: column;
@@ -2270,7 +2270,7 @@ body > .bubbles-body span:nth-child(9) {
     width: 70%;
     justify-content: center;  /* スマホでは左右差をなくして中央寄せ */
   }
-}
+} */
 
 /* ABOUT の下層ページだけ番号カウンターを使う */
 .about-project-page,
