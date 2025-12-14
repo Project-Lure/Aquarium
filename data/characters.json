@@ -8,7 +8,7 @@
     "theme": "無職",
     "mainColorLabel": "透明",
     "colors": [""],
-    "catchcopy": "何者でもないから、何者にでもなれるんだ"
+    "catchcopy": "何者でもないから、何者にでもなれるはずだ"
   },
   {
     "code": "001",
@@ -63,7 +63,7 @@
     "theme": "錬金術師",
     "mainColorLabel": "金色",
     "colors": ["#EBC353"],
-    "catchcopy": "存在か損害か、後悔か崩壊か"
+    "catchcopy": "栄光はもう戻らない"
   },
   {
     "code": "006",
@@ -74,7 +74,7 @@
     "theme": "ギタリスト",
     "mainColorLabel": "緑",
     "colors": ["#35A16C"],
-    "catchcopy": "届け、歌声"
+    "catchcopy": "音は、届かない"
   },
   {
     "code": "007",
@@ -107,7 +107,7 @@
     "theme": "ベーシスト",
     "mainColorLabel": "赤色",
     "colors": [""],
-    "catchcopy": ""
+    "catchcopy": "音は、消えない"
   },
   {
     "code": "010",
@@ -129,18 +129,18 @@
     "theme": "妖精",
     "mainColorLabel": "ライムグリーン",
     "colors": ["#E1FE1F"],
-    "catchcopy": "いつまでも踊り続ける"
+    "catchcopy": "踊ることしか、知らない"
   },
   {
     "code": "012",
     "title": "私の私による私のための",
     "titleYomi": "わたしのわたしによるわたしのための",
     "series": "0",
-    "arc": { "ex": "O", "core": "S" },
+    "arc": { "ex": "P", "core": "Q" },
     "theme": "クイーン",
     "mainColorLabel": "クオーツ",
     "colors": [""],
-    "catchcopy": ""
+    "catchcopy": "自由がないなら、王族でいればいいじゃない？"
   },
   {
     "code": "013",
@@ -151,7 +151,7 @@
     "theme": "皇帝",
     "mainColorLabel": "ロイヤルパープル",
     "colors": ["#914EC8"],
-    "catchcopy": "全て肯定、全て挑戦"
+    "catchcopy": "いいよ、全部"
   },
   {
     "code": "014",
@@ -162,18 +162,18 @@
     "theme": "庭師",
     "mainColorLabel": "石竹色",
     "colors": [""],
-    "catchcopy": ""
+    "catchcopy": "咲かすも枯らすも私次第"
   },
   {
     "code": "016",
     "title": "Radio for Whom",
     "titleYomi": "たがためのれでぃお",
     "series": "0",
-    "arc": { "ex": "N", "core": "V" },
+    "arc": { "ex": "N", "core": "F" },
     "theme": "ラジオDJ",
     "mainColorLabel": "イエロー",
     "colors": [""],
-    "catchcopy": ""
+    "catchcopy": "君だけに送るラブレター"
   },
   {
     "code": "017",
