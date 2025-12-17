@@ -8,7 +8,7 @@
     "theme": "無職",
     "mainColorLabel": "透明",
     "colors": [""],
-    "catchcopy": "何者でもないから、何者にでもなれるはずだ"
+    "catchcopy": "何者でもないまま、何者かを探してる"
   },
   {
     "code": "001",
@@ -96,7 +96,7 @@
     "theme": "華道家",
     "mainColorLabel": "縹色",
     "colors": ["#2A6492"],
-    "catchcopy": "生かすも殺すも私次第"
+    "catchcopy": "生かすか、殺すか"
   },
   {
     "code": "009",
@@ -106,7 +106,7 @@
     "arc": { "ex": "M", "core": "Q" },
     "theme": "ベーシスト",
     "mainColorLabel": "赤色",
-    "colors": ["BB1833"],
+    "colors": ["#BB1833"],
     "catchcopy": "音は、消えない"
   },
   {
@@ -161,8 +161,8 @@
     "arc": { "ex": "P", "core": "B" },
     "theme": "庭師",
     "mainColorLabel": "石竹色",
-    "colors": ["D09098"],
-    "catchcopy": "咲かすも枯らすも私次第"
+    "colors": ["#D09098"],
+    "catchcopy": "咲かすか、枯らすか"
   },
   {
     "code": "016",
@@ -261,7 +261,7 @@
     "theme": "リバーシ",
     "mainColorLabel": "白黒",
     "colors": ["#000000", "#FFFFFF"],
-    "catchcopy": "秩序の名の下に"
+    "catchcopy": "二物は与えず"
   },
   {
     "code": "401",
@@ -272,7 +272,7 @@
     "theme": "1月",
     "mainColorLabel": "ガーネットレッド",
     "colors": [""],
-    "catchcopy": ""
+    "catchcopy": "「おはよう」"
   },
   {
     "code": "409",
@@ -312,7 +312,7 @@
     "title": "Secret of Snow",
     "titleYomi": "しーくれっとおぶすのー",
     "series": "4",
-    "arc": { "ex": "", "core": "" },
+    "arc": { "ex": "O", "core": "B" },
     "theme": "12月",
     "mainColorLabel": "ラピスブルー",
     "colors": [""],
