@@ -1,22 +1,22 @@
 {
   "SNS": [
     {
+      "label": "Twitter",
+      "url": "https://x.com/Project_Lure",
+      "handle": "@Project_LURE",
+      "desc": "最新情報 / キャラクター更新・企画展開"
+    },
+    {
       "label": "YouTube",
       "url": "https://youtube.com/@prayforthelure?si=iUw_znyoIk37pRy_",
       "handle": "@PrayForTheLure",
-      "desc": "MV / キャラ紹介動画"
+      "desc": "キャラ紹介ショート / 映像コンテンツ"
     },
     {
       "label": "note",
       "url": "https://note.com/prayforthelure",
       "handle": "@prayforthelure",
-      "desc": "小説 / 設定資料"
-    },
-    {
-      "label": "Twitter",
-      "url": "https://x.com/Project_Lure",
-      "handle": "@Project_LURE",
-      "desc": "最新情報 / 企画展開"
+      "desc": "設定資料・制作メモ（不定期）"
     }
   ],
 
@@ -25,7 +25,7 @@
       "label": "Pixiv",
       "url": "https://www.pixiv.net/users/117577467",
       "handle": "Project LURE",
-      "desc": "キャラクターカード一覧"
+      "desc": "キャラクタービジュアル一覧"
     },
     {
       "label": "Instagram",
@@ -43,22 +43,22 @@
 
   "SHOP": [
     {
-      "label": "BOOTH",
-      "url": "",
-      "handle": "準備中",
-      "desc": "グッズ・DL販売"
-    },
-    {
       "label": "CAMPFIRE",
       "url": "",
       "handle": "準備中",
-      "desc": "クラウドファンディング"
+      "desc": "クラウドファンディング（企画準備中）"
+    },
+    {
+      "label": "BOOTH",
+      "url": "",
+      "handle": "準備中",
+      "desc": "グッズ・DL販売（予定）"
     },
     {
       "label": "LINEスタンプ",
       "url": "",
       "handle": "準備中",
-      "desc": "LINEスタンプ販売"
+      "desc": "LINEスタンプ販売（予定）"
     }
   ],
 
@@ -67,7 +67,7 @@
       "label": "DM",
       "url": "https://x.com/Project_Lure",
       "handle": "@Project_LURE",
-      "desc": "ご連絡はTwitter(X)のDMまでお願いします"
+      "desc": "お問い合わせはTwitter(X)のDMまでお願いします"
     }
   ]
 }
