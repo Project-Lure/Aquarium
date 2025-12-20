@@ -2284,16 +2284,17 @@ body > .bubbles-body span:nth-child(9) {
 .about-world-page .section-card.about-section,
 .about-creator-page .section-card.about-section,
 .about-terms-page .section-card.about-section {
+  counter-increment: about-step;
   position: relative;
   padding-left: 24px;
   padding-right: 24px;
   margin-top: 22px;
+  
 }
 
 .about-project-page .section-card.about-section .section-card__title::before,
 .about-world-page .section-card.about-section .section-card__title::before,
 .about-creator-page .section-card.about-section .section-card__title::before {
-  counter-increment: about-step;
   content: counter(about-step, decimal-leading-zero);
   display: inline-block;
   min-width: 2.4em;            /* 01/02/03 の桁ズレ防止 */
