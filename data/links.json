@@ -13,25 +13,40 @@
       { "label": "彩に蕩れる - 第5章『彩に蕩れる』", "url": "https://note.com/prayforthelure/n/n1ed6cbd03a73" }
     ],
     "video": [
-      { "label": "キャラ紹介動画", "url": "https://www.youtube.com/shorts/KlJ85Nc6SgA" }
+      { "label": "キャラ紹介動画", "url": "https://youtube.com/shorts/NimmNWBzkIM?feature=share" }
     ]
   },
 
   "001": {
     "novel": [
       { "label": "ロンギヌス・ロンリネス", "url": "https://note.com/prayforthelure/n/nfea0c6810ae6" }
+    ],
+    "video": [
+      { "label": "キャラ紹介動画", "url": "https://youtube.com/shorts/NyXrrymItJw?feature=share" }
     ]
   },
 
   "002": {
     "novel": [
       { "label": "ハナグモ", "url": "https://note.com/prayforthelure/n/n5f09f903bb7b" }
+    ],
+    "video": [
+      { "label": "キャラ紹介動画", "url": "https://youtube.com/shorts/i_bHxuoqP4c?feature=share" }
     ]
   },
 
   "003": {
     "novel": [
       { "label": "にわか雨の先に", "url": "https://note.com/prayforthelure/n/n9b4f4f4a7839" }
+    ],
+    "video": [
+      { "label": "キャラ紹介動画", "url": "https://youtube.com/shorts/NimmNWBzkIM?feature=share" }
+    ]
+  },
+
+  "409": {
+     "video": [
+      { "label": "キャラ紹介動画", "url": "https://youtube.com/shorts/fD5S3LFllzo?feature=share" }
     ]
   }
 }
