@@ -2857,3 +2857,11 @@ body>.bubbles-body span:nth-child(9) {
   color: var(--text-muted);
   line-height: 1.7;
 }
+
+.official-page .section-card.about-section {
+  margin-top: 22px;
+}
+
+.official-page .section-card.about-section:first-of-type {
+  margin-top: 0;
+}
