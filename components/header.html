@@ -7,6 +7,120 @@
 
   <!-- 左：ハンバーガー + ナビ -->
   <div class="header-left">
+    <button id="menu-toggle" class="header-menu-btn" aria-label="メニュー">
+      <i class="fa-solid fa-bars"></i>
+    </button>
+
+    <nav class="header-nav" id="site-nav" aria-hidden="true">
+      <button type="button" class="nav-close-btn" aria-label="メニューを閉じる">
+        &times;
+      </button>
+
+      <!-- HOME -->
+      <a href="index.html" class="header-nav-link nav-home">
+        <span class="nav-label-en">HOME</span>
+        <span class="nav-label-ja">キャラクター一覧</span>
+      </a>
+
+      <!-- SERIES -->
+      <a href="series.html" class="header-nav-link nav-series">
+        <span class="nav-label-en">SERIES</span>
+        <span class="nav-label-ja">シリーズ</span>
+      </a>
+
+      <!-- SERIES配下 -->
+      <div class="header-subnav header-subnav--series">
+        <a href="series-somari.html" class="header-subnav-link subnav-somari">
+          <span class="subnav-en">SERIES 0</span>
+          <span class="subnav-ja">そまりものがたり</span>
+        </a>
+      </div>
+
+      <!-- GALLERY（準備中） -->
+      <a href="pending.html" class="header-nav-link nav-gallery">
+        <span class="nav-label-en">GALLERY</span>
+        <span class="nav-label-ja">ぎじえ水族館</span>
+      </a>
+
+      <!-- ABOUT -->
+      <a href="about.html" class="header-nav-link nav-about">
+        <span class="nav-label-en">ABOUT</span>
+        <span class="nav-label-ja">活動について</span>
+      </a>
+
+      <!-- ABOUT配下 -->
+      <div class="header-subnav header-subnav--about">
+        <a href="about-project.html" class="header-subnav-link subnav-project">
+          <span class="subnav-en">Project</span>
+          <span class="subnav-ja">ぎじえプロジェクトとは</span>
+        </a>
+
+        <a href="about-world.html" class="header-subnav-link subnav-world">
+          <span class="subnav-en">World</span>
+          <span class="subnav-ja">どんな世界観なのか</span>
+        </a>
+
+        <a href="about-creator.html" class="header-subnav-link subnav-creator">
+          <span class="subnav-en">Creator</span>
+          <span class="subnav-ja">制作者について</span>
+        </a>
+
+        <a href="about-terms.html" class="header-subnav-link subnav-terms">
+          <span class="subnav-en">Terms</span>
+          <span class="subnav-ja">用語説明</span>
+        </a>
+      </div>
+
+      <!-- OFFICIAL（準備中：配下に LINKS / SUPPORTERS） -->
+      <a href="pending.html" class="header-nav-link nav-official">
+        <span class="nav-label-en">OFFICIAL</span>
+        <span class="nav-label-ja">公式情報</span>
+      </a>
+
+      <!-- OFFICIAL配下 -->
+      <div class="header-subnav header-subnav--official">
+        <a href="pending.html" class="header-subnav-link subnav-links">
+          <span class="subnav-en">Links</span>
+          <span class="subnav-ja">外部リンク一覧</span>
+        </a>
+
+        <a href="pending.html" class="header-subnav-link subnav-supporters">
+          <span class="subnav-en">Supporters</span>
+          <span class="subnav-ja">支援者一覧</span>
+        </a>
+      </div>
+
+    </nav>
+  </div>
+
+  <!-- 中央：ロゴ -->
+  <div class="header-center">
+    <a href="index.html" class="header-logo-link">
+      <img src="images/ui/logo-horizontal.png" alt="Project Lure" class="header-logo">
+    </a>
+  </div>
+
+  <!-- 右：検索＆ヘルプ -->
+  <div class="header-right">
+    <button id="search-open" class="header-icon-btn header-search-btn" aria-label="検索">
+      <i class="fa-solid fa-magnifying-glass"></i>
+    </button>
+    <button id="help-open" class="header-icon-btn header-help-btn" aria-label="ヘルプ">
+      <i class="fa-regular fa-circle-question"></i>
+    </button>
+  </div>
+
+</header>
+
+<div id="nav-overlay" class="nav-overlay"></div><header class="site-header">
+
+  <div class="bubbles bubbles-header">
+    <span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span>
+  </div>
+
+  <!-- 左：ハンバーガー + ナビ -->
+  <div class="header-left">
     <!-- ハンバーガー（全デバイスで使用） -->
     <button id="menu-toggle" class="header-menu-btn" aria-label="メニュー">
       <i class="fa-solid fa-bars"></i>
