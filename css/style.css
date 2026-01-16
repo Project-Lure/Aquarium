@@ -302,8 +302,13 @@ body {
 
 .header-subnav-link .subnav-en {
   font-size: 11px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  /* Title Case なら詰めた方が読みやすい */
+  text-transform: none;
+  /* ★子要素は大文字固定にしない */
+  font-weight: 700;
+  /* ちょい強め（任意） */
+
   font-family:
     ui-monospace,
     SFMono-Regular,
