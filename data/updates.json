@@ -1,17 +1,44 @@
 [
   {
-    "date": "2026-01-16",
+    "date": "2025-12-07",
+    "title": "公式サイトを公開しました",
+    "type": "site",
+    "link": null,
+    "note": "Project LUREの公式サイトを公開"
+  },
+  {
+    "date": "2025-12-16",
+    "title": "ABOUTページを公開しました",
+    "type": "page",
+    "link": "about.html",
+    "note": "プロジェクト概要・用語・制作者情報を掲載"
+  },
+  {
+    "date": "2026-01-07",
+    "title": "SERIESページを公開しました",
+    "type": "page",
+    "link": "series.html",
+    "note": "全シリーズの一覧と構造を整理"
+  },
+  {
+    "date": "2026-01-07",
+    "title": "「そまりものがたり」紹介ページを公開しました",
+    "type": "content",
+    "link": "series-somari.html",
+    "note": "Occupationシリーズの導入ページ"
+  },
+  {
+    "date": "2026-01-12",
     "title": "OFFICIALページを公開しました",
-    "url": "official.html"
+    "type": "page",
+    "link": "official.html",
+    "note": "更新情報・公式リンク・支援導線を集約"
   },
   {
-    "date": "2026-01-15",
-    "title": "SERIESページを更新しました",
-    "url": "series.html"
-  },
-  {
-    "date": "2026-01-10",
-    "title": "SERIES 0（そまりものがたり）を公開しました",
-    "url": "series-somari.html"
+    "date": "2026-01-14",
+    "title": "クラウドファンディングを開始しました",
+    "type": "campaign",
+    "link": "https://camp-fire.jp/",
+    "note": "Project LURE支援募集を開始"
   }
 ]
