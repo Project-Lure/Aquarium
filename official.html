@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="ja">
-
 <head>
   <meta charset="utf-8">
   <title>OFFICIAL｜ぎじえプロジェクト</title>
@@ -14,6 +13,7 @@
 
 <body class="official-page">
 
+  <!-- ヘッダー -->
   <div id="header-container"></div>
 
   <div class="bubbles bubbles-body">
@@ -23,11 +23,15 @@
 
   <main class="l-main l-main--narrow official-page">
 
+    <!-- 導入 -->
     <section class="about-intro">
       <h1>OFFICIAL</h1>
-      <p>公式情報のまとめページです。</p>
+      <p>
+        ぎじえプロジェクトに関する公式情報をまとめたページです。
+      </p>
     </section>
 
+    <!-- 更新情報 -->
     <section class="section-card about-section">
       <h2 class="section-card__title">
         <span class="about-sec-en">UPDATE</span>
@@ -38,27 +42,48 @@
       <div class="official-update" id="official-update">
         <p class="official-update__loading">読み込み中…</p>
       </div>
+    </section>
 
-      <div class="about-terms-block">
-        <div class="about-card">
-          <a href="links.html">
-            <div class="about-card-title">Links / 外部リンク一覧</div>
-            <div class="about-card-desc">各種SNS・配信先などのリンクをまとめています。</div>
-          </a>
-        </div>
-        <div class="arrow-sep"></div>
-        <div class="about-card">
-          <a href="pending.html">
-            <div class="about-card-title">Supporters / 支援者一覧</div>
-            <div class="about-card-desc">（ただいま準備中です）</div>
-          </a>
-        </div>
+    <!-- リンク集 -->
+    <section class="section-card about-section">
+      <h2 class="section-card__title">
+        <span class="about-sec-en">LINKS</span>
+        <span class="about-sec-sep"> / </span>
+        <span class="about-sec-ja">外部リンク</span>
+      </h2>
+
+      <div class="about-card">
+        <a href="links.html">
+          <div class="about-card-title">Links / 外部リンク一覧</div>
+          <div class="about-card-desc">
+            SNS・配信先・関連ページなどのリンクをまとめています。
+          </div>
+        </a>
       </div>
+    </section>
 
+    <!-- 支援者 -->
+    <section class="section-card about-section">
+      <h2 class="section-card__title">
+        <span class="about-sec-en">SUPPORTERS</span>
+        <span class="about-sec-sep"> / </span>
+        <span class="about-sec-ja">支援者一覧</span>
+      </h2>
+
+      <div class="about-card">
+        <a href="pending.html">
+          <div class="about-card-title">Supporters / 支援者一覧</div>
+          <div class="about-card-desc">
+            クラウドファンディングで支援してくださった方々の一覧です。
+            <br>（現在準備中）
+          </div>
+        </a>
+      </div>
     </section>
 
   </main>
 
+  <!-- フッター -->
   <div id="footer-container"></div>
 
   <script src="js/loadHeader.js"></script>
@@ -66,5 +91,4 @@
   <script src="js/official-updates.js"></script>
 
 </body>
-
 </html>
