@@ -4,19 +4,16 @@
 <head>
   <meta charset="utf-8">
   <title>OFFICIAL｜ぎじえプロジェクト</title>
-
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 
   <link rel="stylesheet" href="css/style.css?v=4">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
   <link rel="icon" type="image/png" href="images/ui/logo-circle.png">
   <script src="js/loadHeadIcons.js"></script>
 </head>
 
 <body class="official-page">
 
-  <!-- ▼ ヘッダー読み込み -->
   <div id="header-container"></div>
 
   <div class="bubbles bubbles-body">
@@ -24,60 +21,49 @@
     <span></span><span></span><span></span><span></span>
   </div>
 
-  <!-- ▼ 本文 -->
   <main class="l-main l-main--narrow official-page">
 
     <section class="about-intro">
       <h1>OFFICIAL</h1>
-      <p>
-        公式情報をまとめたページです。<br>
-        外部リンクや支援者一覧など、運用情報はここからご案内します。
-      </p>
+      <p>公式情報のまとめページです。</p>
     </section>
 
     <section class="section-card about-section">
-      <h2 class="section-card__title">CONTENTS</h2>
+      <h2 class="section-card__title">
+        <span class="about-sec-en">UPDATE</span>
+        <span class="about-sec-sep"> / </span>
+        <span class="about-sec-ja">更新情報</span>
+      </h2>
 
-      <nav class="about-toc">
-        <ul class="about-toc-list about-main-flow">
+      <div class="official-update" id="official-update">
+        <p class="official-update__loading">読み込み中…</p>
+      </div>
 
-          <!-- Links -->
-          <li>
-            <div class="about-card">
-              <a href="links.html">
-                <div class="about-card-title">Links / 外部リンク一覧</div>
-                <div class="about-card-desc">
-                  公式の外部ページ・SNS・配信先などをまとめています。
-                </div>
-              </a>
-            </div>
-          </li>
-
-          <!-- Supporters -->
-          <li>
-            <div class="about-card">
-              <a href="pending.html">
-                <div class="about-card-title">Supporters / 支援者一覧</div>
-                <div class="about-card-desc">
-                  （ただいま準備中です）
-                </div>
-              </a>
-            </div>
-          </li>
-
-        </ul>
-      </nav>
+      <div class="about-terms-block">
+        <div class="about-card">
+          <a href="links.html">
+            <div class="about-card-title">Links / 外部リンク一覧</div>
+            <div class="about-card-desc">各種SNS・配信先などのリンクをまとめています。</div>
+          </a>
+        </div>
+        <div class="arrow-sep"></div>
+        <div class="about-card">
+          <a href="pending.html">
+            <div class="about-card-title">Supporters / 支援者一覧</div>
+            <div class="about-card-desc">（ただいま準備中です）</div>
+          </a>
+        </div>
+      </div>
 
     </section>
 
   </main>
 
-  <!-- ▼ フッター読み込み -->
   <div id="footer-container"></div>
 
-  <!-- ▼ 共通スクリプト -->
   <script src="js/loadHeader.js"></script>
   <script src="js/loadFooter.js"></script>
+  <script src="js/official-updates.js"></script>
 
 </body>
 
