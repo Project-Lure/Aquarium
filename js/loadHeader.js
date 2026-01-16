@@ -190,7 +190,7 @@ function initHeader() {
   });
 
   // ==========
-  // 現在ページに .is-current を付与
+  // 現在ページに .is-current を付与（親も光らせる）
   // ==========
   try {
     let currentPage = window.location.pathname.split('/').pop();
@@ -198,31 +198,47 @@ function initHeader() {
       currentPage = 'index.html';
     }
 
-    // メインメニュー
+    const normalizeFile = (href) => {
+      if (!href) return '';
+      return href.split('/').pop().split('#')[0].split('?')[0];
+    };
+
+    const setCurrent = (el) => {
+      if (!el) return;
+      el.classList.add('is-current');
+    };
+
+    // 親リンク（メイン）
     const navLinks = document.querySelectorAll('.header-nav-link[href]');
     navLinks.forEach((link) => {
-      const href = link.getAttribute('href');
-      if (!href) return;
-      const linkFile = href.split('/').pop().split('#')[0].split('?')[0];
+      const linkFile = normalizeFile(link.getAttribute('href'));
       if (linkFile === currentPage) {
-        link.classList.add('is-current');
+        setCurrent(link);
       }
     });
 
-    // サブメニュー（ABOUT配下）
+    // 子リンク（サブ）
     const subnavLinks = document.querySelectorAll('.header-subnav-link[href]');
     subnavLinks.forEach((link) => {
-      const href = link.getAttribute('href');
-      if (!href) return;
-      const linkFile = href.split('/').pop().split('#')[0].split('?')[0];
-      if (linkFile === currentPage) {
-        link.classList.add('is-current');
-        const aboutParent = document.querySelector('.header-nav-link.nav-about');
-        if (aboutParent) {
-          aboutParent.classList.add('is-current');
-        }
+      const linkFile = normalizeFile(link.getAttribute('href'));
+      if (linkFile !== currentPage) return;
+
+      // 子を光らせる
+      setCurrent(link);
+
+      // その子が属している subnav ブロックを見て、親を決める
+      const subnavBlock = link.closest('.header-subnav');
+      if (!subnavBlock) return;
+
+      if (subnavBlock.classList.contains('header-subnav--about')) {
+        setCurrent(document.querySelector('.header-nav-link.nav-about'));
+      } else if (subnavBlock.classList.contains('header-subnav--series')) {
+        setCurrent(document.querySelector('.header-nav-link.nav-series'));
+      } else if (subnavBlock.classList.contains('header-subnav--official')) {
+        setCurrent(document.querySelector('.header-nav-link.nav-official'));
       }
     });
+
   } catch (err) {
     console.warn('current page 判定でエラー:', err);
   }
