@@ -5,28 +5,28 @@
   --header-height: 120px;
 
   /* ヘッダーの海グラデ */
-  --header-grad-left:  #12c2e9;
+  --header-grad-left: #12c2e9;
   --header-grad-right: #0073ff;
 
   /* ページ全体のベースカラー */
-  --bg-page-top:    #f5fbff;
-  --bg-page-mid:    #e8f4ff;
+  --bg-page-top: #f5fbff;
+  --bg-page-mid: #e8f4ff;
   --bg-page-bottom: #f3f9ff;
 
   /* カードなどの共通 */
-  --card-bg:       #ffffff;
-  --card-border:   rgba(0, 40, 80, 0.08);
-  --card-shadow:   rgba(0, 40, 80, 0.06);
+  --card-bg: #ffffff;
+  --card-border: rgba(0, 40, 80, 0.08);
+  --card-shadow: rgba(0, 40, 80, 0.06);
   --card-shadow-h: rgba(0, 40, 80, 0.12);
 
   /* テキスト／アクセント */
-  --text-main:   #05334a;
-  --text-muted:  #5c7a92;
-  --accent:      #0088ff;
+  --text-main: #05334a;
+  --text-muted: #5c7a92;
+  --accent: #0088ff;
   --accent-soft: #d3ecff;
 
   /* モーダル系 */
-  --modal-bg:    #ffffff;
+  --modal-bg: #ffffff;
   --modal-shadow: 0 4px 16px rgba(0, 40, 80, 0.18);
 
   /* キャラページ用のメインカラー（デフォはアクセント） */
@@ -40,17 +40,15 @@ body {
   padding-top: var(--header-height);
 
   font-family: 'M PLUS Rounded 1c',
-               system-ui, -apple-system, BlinkMacSystemFont,
-               'Hiragino Kaku Gothic ProN', 'Yu Gothic', sans-serif;
+    system-ui, -apple-system, BlinkMacSystemFont,
+    'Hiragino Kaku Gothic ProN', 'Yu Gothic', sans-serif;
 
   color: var(--text-main);
 
-  background: linear-gradient(
-    180deg,
-    var(--bg-page-top) 0%,
-    var(--bg-page-mid) 40%,
-    var(--bg-page-bottom) 100%
-  );
+  background: linear-gradient(180deg,
+      var(--bg-page-top) 0%,
+      var(--bg-page-mid) 40%,
+      var(--bg-page-bottom) 100%);
 
   min-height: 100vh;
   display: flex;
@@ -65,7 +63,8 @@ body {
   top: 0;
   left: 0;
   width: 100%;
-  z-index: 2600; /* 2000 → 2600 */
+  z-index: 2600;
+  /* 2000 → 2600 */
 }
 
 
@@ -88,9 +87,10 @@ body {
 
   background: linear-gradient(90deg, var(--header-grad-left), var(--header-grad-right));
   color: #fff;
-  border-bottom: 1px solid rgba(0,0,0,0.06);
-  z-index: 2610; /* navよりは下、overlayより上にしない */
-  
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  z-index: 2610;
+  /* navよりは下、overlayより上にしない */
+
   overflow: hidden;
   position: relative;
 }
@@ -189,9 +189,11 @@ body {
 /* スマホでは「画面のだいたい 8割幅」にする */
 @media (max-width: 768px) {
   .header-nav {
-    width: min(320px, 80vw); /* 画面に対して 8割くらい */
+    width: min(320px, 80vw);
+    /* 画面に対して 8割くらい */
     max-width: 80vw;
-    padding-top: 96px; /* ヘッダー高さぶん下げる */
+    padding-top: 96px;
+    /* ヘッダー高さぶん下げる */
     gap: 12px;
   }
 
@@ -217,16 +219,19 @@ body {
   line-height: 1;
   cursor: pointer;
   padding: 10px;
-  
+
   border-radius: 50%;
-  background: rgba(0,0,0,0.05);
+  background: rgba(0, 0, 0, 0.05);
 }
 
 @media (max-width: 768px) {
   .nav-close-btn {
-    font-size: 36px;   /* ← スマホはさらに大きく */
-    padding: 12px;     /* ← タップしやすい */
-    top: 8px;          /* ← ヘッダーの余白調整 */
+    font-size: 36px;
+    /* ← スマホはさらに大きく */
+    padding: 12px;
+    /* ← タップしやすい */
+    top: 8px;
+    /* ← ヘッダーの余白調整 */
     left: 10px;
   }
 }
@@ -274,7 +279,8 @@ body {
 
 /* ABOUT 配下のサブメニュー */
 .header-subnav {
-  margin: -4px 0 8px 24px;  /* 親より少し右にずらす */
+  margin: -4px 0 8px 24px;
+  /* 親より少し右にずらす */
   padding-left: 10px;
   border-left: 1px solid rgba(0, 80, 140, 0.15);
   display: flex;
@@ -316,7 +322,8 @@ body {
 
 /* 今いるページ（メイン項目） */
 .header-nav-link.is-current {
-  background: rgba(0, 136, 255, 0.15);         /* 淡い青でハイライト */
+  background: rgba(0, 136, 255, 0.15);
+  /* 淡い青でハイライト */
   border-color: rgba(0, 80, 140, 0.6);
   box-shadow: 0 0 0 2px rgba(0, 80, 140, 0.35);
   color: #05334a;
@@ -327,8 +334,10 @@ body {
   background: linear-gradient(90deg, var(--header-grad-left), var(--header-grad-right));
   color: #ffffff;
   box-shadow: 0 1px 5px rgba(0, 40, 80, 0.25);
-  padding-left: 12px;            /* ← 少し大きめに */
-  border-left: 4px solid #fff;   /* ← 白い帯で強調 */
+  padding-left: 12px;
+  /* ← 少し大きめに */
+  border-left: 4px solid #fff;
+  /* ← 白い帯で強調 */
 }
 
 /* PCでもスマホでも同じ挙動：ハンバーガーで開閉 */
@@ -368,7 +377,8 @@ body {
   .site-header {
     display: flex;
     align-items: center;
-    justify-content: flex-start;  /* 左詰めで並べる */
+    justify-content: flex-start;
+    /* 左詰めで並べる */
     padding: 0 8px;
   }
 
@@ -382,31 +392,36 @@ body {
   .header-left {
     display: flex;
     align-items: center;
-    gap: 6px;          /* ハンバーガーとロゴの間 */
+    gap: 6px;
+    /* ハンバーガーとロゴの間 */
     flex: 0 0 auto;
   }
 
   .header-center {
     display: flex;
     align-items: center;
-    flex: 0 1 auto;    /* ロゴは必要に応じて縮む */
+    flex: 0 1 auto;
+    /* ロゴは必要に応じて縮む */
   }
 
   .header-right {
     display: flex;
     align-items: center;
     gap: 6px;
-    margin-left: auto; /* ここから右端まで飛ばす */
+    margin-left: auto;
+    /* ここから右端まで飛ばす */
     flex: 0 0 auto;
   }
 
   .header-logo {
     max-height: 40px;
-    max-width: 56vw;   /* ロゴがアイコン側にはみ出さないよう制限 */
+    max-width: 56vw;
+    /* ロゴがアイコン側にはみ出さないよう制限 */
     height: auto;
     width: auto;
   }
 }
+
 /* PC ホバー時の装飾 */
 @media (min-width: 769px) and (hover:hover) and (pointer:fine) {
   .header-nav-link {
@@ -787,15 +802,41 @@ body {
 /* ─────────────────────────
    各色のベース色 （バッジの色）
 ────────────────────────── */
-.color-red    .color-badge { background: #ff4b4b; }
-.color-orange .color-badge { background: #ff8d2e; }
-.color-yellow .color-badge { background: #ffd541; }
-.color-green  .color-badge { background: #3ed36a; }
-.color-mono   .color-badge { background: #bfbfbf; }
-.color-cyan   .color-badge { background: #4fd8ff; }
-.color-blue   .color-badge { background: #4a7ee6; }
-.color-purple .color-badge { background: #b46cff; }
-.color-pink   .color-badge { background: #ff88cc; }
+.color-red .color-badge {
+  background: #ff4b4b;
+}
+
+.color-orange .color-badge {
+  background: #ff8d2e;
+}
+
+.color-yellow .color-badge {
+  background: #ffd541;
+}
+
+.color-green .color-badge {
+  background: #3ed36a;
+}
+
+.color-mono .color-badge {
+  background: #bfbfbf;
+}
+
+.color-cyan .color-badge {
+  background: #4fd8ff;
+}
+
+.color-blue .color-badge {
+  background: #4a7ee6;
+}
+
+.color-purple .color-badge {
+  background: #b46cff;
+}
+
+.color-pink .color-badge {
+  background: #ff88cc;
+}
 
 /* バッジ本体 */
 .color-badge {
@@ -816,20 +857,56 @@ body {
 ────────────────────────── */
 .color-option.active {
   transform: scale(1.05);
-  border-color: currentColor;    /* 後述の色指定が効く */
-  box-shadow: 0 0 10px rgba(0,0,0,0.12);
+  border-color: currentColor;
+  /* 後述の色指定が効く */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.12);
 }
 
 /* active 時の背景色（薄くつける） */
-.color-option.active.color-red    { background: rgba(255, 75, 75, 0.18); color: #ff4b4b; }
-.color-option.active.color-orange { background: rgba(255,140, 50, 0.18); color: #ff8d2e; }
-.color-option.active.color-yellow { background: rgba(255,213, 65, 0.22); color: #ffd541; }
-.color-option.active.color-green  { background: rgba( 62,211,106, 0.18); color: #3ed36a; }
-.color-option.active.color-mono   { background: rgba(180,180,180, 0.20); color: #777; }
-.color-option.active.color-cyan   { background: rgba( 79,216,255, 0.18); color: #4fd8ff; }
-.color-option.active.color-blue   { background: rgba( 74,126,230,0.18); color: #4a7ee6; }
-.color-option.active.color-purple { background: rgba(180,108,255,0.20); color: #b46cff; }
-.color-option.active.color-pink   { background: rgba(255,136,204,0.22); color: #ff88cc; }
+.color-option.active.color-red {
+  background: rgba(255, 75, 75, 0.18);
+  color: #ff4b4b;
+}
+
+.color-option.active.color-orange {
+  background: rgba(255, 140, 50, 0.18);
+  color: #ff8d2e;
+}
+
+.color-option.active.color-yellow {
+  background: rgba(255, 213, 65, 0.22);
+  color: #ffd541;
+}
+
+.color-option.active.color-green {
+  background: rgba(62, 211, 106, 0.18);
+  color: #3ed36a;
+}
+
+.color-option.active.color-mono {
+  background: rgba(180, 180, 180, 0.20);
+  color: #777;
+}
+
+.color-option.active.color-cyan {
+  background: rgba(79, 216, 255, 0.18);
+  color: #4fd8ff;
+}
+
+.color-option.active.color-blue {
+  background: rgba(74, 126, 230, 0.18);
+  color: #4a7ee6;
+}
+
+.color-option.active.color-purple {
+  background: rgba(180, 108, 255, 0.20);
+  color: #b46cff;
+}
+
+.color-option.active.color-pink {
+  background: rgba(255, 136, 204, 0.22);
+  color: #ff88cc;
+}
 
 /* =========================
    PC だけ hover 効果をつける
@@ -837,7 +914,7 @@ body {
 @media (hover: hover) and (pointer: fine) {
   .color-option:hover {
     transform: scale(1.03);
-    box-shadow: 0 0 12px rgba(0,0,0,0.12);
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.12);
   }
 
   /* hover 時に少し明るくする（active ではない時だけ） */
@@ -917,11 +994,15 @@ body {
 
   /* モーダル全体を画面内に収める＋中身だけスクロール */
   #search-modal {
-    max-height: calc(100vh - 40px);  /* 画面から上下20pxずつ余裕 */
-    width: calc(100% - 24px);        /* 左右にも少し余白 */
-    margin: 12px auto;               /* 画面中央寄せ */
+    max-height: calc(100vh - 40px);
+    /* 画面から上下20pxずつ余裕 */
+    width: calc(100% - 24px);
+    /* 左右にも少し余白 */
+    margin: 12px auto;
+    /* 画面中央寄せ */
     padding: 12px 14px 10px;
-    overflow-y: auto;                /* 中身をスクロールさせる */
+    overflow-y: auto;
+    /* 中身をスクロールさせる */
     box-sizing: border-box;
   }
 
@@ -933,13 +1014,15 @@ body {
   /* 下端のボタン行：少し大きめ＋押しやすく */
   .search-btn-row {
     margin-top: 14px;
-    padding-bottom: 4px;   /* 画面端との間に余白 */
+    padding-bottom: 4px;
+    /* 画面端との間に余白 */
     gap: 8px;
   }
 
   .search-reset-btn,
   .search-decide-btn {
-    min-height: 44px;      /* タップしやすい高さ */
+    min-height: 44px;
+    /* タップしやすい高さ */
     font-size: 14px;
   }
 }
@@ -950,18 +1033,21 @@ body {
    そのまま全行コピペで上書き用
    ========================= */
 
-.pickup-section{
+.pickup-section {
   position: relative;
   margin: 12px auto 16px;
   width: 90%;
   max-width: 1100px;
-  padding: 10px 12px 10px;      /* 縦を少し締める */
-  padding-right: 34px;          /* ×ボタン分 */
-  overflow: hidden;             /* セクション外にはみ出さない */
+  padding: 10px 12px 10px;
+  /* 縦を少し締める */
+  padding-right: 34px;
+  /* ×ボタン分 */
+  overflow: hidden;
+  /* セクション外にはみ出さない */
 }
 
 /* ラベル */
-.pickup-label{
+.pickup-label {
   font-size: 12px;
   letter-spacing: .2em;
   text-transform: uppercase;
@@ -970,12 +1056,12 @@ body {
 }
 
 /* レール（中央スナップ安定＋左右の“内側余白”を確保） */
-.pickup-track{
-  display:flex;
+.pickup-track {
+  display: flex;
   gap: 12px;
-  overflow-x:auto;
-  scroll-snap-type:x mandatory;
-  -webkit-overflow-scrolling:touch;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
 
   /* ★ここが「短辺が見切れない」主因：左右に余白を入れる */
   padding: 8px 12px 12px;
@@ -986,23 +1072,26 @@ body {
 }
 
 /* スクロールバー見た目（任意：残したいなら） */
-.pickup-track::-webkit-scrollbar{
+.pickup-track::-webkit-scrollbar {
   height: 6px;
 }
-.pickup-track::-webkit-scrollbar-track{
-  background: rgba(0,40,80,.06);
+
+.pickup-track::-webkit-scrollbar-track {
+  background: rgba(0, 40, 80, .06);
   border-radius: 999px;
 }
-.pickup-track::-webkit-scrollbar-thumb{
-  background: rgba(0,40,80,.22);
+
+.pickup-track::-webkit-scrollbar-thumb {
+  background: rgba(0, 40, 80, .22);
   border-radius: 999px;
 }
 
 /* カード */
-.pickup-card{
+.pickup-card {
   scroll-snap-align: center;
-  flex: 0 0 100%;               /* ★スマホはチラ見せ禁止：常に1枚=100% */
-  box-sizing:border-box;
+  flex: 0 0 100%;
+  /* ★スマホはチラ見せ禁止：常に1枚=100% */
+  box-sizing: border-box;
 
   /* PCで効かせる。スマホは後で上書き（切れ防止） */
   transform: scale(.96);
@@ -1011,168 +1100,183 @@ body {
 
 /* ready 以前はアニメ無効（初期ズーム/ガタつき防止） */
 .pickup-section:not(.pickup-ready) .pickup-card,
-.pickup-section:not(.pickup-ready) .pickup-card-link{
+.pickup-section:not(.pickup-ready) .pickup-card-link {
   transition: none !important;
 }
 
 /* リンク＝カード本体 */
-.pickup-card-link{
-  display:block;
-  width:100%;
-  height:100%;
+.pickup-card-link {
+  display: block;
+  width: 100%;
+  height: 100%;
   padding: 14px 14px;
   border-radius: 16px;
-  box-sizing:border-box;
-  text-decoration:none;
+  box-sizing: border-box;
+  text-decoration: none;
   color: inherit;
-  background: rgba(255,255,255,.95);
-  border: 1px solid rgba(0,40,80,.08);
+  background: rgba(255, 255, 255, .95);
+  border: 1px solid rgba(0, 40, 80, .08);
 }
 
 /* 中身 */
-.pickup-inner{
-  display:flex;
-  align-items:center;
+.pickup-inner {
+  display: flex;
+  align-items: center;
   gap: 12px;
 }
 
 /* サムネ */
-.pickup-thumb{
+.pickup-thumb {
   flex: 0 0 72px;
   max-width: 72px;
 }
-.pickup-thumb-img{
-  width:100%;
-  height:auto;
-  display:block;
+
+.pickup-thumb-img {
+  width: 100%;
+  height: auto;
+  display: block;
   border-radius: 12px;
-  border: 1px solid rgba(0,40,80,.14);
-  background:#fff;
+  border: 1px solid rgba(0, 40, 80, .14);
+  background: #fff;
 }
 
 /* テキスト */
-.pickup-main{
+.pickup-main {
   flex: 1 1 auto;
-  min-width:0;
+  min-width: 0;
 }
-.pickup-title{
+
+.pickup-title {
   font-size: 16px;
   font-weight: 900;
   line-height: 1.18;
   letter-spacing: .01em;
   margin: 0;
 }
-.pickup-summary{
-  font-size: 13.5px;            /* ★スマホでも小さすぎない */
+
+.pickup-summary {
+  font-size: 13.5px;
+  /* ★スマホでも小さすぎない */
   line-height: 1.6;
   margin: 10px 0 0;
   opacity: .95;
 
-  display:-webkit-box;
+  display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
-  overflow:hidden;
+  overflow: hidden;
 }
 
 /* アクティブ強調（共通） */
-.pickup-card.is-active{
+.pickup-card.is-active {
   opacity: 1;
 }
-.pickup-card.is-active .pickup-card-link{
+
+.pickup-card.is-active .pickup-card-link {
   border-color: var(--accent);
-  box-shadow: 0 12px 28px rgba(0,40,80,.14);
+  box-shadow: 0 12px 28px rgba(0, 40, 80, .14);
 }
 
 /* ホバー（PCだけでもOKだが、共通で入れて問題なし） */
-.pickup-card-link:hover{
-  border-color: rgba(0,120,220,.35);
-  box-shadow: 0 10px 22px rgba(0,40,80,.12);
+.pickup-card-link:hover {
+  border-color: rgba(0, 120, 220, .35);
+  box-shadow: 0 10px 22px rgba(0, 40, 80, .12);
   transform: translateY(-1px);
 }
 
 /* ×ボタン */
-.pickup-close-btn{
-  position:absolute;
+.pickup-close-btn {
+  position: absolute;
   top: 8px;
   right: 10px;
   width: 22px;
   height: 22px;
   border-radius: 999px;
-  border:none;
-  background: rgba(0,0,0,.05);
+  border: none;
+  background: rgba(0, 0, 0, .05);
   color: var(--text-main);
   font-size: 14px;
-  line-height:1;
-  cursor:pointer;
-  padding:0;
-  z-index: 3; /* ★消失防止（前面に固定） */
+  line-height: 1;
+  cursor: pointer;
+  padding: 0;
+  z-index: 3;
+  /* ★消失防止（前面に固定） */
 }
-.pickup-close-btn:hover{
-  background: rgba(0,0,0,.10);
+
+.pickup-close-btn:hover {
+  background: rgba(0, 0, 0, .10);
 }
 
 /* ドット */
-.pickup-dots{
+.pickup-dots {
   margin-top: 6px;
-  text-align:center;
+  text-align: center;
   position: relative;
-  z-index: 2; /* ★消失防止（レールより前） */
+  z-index: 2;
+  /* ★消失防止（レールより前） */
 }
-.pickup-dot{
+
+.pickup-dot {
   width: 7px;
   height: 7px;
-  border-radius:999px;
-  border:none;
+  border-radius: 999px;
+  border: none;
   margin: 0 3px;
-  background: rgba(0,40,80,.22);
-  cursor:pointer;
-  opacity:.35;
+  background: rgba(0, 40, 80, .22);
+  cursor: pointer;
+  opacity: .35;
 }
-.pickup-dot.is-active{
+
+.pickup-dot.is-active {
   width: 18px;
   background: var(--accent);
-  opacity:1;
+  opacity: 1;
 }
 
 /* =========================
    スマホ（〜768px）
    チラ見せしない／短辺を絶対に切らない
    ========================= */
-@media (max-width:768px){
-  .pickup-section{
+@media (max-width:768px) {
+  .pickup-section {
     width: 90%;
     padding: 10px 10px 10px;
     padding-right: 34px;
-    overflow: hidden;           /* セクション外へは出さない */
+    overflow: hidden;
+    /* セクション外へは出さない */
   }
 
-  .pickup-track{
-    padding: 10px 12px 10px;    /* ★内側余白を確保＝短辺が見切れない */
+  .pickup-track {
+    padding: 10px 12px 10px;
+    /* ★内側余白を確保＝短辺が見切れない */
     scroll-padding-left: 12px;
     scroll-padding-right: 12px;
     gap: 10px;
   }
 
-  .pickup-card{
-    flex: 0 0 100%;             /* ★必ず1枚だけ */
-    transform: none;            /* ★拡大しない＝切れない */
-    opacity: 1;                 /* スマホは薄くしない方が読みやすい */
+  .pickup-card {
+    flex: 0 0 100%;
+    /* ★必ず1枚だけ */
+    transform: none;
+    /* ★拡大しない＝切れない */
+    opacity: 1;
+    /* スマホは薄くしない方が読みやすい */
   }
 
-  .pickup-card.is-active{
+  .pickup-card.is-active {
     transform: none;
   }
 
-  .pickup-thumb{
+  .pickup-thumb {
     flex: 0 0 68px;
     max-width: 68px;
   }
 
-  .pickup-title{
+  .pickup-title {
     font-size: 16px;
   }
 
-  .pickup-summary{
+  .pickup-summary {
     font-size: 13.5px;
     -webkit-line-clamp: 2;
   }
@@ -1182,17 +1286,19 @@ body {
    PC（769px〜）
    予告編“ドン”＋次カードチラ見せOK
    ========================= */
-@media (min-width:769px){
-  .pickup-section{
+@media (min-width:769px) {
+  .pickup-section {
     width: 90%;
     margin-top: 18px;
     margin-bottom: 2px;
-    padding: 14px 16px 12px;    /* 縦を少し締める */
+    padding: 14px 16px 12px;
+    /* 縦を少し締める */
     padding-right: 40px;
-    overflow: hidden;          /* ★PCはチラ見せ許可 */
+    overflow: hidden;
+    /* ★PCはチラ見せ許可 */
   }
 
-  .pickup-label{
+  .pickup-label {
     font-size: 30px;
     font-weight: 800;
     letter-spacing: .22em;
@@ -1200,7 +1306,7 @@ body {
     margin-bottom: 12px;
   }
 
-  .pickup-track{
+  .pickup-track {
     max-width: none;
     width: 100%;
     margin: 0;
@@ -1215,7 +1321,7 @@ body {
     scroll-padding-right: 12px;
   }
 
-  .pickup-card{
+  .pickup-card {
     flex: 0 0 82%;
     opacity: .28;
     transform: scale(.93);
@@ -1225,29 +1331,30 @@ body {
     scroll-snap-stop: always;
   }
 
-  .pickup-card.is-active{
+  .pickup-card.is-active {
     opacity: 1;
     transform: scale(1.02);
   }
 
-  .pickup-card-link{
-    padding: 18px 22px;         /* 縦を少し締めた“ドン” */
+  .pickup-card-link {
+    padding: 18px 22px;
+    /* 縦を少し締めた“ドン” */
     border-radius: 18px;
   }
 
-  .pickup-thumb{
+  .pickup-thumb {
     flex: 0 0 150px;
     max-width: 190px;
   }
 
-  .pickup-title{
+  .pickup-title {
     font-size: 40px;
     font-weight: 900;
     line-height: 1.08;
     letter-spacing: .02em;
   }
 
-  .pickup-summary{
+  .pickup-summary {
     font-size: 20px;
     line-height: 1.75;
     margin-top: 12px;
@@ -1256,14 +1363,15 @@ body {
   }
 
   /* 左アクセントライン */
-  .pickup-card.is-active .pickup-card-link{
-    box-shadow: 0 18px 42px rgba(0,40,80,.18);
+  .pickup-card.is-active .pickup-card-link {
+    box-shadow: 0 18px 42px rgba(0, 40, 80, .18);
     border-color: var(--accent);
     position: relative;
   }
-  .pickup-card.is-active .pickup-card-link::before{
-    content:"";
-    position:absolute;
+
+  .pickup-card.is-active .pickup-card-link::before {
+    content: "";
+    position: absolute;
     left: 0;
     top: 10px;
     bottom: 10px;
@@ -1272,13 +1380,14 @@ body {
     background: var(--accent);
     opacity: .95;
   }
-  .pickup-card.is-active .pickup-main{
+
+  .pickup-card.is-active .pickup-main {
     padding-left: 10px;
   }
 
   /* ★3枚目でも同じ左位置で止めるための“最後の余白”
      82%の残り＝18%を確保（6%だと最後が揃わない） */
-  .pickup-track::after{
+  .pickup-track::after {
     content: "";
     flex: 0 0 18%;
   }
@@ -1312,11 +1421,9 @@ body {
   box-shadow: 0 2px 8px rgba(0, 40, 80, 0.06);
   border: 1px solid rgba(0, 80, 140, 0.06);
   border-top: 3px solid;
-  border-image: linear-gradient(
-      90deg,
+  border-image: linear-gradient(90deg,
       var(--header-grad-left),
-      var(--header-grad-right)
-    ) 1;
+      var(--header-grad-right)) 1;
 }
 
 .section-card__title {
@@ -1405,7 +1512,7 @@ body {
   padding: 12px 16px;
   border-radius: 12px;
   background: #ffffffd9;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
 }
 
 /* スマホ時は縦並び */
@@ -1521,8 +1628,10 @@ body {
 }
 
 .char-mv-frame {
-  width: 90%;          /* ← この値を変える */
-  max-width: 900px;     /* ← PC時の最大幅 */
+  width: 90%;
+  /* ← この値を変える */
+  max-width: 900px;
+  /* ← PC時の最大幅 */
   aspect-ratio: 16 / 9;
   margin: 0 auto;
   border-radius: 10px;
@@ -1535,6 +1644,7 @@ body {
   height: 100%;
   border: none;
 }
+
 /* GALLERY */
 .char-gallery-group {
   margin-bottom: 12px;
@@ -1551,7 +1661,7 @@ body {
   margin: 0;
 }
 
-.char-gallery-item + .char-gallery-item {
+.char-gallery-item+.char-gallery-item {
   margin-top: 2px;
 }
 
@@ -1677,11 +1787,9 @@ body {
   filter: blur(0.5px);
 
   /* グラデ由来のキラキラ色 */
-  background: color-mix(
-    in srgb,
-    var(--header-grad-left) 55%,
-    var(--header-grad-right) 25%
-  );
+  background: color-mix(in srgb,
+      var(--header-grad-left) 55%,
+      var(--header-grad-right) 25%);
   box-shadow:
     0 0 4px rgba(255, 255, 255, 0.9),
     0 0 10px rgba(255, 255, 255, 0.8);
@@ -1747,15 +1855,15 @@ body {
    ------------------------- */
 
 /* body直下の .bubbles.bubbles-body を画面全体の背景にする */
-body > .bubbles-body {
+body>.bubbles-body {
   position: fixed;
   inset: 0;
   z-index: 0;
 }
 
 /* 通常ページ：アクセント色ベース */
-body:not(.page-detail) > .bubbles-body span,
-.page-detail > .bubbles-body span {
+body:not(.page-detail)>.bubbles-body span,
+.page-detail>.bubbles-body span {
   position: absolute;
   bottom: -60px;
   width: 24px;
@@ -1770,22 +1878,18 @@ body:not(.page-detail) > .bubbles-body span,
 }
 
 /* 通常ページ用の色 */
-body:not(.page-detail) > .bubbles-body span {
-  background: color-mix(
-    in srgb,
-    var(--accent) 80%,
-    white 20%
-  );
+body:not(.page-detail)>.bubbles-body span {
+  background: color-mix(in srgb,
+      var(--accent) 80%,
+      white 20%);
   box-shadow: 0 0 8px rgba(255, 255, 255, 0.7);
 }
 
 /* キャラ詳細ページ：キャラ固有色ベース */
-.page-detail > .bubbles-body span {
-  background: color-mix(
-    in srgb,
-    var(--char-main-color) 80%,
-    white 20%
-  );
+.page-detail>.bubbles-body span {
+  background: color-mix(in srgb,
+      var(--char-main-color) 80%,
+      white 20%);
   box-shadow: 0 0 8px rgba(255, 255, 255, 0.7);
 }
 
@@ -1799,55 +1903,55 @@ body:not(.page-detail) #footer-container {
 }
 
 /* ボディ用：位置＆時間ばらし（ヘッダーとは別パターン） */
-body > .bubbles-body span:nth-child(1) {
+body>.bubbles-body span:nth-child(1) {
   left: 5%;
   animation-duration: 11s;
   animation-delay: -0.8s;
 }
 
-body > .bubbles-body span:nth-child(2) {
+body>.bubbles-body span:nth-child(2) {
   left: 16%;
   animation-duration: 14s;
   animation-delay: -2.3s;
 }
 
-body > .bubbles-body span:nth-child(3) {
+body>.bubbles-body span:nth-child(3) {
   left: 27%;
   animation-duration: 9.5s;
   animation-delay: 0.6s;
 }
 
-body > .bubbles-body span:nth-child(4) {
+body>.bubbles-body span:nth-child(4) {
   left: 39%;
   animation-duration: 13s;
   animation-delay: -1.5s;
 }
 
-body > .bubbles-body span:nth-child(5) {
+body>.bubbles-body span:nth-child(5) {
   left: 52%;
   animation-duration: 10.2s;
   animation-delay: -3.1s;
 }
 
-body > .bubbles-body span:nth-child(6) {
+body>.bubbles-body span:nth-child(6) {
   left: 63%;
   animation-duration: 15s;
   animation-delay: -0.4s;
 }
 
-body > .bubbles-body span:nth-child(7) {
+body>.bubbles-body span:nth-child(7) {
   left: 74%;
   animation-duration: 11.8s;
   animation-delay: 1.2s;
 }
 
-body > .bubbles-body span:nth-child(8) {
+body>.bubbles-body span:nth-child(8) {
   left: 86%;
   animation-duration: 13.7s;
   animation-delay: -2.0s;
 }
 
-body > .bubbles-body span:nth-child(9) {
+body>.bubbles-body span:nth-child(9) {
   left: 96%;
   animation-duration: 16s;
   animation-delay: -3.6s;
@@ -1861,9 +1965,11 @@ body > .bubbles-body span:nth-child(9) {
     transform: translateY(0) scale(0.8);
     opacity: 0;
   }
+
   40% {
     opacity: 0.8;
   }
+
   100% {
     transform: translateY(-120px) scale(1.6);
     opacity: 0;
@@ -1878,9 +1984,11 @@ body > .bubbles-body span:nth-child(9) {
     transform: translateY(0) scale(0.9);
     opacity: 0;
   }
+
   10% {
     opacity: 0.6;
   }
+
   100% {
     transform: translateY(-110vh) scale(3.0);
     opacity: 0;
@@ -1902,7 +2010,7 @@ body > .bubbles-body span:nth-child(9) {
   line-height: 1.18;
 }
 
-.about-intro .project-tagline{
+.about-intro .project-tagline {
   margin: 0 0 6px;
   font-size: 14px;
   font-weight: 800;
@@ -1936,7 +2044,8 @@ body > .bubbles-body span:nth-child(9) {
   margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 12px; /* ボタン間の余白 */
+  gap: 12px;
+  /* ボタン間の余白 */
 }
 
 /* a はフレーム。中身のカードをクリック範囲に */
@@ -1980,11 +2089,9 @@ body > .bubbles-body span:nth-child(9) {
 
 /* ホバー時：ぷち浮き＋グラデ */
 .about-toc-card:hover {
-  background: linear-gradient(
-    90deg,
-    var(--header-grad-left),
-    var(--header-grad-right)
-  );
+  background: linear-gradient(90deg,
+      var(--header-grad-left),
+      var(--header-grad-right));
   color: #ffffff;
   border-color: transparent;
   box-shadow: 0 2px 8px rgba(0, 40, 80, 0.25);
@@ -2081,10 +2188,12 @@ body > .bubbles-body span:nth-child(9) {
     padding: 14px 14px;
   }
 }
+
 /* ABOUT：カード間のダブル▽デザイン */
 .about-toc-list li.with-arrow {
   position: relative;
-  padding-bottom: 40px; /* 下に余白を作って▽を配置 */
+  padding-bottom: 40px;
+  /* 下に余白を作って▽を配置 */
 }
 
 /* ダブル▽の共通部分 */
@@ -2103,11 +2212,9 @@ body > .bubbles-body span:nth-child(9) {
   border-top: 1.8px solid;
 
   /* グラデの線を適用 */
-  border-image: linear-gradient(
-    90deg,
-    var(--header-grad-left),
-    var(--header-grad-right)
-  ) 1;
+  border-image: linear-gradient(90deg,
+      var(--header-grad-left),
+      var(--header-grad-right)) 1;
 
   opacity: 0.85;
 }
@@ -2127,6 +2234,7 @@ body > .bubbles-body span:nth-child(9) {
 
 /* スマホ微調整 */
 @media (max-width: 768px) {
+
   .about-toc-list li.with-arrow::before,
   .about-toc-list li.with-arrow::after {
     width: 12px;
@@ -2139,8 +2247,8 @@ body > .bubbles-body span:nth-child(9) {
   padding: 16px 18px;
   border-radius: 12px;
   background: #ffffff;
-  border: 1px solid rgba(0,80,140,0.1);
-  box-shadow: 0 2px 6px rgba(0,40,80,0.06);
+  border: 1px solid rgba(0, 80, 140, 0.1);
+  box-shadow: 0 2px 6px rgba(0, 40, 80, 0.06);
   transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
@@ -2152,12 +2260,10 @@ body > .bubbles-body span:nth-child(9) {
 
 .about-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 3px 10px rgba(0,40,80,0.15);
-  background: linear-gradient(
-    90deg,
-    var(--header-grad-left),
-    var(--header-grad-right)
-  );
+  box-shadow: 0 3px 10px rgba(0, 40, 80, 0.15);
+  background: linear-gradient(90deg,
+      var(--header-grad-left),
+      var(--header-grad-right));
   color: #fff;
 }
 
@@ -2210,17 +2316,26 @@ body > .bubbles-body span:nth-child(9) {
 
 /* 点滅アニメーション（透明度がゆっくり変わる） */
 @keyframes arrowBlink {
-  0%   { opacity: 0.2; }
-  50%  { opacity: 1; }
-  100% { opacity: 0.2; }
+  0% {
+    opacity: 0.2;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0.2;
+  }
 }
 
 /* Terms は別ブロック */
 .about-terms-block {
   margin-top: 24px;
   padding-top: 16px;
-  border-top: 1px solid rgba(0,80,140,0.15);
+  border-top: 1px solid rgba(0, 80, 140, 0.15);
 }
+
 /* =========================
    ABOUT 前後ナビゲーション
    ========================= */
@@ -2228,7 +2343,7 @@ body > .bubbles-body span:nth-child(9) {
   margin-top: 24px;
   padding-top: 16px;
   padding-bottom: 16px;
-  border-top: 1px solid rgba(0,80,140,0.15);
+  border-top: 1px solid rgba(0, 80, 140, 0.15);
 
   display: flex;
   justify-content: space-between;
@@ -2237,10 +2352,14 @@ body > .bubbles-body span:nth-child(9) {
 
 /* char-back-btn をベースに、ABOUT用レイアウトだけ上書き */
 .about-nav-btn {
-  margin-bottom: 0;          /* char-back-btn の下マージンを消す */
-  align-self: stretch;       /* ナビ内で高さを揃える */
-  text-align: center;        /* テキスト中央寄せ */
-  display: inline-flex;      /* 中身を中央寄せしやすくする */
+  margin-bottom: 0;
+  /* char-back-btn の下マージンを消す */
+  align-self: stretch;
+  /* ナビ内で高さを揃える */
+  text-align: center;
+  /* テキスト中央寄せ */
+  display: inline-flex;
+  /* 中身を中央寄せしやすくする */
   justify-content: center;
   align-items: center;
 }
@@ -2269,8 +2388,10 @@ body > .bubbles-body span:nth-child(9) {
   .about-nav-btn {
     width: 70%;
     justify-content: center;  /* スマホでは左右差をなくして中央寄せ */
-  }
-} */
+}
+}
+
+*/
 
 /* ABOUT の下層ページだけ番号カウンターを使う */
 .about-project-page,
@@ -2289,7 +2410,7 @@ body > .bubbles-body span:nth-child(9) {
   padding-left: 24px;
   padding-right: 24px;
   margin-top: 22px;
-  
+
 }
 
 .about-project-page .section-card.about-section .section-card__title::before,
@@ -2297,24 +2418,23 @@ body > .bubbles-body span:nth-child(9) {
 .about-creator-page .section-card.about-section .section-card__title::before {
   content: counter(about-step, decimal-leading-zero);
   display: inline-block;
-  min-width: 2.4em;            /* 01/02/03 の桁ズレ防止 */
+  min-width: 2.4em;
+  /* 01/02/03 の桁ズレ防止 */
   font-size: 28px;
   font-weight: 800;
   letter-spacing: 0.18em;
   opacity: 0.95;
 
-  background: linear-gradient(
-     180deg,
-     var(--header-grad-left),
-     var(--header-grad-right)
-  );
+  background: linear-gradient(180deg,
+      var(--header-grad-left),
+      var(--header-grad-right));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 
 }
 
 /* 英字タイトル */
-.section-card__title .about-sec-en{
+.section-card__title .about-sec-en {
   font-size: 16px;
   font-weight: 900;
   letter-spacing: 0.12em;
@@ -2322,27 +2442,27 @@ body > .bubbles-body span:nth-child(9) {
 }
 
 /* 日本語タイトル */
-.section-card__title .about-sec-ja{
+.section-card__title .about-sec-ja {
   font-size: 16px;
   font-weight: 800;
-  color: rgba(5,51,74,.88);
+  color: rgba(5, 51, 74, .88);
 }
 
 /* 区切りスラッシュ */
-.section-card__title .about-sec-sep{
+.section-card__title .about-sec-sep {
   opacity: .45;
 }
 
 /* 英字・日本語ともに「1文字目だけ」大きく */
 .section-card__title .about-sec-en::first-letter,
-.section-card__title .about-sec-ja::first-letter{
+.section-card__title .about-sec-ja::first-letter {
   font-size: 1.35em;
   letter-spacing: 0.02em;
 }
 
 
 /* 本文：セクション幅をもう少し使う（行が細すぎる圧迫感を減らす） */
-.section-card.about-section p{
+.section-card.about-section p {
   max-width: 92ch;
   font-size: 14.5px;
   line-height: 2.0;
@@ -2350,14 +2470,14 @@ body > .bubbles-body span:nth-child(9) {
 }
 
 /* スマホ微調整 */
-@media (max-width: 768px){
+@media (max-width: 768px) {
 
-  .about-intro h1{
+  .about-intro h1 {
     font-size: 22px;
     letter-spacing: 0.08em;
   }
 
-  .about-intro p{
+  .about-intro p {
     font-size: 14px;
     line-height: 1.9;
     max-width: 100%;
@@ -2366,30 +2486,30 @@ body > .bubbles-body span:nth-child(9) {
   .about-project-page .section-card.about-section,
   .about-world-page .section-card.about-section,
   .about-creator-page .section-card.about-section,
-  .about-terms-page .section-card.about-section{
+  .about-terms-page .section-card.about-section {
     padding-left: 16px;
     padding-right: 16px;
   }
 
-  .section-card__title{
-      display: flex;
-     align-items: baseline;
-     gap: 14px;
-     margin: 0 0 14px;
+  .section-card__title {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    margin: 0 0 14px;
   }
 
   .about-project-page .section-card.about-section .section-card__title::before,
   .about-world-page .section-card.about-section .section-card__title::before,
-  .about-creator-page .section-card.about-section .section-card__title::before{
+  .about-creator-page .section-card.about-section .section-card__title::before {
     font-size: 22px;
     min-width: 2.2em;
   }
 
-  .section-card__title .about-sec-en{
+  .section-card__title .about-sec-en {
     font-size: 18px;
   }
 
-  .section-card__title .about-sec-ja{
+  .section-card__title .about-sec-ja {
     font-size: 15px;
   }
 }
@@ -2418,7 +2538,7 @@ body > .bubbles-body span:nth-child(9) {
 
 /* プラットフォームごとのブロック
    -> <section class="section-card links-platform-section"> 想定 */
-.links-platform-section + .links-platform-section {
+.links-platform-section+.links-platform-section {
   margin-top: 8px;
 }
 
@@ -2548,7 +2668,7 @@ body > .bubbles-body span:nth-child(9) {
   font-size: 13px;
 }
 
-.help-section + .help-section {
+.help-section+.help-section {
   margin-top: 8px;
 }
 
@@ -2570,8 +2690,10 @@ body > .bubbles-body span:nth-child(9) {
 .help-card-demo {
   position: relative;
   margin: 12px auto 10px;
-  width: 160px;          /* カードの幅 */
-  aspect-ratio: 3 / 4;   /* カード比率 */
+  width: 160px;
+  /* カードの幅 */
+  aspect-ratio: 3 / 4;
+  /* カード比率 */
 }
 
 /* 外枠（グラデ付き） */
@@ -2580,12 +2702,10 @@ body > .bubbles-body span:nth-child(9) {
   inset: 0;
   border-radius: 12px;
   padding: 3px;
-  background: linear-gradient(
-    180deg,
-    #ff6ec4,
-    #7873f5,
-    #12c2e9
-  );
+  background: linear-gradient(180deg,
+      #ff6ec4,
+      #7873f5,
+      #12c2e9);
   box-sizing: border-box;
 }
 
@@ -2595,8 +2715,9 @@ body > .bubbles-body span:nth-child(9) {
   height: 100%;
   border-radius: 9px;
   background: #ffffffee;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
-  position: relative;    /* 四隅番号の基準にする */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+  position: relative;
+  /* 四隅番号の基準にする */
 }
 
 /* 四隅の番号バッジ（カード内側） */
@@ -2671,4 +2792,63 @@ body > .bubbles-body span:nth-child(9) {
   .help-card-demo {
     width: 130px;
   }
+}
+
+/* =========================
+   OFFICIAL：更新情報
+   ========================= */
+.official-update__list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 6px;
+}
+
+.official-update__item {
+  display: grid;
+  grid-template-columns: 92px 1fr;
+  gap: 10px;
+  align-items: baseline;
+
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: #f5fbff;
+  border: 1px solid rgba(0, 80, 140, 0.10);
+  box-shadow: 0 1px 3px rgba(0, 40, 80, 0.08);
+  text-decoration: none;
+  color: inherit;
+
+  transition: transform 0.12s ease-out, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.official-update__item:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 40, 80, 0.16);
+  border-color: rgba(0, 80, 140, 0.18);
+}
+
+.official-update__item.is-static {
+  cursor: default;
+}
+
+.official-update__date {
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.official-update__title {
+  font-size: 13px;
+  font-weight: 650;
+  line-height: 1.5;
+}
+
+.official-update__loading,
+.official-update__empty,
+.official-update__error {
+  margin: 0;
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.7;
 }
