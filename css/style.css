@@ -72,7 +72,7 @@ body {
    ヘッダー本体
    ========================= */
 .site-header {
-  position: fixed;
+  position: relative;
   top: 0;
   left: 0;
   right: 0;
@@ -92,7 +92,6 @@ body {
   /* navよりは下、overlayより上にしない */
 
   overflow: hidden;
-  position: relative;
 }
 
 /* 左・中央・右ブロック */
@@ -283,7 +282,7 @@ body {
   /* 親より少し右にずらす */
   padding-left: 10px;
   border-left: 1px solid rgba(0, 80, 140, 0.15);
-  display: flex;
+  display: none;
   flex-direction: column;
   gap: 2px;
 }
@@ -348,6 +347,13 @@ body {
 /* PCでもスマホでも同じ挙動：ハンバーガーで開閉 */
 .header-menu-btn {
   display: inline-flex;
+}
+
+/* 親が開いている／現在地のときだけ表示 */
+.header-nav-link.is-open + .header-subnav,
+.header-nav-link.is-current + .header-subnav {
+  display: flex;
+  flex-direction: column;
 }
 
 /* =========================
