@@ -233,7 +233,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         <!-- 下段：GALLERY（★同じくカード枠を付与） -->
         <section class="section-card char-section">
-          <h2 class="char-section-title">GALLERY</h2>
+          <h2 class="char-section-title">MEDIA</h2>
           ${galleryHtml}
         </section>
 
