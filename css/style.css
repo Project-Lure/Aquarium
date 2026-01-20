@@ -2573,7 +2573,7 @@ body>.bubbles-body span:nth-child(9) {
 
   .about-nav-btn {
     width: 70%;
-    justify-content: center;  /* スマホでは左右差をなくして中央寄せ */
+    justify-content: center; 
 }
 }
 
@@ -3049,19 +3049,18 @@ body>.bubbles-body span:nth-child(9) {
 /* =========================
    EXHIBITION grid（横3固定 + 正方形）
    ========================= */
-
-.exhibition-grid{
+.page-exhibition .exhibition-grid{
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr)); /* 常に3列 */
   gap: 18px;
-  width: min(1100px, 100%);  /* 横の最大を抑える（デカい画面で間延びしない） */
+  width: min(1100px, 100%);
   margin: 0 auto;
   padding: 0 22px;           /* 外側の横余白 */
   box-sizing: border-box;
 }
 
-/* 1セル（見えない外枠）：正方形固定 */
-.exhibit-card{
+/* 1セル */
+.page-exhibition .exhibit-card{
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -3069,77 +3068,63 @@ body>.bubbles-body span:nth-child(9) {
   color: inherit;
 }
 
-/* ★EXHIBITION：画像は必ず正方形枠に収める */
+/* 正方形の見えない枠 */
 .page-exhibition .exhibit-image{
   width: 100%;
-  aspect-ratio: 1 / 1;
-  display: block;      /* gridでもいいけど、まず安定優先 */
+  aspect-ratio: 1 / 1;       /* 正方形 */
   overflow: hidden;
-  background: transparent;
+  background: transparent;   /* マット層なし */
 }
 
-/* ★ここが本命：縮小されない問題を止める */
+/* ★画像を必ず枠に収める（縮小の本体） */
 .page-exhibition .exhibit-image img{
   width: 100%;
   height: 100%;
-  object-fit: contain;     /* 切らずに収める */
+  object-fit: contain;       /* 切らない */
   display: block;
 
+  /* 額縁＝画像の周り（可変）に直付け */
   border: 4px solid var(--frame-color, #88aacc);
   border-radius: 16px;
   background: transparent;
-}
-/* ★額縁は「画像に直付け」 */
-.exhibit-image img{
-  max-width: 100%;
-  max-height: 100%;
-  width: auto;
-  height: auto;
-  object-fit: contain;        /* 切らない */
 
-  border: 4px solid var(--frame-color, #88aacc);
-  border-radius: 16px;
-
-  background: transparent;    /* マット層を作らない */
-  display: block;
+  transition: transform .18s ease, box-shadow .18s ease;
 }
 
-/* メタ情報（下部） */
-.exhibit-meta{
+/* メタ情報 */
+.page-exhibition .exhibit-meta{
   display: flex;
   flex-direction: column;
   gap: 2px;
   padding: 0 2px 2px;
 }
 
-.exhibit-meta-line{
+.page-exhibition .exhibit-meta-line{
   display: flex;
   gap: 10px;
   align-items: baseline;
 }
 
-.exhibit-code{
+.page-exhibition .exhibit-code{
   font-size: 12px;
   opacity: 0.75;
   letter-spacing: 0.02em;
 }
 
-.exhibit-title{
+.page-exhibition .exhibit-title{
   font-size: 13px;
   font-weight: 600;
   line-height: 1.35;
 }
 
-.exhibit-date{
+.page-exhibition .exhibit-date{
   font-size: 12px;
   opacity: 0.75;
-
-.exhibit-image img{
-  transition: transform .18s ease, box-shadow .18s ease;
 }
+
 /* hover（PCだけ） */
 @media (hover: hover) and (pointer: fine) {
-  .exhibit-card:hover .exhibit-image img{
+  .page-exhibition .exhibit-card:hover .exhibit-image img{
     transform: translateY(-2px);
     box-shadow: 0 14px 34px rgba(0, 0, 0, 0.12);
   }
@@ -3147,11 +3132,11 @@ body>.bubbles-body span:nth-child(9) {
 
 /* 小さい画面でも3列固定：余白とgapだけ縮める */
 @media (max-width: 768px) {
-  .exhibition-grid{
+  .page-exhibition .exhibition-grid{
     gap: 10px;
     padding: 0 12px;
   }
-  .exhibit-image img{
+  .page-exhibition .exhibit-image img{
     border-width: 3px;
     border-radius: 14px;
   }
