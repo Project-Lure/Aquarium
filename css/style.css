@@ -3070,10 +3070,11 @@ body>.bubbles-body span:nth-child(9) {
 }
 
 .exhibit-image{
-  aspect-ratio: 1 / 1;       /* 正方形 */
+  width: 100%;                /* ★追加：セル幅をグリッドに合わせる */
+  aspect-ratio: 1 / 1;        /* 正方形 */
   display: grid;
-  place-items: center;        /* 中央に置く */
-  overflow: hidden;           /* はみ出し防止 */
+  place-items: center;
+  overflow: hidden;
 }
 
 /* ★額縁は「画像に直付け」 */
@@ -3121,7 +3122,13 @@ body>.bubbles-body span:nth-child(9) {
   font-size: 12px;
   opacity: 0.75;
 }
-
+.page-exhibition .exhibit-image,
+.page-exhibition .exhibit-image img{
+  background: transparent !important;
+}
+.exhibit-image img{
+  transition: transform .18s ease, box-shadow .18s ease;
+}
 /* hover（PCだけ） */
 @media (hover: hover) and (pointer: fine) {
   .exhibit-card:hover .exhibit-image img{
