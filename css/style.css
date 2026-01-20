@@ -577,7 +577,7 @@ body {
 /* =========================
    カード一覧（HOME）
    ========================= */
-#card-list {
+.page-index #card-list {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 16px;
@@ -589,14 +589,14 @@ body {
 }
 
 @media (min-width: 481px) {
-  #card-list {
+  .page-index #card-list {
     grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
     padding: 64px;
   }
 }
 
 @media (max-width: 480px) {
-  #card-list {
+  .page-index #card-list {
     grid-template-columns: repeat(3, 1fr);
   }
 }
