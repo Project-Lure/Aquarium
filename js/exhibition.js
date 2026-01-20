@@ -1,4 +1,4 @@
-// exhibition.js
+// js/exhibition.js
 document.addEventListener("DOMContentLoaded", () => {
   const container = document.getElementById("card-list");
   if (!container) return;
@@ -8,10 +8,10 @@ document.addEventListener("DOMContentLoaded", () => {
   // ========================
   let chars = [];
   let seriesMap = {};
-  let originalWorks = []; // 展示作品の原データ（パース済み）
-  let currentList = [];   // フィルタ後 + ソート後の表示用
+  let originalWorks = []; // パース済みの展示作品
+  let currentList = [];   // フィルタ後
 
-  // 検索条件（展示だけ期間あり）
+  // フィルタ状態（展示だけ期間あり）
   const filterState = {
     text: "",
     series: new Set(),
@@ -20,12 +20,15 @@ document.addEventListener("DOMContentLoaded", () => {
     dateTo: null,   // "YYYY-MM-DD" or null
   };
 
-  // ソート（展示のデフォルト：古い→新しい）
-  let currentSort = "publishedAt-asc"; // "publishedAt-asc" | "publishedAt-desc" | "title" | "code"
+  // sort（展示デフォルト：古い→新しい）
+  // "publishedAt-asc" | "publishedAt-desc" | "title" | "code"
+  let sortMode = "publishedAt-asc";
 
   // ========================
-  // 色系統定義（9グループ）
+  // 定義
   // ========================
+  const EXHIBITION_DIR = "images/exhibition";
+
   const COLOR_GROUPS = [
     { key: "pink",   label: "桃"   },
     { key: "red",    label: "赤"   },
@@ -37,9 +40,6 @@ document.addEventListener("DOMContentLoaded", () => {
     { key: "cyan",   label: "水"   },
     { key: "green",  label: "緑"   }
   ];
-
-  // 画像ディレクトリ
-  const EXHIBITION_DIR = "images/exhibition";
 
   // ========================
   // utils
@@ -55,9 +55,9 @@ document.addEventListener("DOMContentLoaded", () => {
     return [];
   }
 
+  // 命名：{code}_{YYYY-MM-DD}_{slug}.(webp|png|jpg|jpeg)
   function parseWorkFromFilename(file) {
     const name = (file || "").split("/").pop() || "";
-    // 例: 000_2026-01-14_some-slug.webp
     const m = name.match(/^(\d{3})_(\d{4}-\d{2}-\d{2})_(.+)\.(webp|png|jpg|jpeg)$/i);
     if (!m) {
       return {
@@ -185,124 +185,80 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ========================
-  // レンダリング（CSSに合わせる版）
+  // render（DOMは .exhibit-image > img に固定）
   // ========================
-function renderList(list) {
-  container.innerHTML = "";
+  function renderList(list) {
+    container.innerHTML = "";
 
-  list.forEach(w => {
-    const c = w.char || null;
-    const frameColor = pickFrameColorFromChar(c);
+    list.forEach(w => {
+      const c = w.char || null;
+      const frameColor = pickFrameColorFromChar(c);
 
-    const a = document.createElement("a");
-    a.className = "exhibit-card";
-    a.href = `${EXHIBITION_DIR}/${w.file}`;
-    a.target = "_blank";
-    a.rel = "noopener";
-    a.style.setProperty("--frame-color", frameColor);
+      const card = document.createElement("a");
+      card.className = "exhibit-card";
+      card.href = `${EXHIBITION_DIR}/${w.file}`;
+      card.target = "_blank";
+      card.rel = "noopener";
 
-    // 外セル（見えない枠）
-    const cell = document.createElement("div");
-    cell.className = "exhibit-cell";
+      // 画像の縁色はCSS varで渡す（= 画像に直付け）
+      card.style.setProperty("--frame-color", frameColor);
 
-    // 可変の額縁
-    const frame = document.createElement("div");
-    frame.className = "exhibit-frame";
+      // 画像
+      const imgWrap = document.createElement("div");
+      imgWrap.className = "exhibit-image";
 
-    const img = document.createElement("img");
-    img.className = "exhibit-img";
-    img.alt = w.displayTitle || "EXHIBITION";
-    img.loading = "lazy";
+      const img = document.createElement("img");
+      img.alt = w.displayTitle || "EXHIBITION";
+      img.loading = "lazy";
 
-    img.addEventListener("error", () => {
-      img.src = "images/ui/card-placeholder.png";
-      a.classList.add("is-placeholder");
+      img.addEventListener("error", () => {
+        img.src = "images/ui/card-placeholder.png";
+        card.classList.add("is-placeholder");
+        card.removeAttribute("href");
+      });
+
+      img.src = `${EXHIBITION_DIR}/${w.file}`;
+
+      imgWrap.appendChild(img);
+      card.appendChild(imgWrap);
+
+      // メタ
+      const meta = document.createElement("div");
+      meta.className = "exhibit-meta";
+
+      const line1 = document.createElement("div");
+      line1.className = "exhibit-meta-line";
+
+      const date = document.createElement("span");
+      date.className = "exhibit-date";
+      date.textContent = w.publishedAt || "----/--/--";
+
+      const code = document.createElement("span");
+      code.className = "exhibit-code";
+      code.textContent = w.code || "---";
+
+      line1.appendChild(date);
+      line1.appendChild(code);
+
+      const title = document.createElement("div");
+      title.className = "exhibit-title";
+      title.textContent = w.displayTitle || (w.slug || w.file);
+
+      meta.appendChild(line1);
+      meta.appendChild(title);
+
+      card.appendChild(meta);
+      container.appendChild(card);
     });
-
-    img.src = `${EXHIBITION_DIR}/${w.file}`;
-
-    frame.appendChild(img);
-    cell.appendChild(frame);
-    a.appendChild(cell);
-
-    // メタ
-    const meta = document.createElement("div");
-    meta.className = "exhibit-meta";
-
-    const code = document.createElement("div");
-    code.className = "exhibit-code";
-    code.textContent = w.code || "---";
-
-    const title = document.createElement("div");
-    title.className = "exhibit-title";
-    title.textContent = w.displayTitle || (w.slug || w.file);
-
-    const date = document.createElement("div");
-    date.className = "exhibit-date";
-    date.textContent = w.publishedAt || "----/--/--";
-
-    meta.appendChild(code);
-    meta.appendChild(title);
-    meta.appendChild(date);
-
-    a.appendChild(meta);
-    container.appendChild(a);
-  });
-}
-
-  // ========================
-  // フィルタ + ソート
-  // ========================
-  function applyFilter() {
-    const text = (filterState.text || "").trim().toLowerCase();
-    const activeSeries = Array.from(filterState.series);
-    const activeColors = Array.from(filterState.colors);
-    const from = filterState.dateFrom;
-    const to = filterState.dateTo;
-
-    const filtered = originalWorks.filter(w => {
-      if (text) {
-        const c = w.char || null;
-        const base = [
-          w.code || "",
-          w.publishedAt || "",
-          w.slug || "",
-          c?.title || "",
-          c?.titleYomi || "",
-          c?.mainColorLabel || "",
-        ].join(" ").toLowerCase();
-
-        if (!base.includes(text)) return false;
-      }
-
-      if (activeSeries.length > 0) {
-        const s = w.char?.series || null;
-        if (!s || !activeSeries.includes(s)) return false;
-      }
-
-      if (activeColors.length > 0) {
-        const groups = getColorGroupsForChar(w.char);
-        if (!groups?.some(g => activeColors.includes(g))) return false;
-      }
-
-      if (from && w.publishedAt) {
-        if (w.publishedAt < from) return false;
-      }
-      if (to && w.publishedAt) {
-        if (w.publishedAt > to) return false;
-      }
-      if ((from || to) && !w.publishedAt) return false;
-
-      return true;
-    });
-
-    return filtered;
   }
 
+  // ========================
+  // sort / filter
+  // ========================
   function applySort(list) {
     const arr = [...list];
 
-    switch (currentSort) {
+    switch (sortMode) {
       case "publishedAt-desc":
         arr.sort((a, b) => (b.publishedAt || "").localeCompare(a.publishedAt || ""));
         break;
@@ -325,23 +281,67 @@ function renderList(list) {
     return arr;
   }
 
+  function applyFilter() {
+    const text = (filterState.text || "").trim().toLowerCase();
+    const activeSeries = Array.from(filterState.series);
+    const activeColors = Array.from(filterState.colors);
+    const from = filterState.dateFrom;
+    const to = filterState.dateTo;
+
+    return originalWorks.filter(w => {
+      // テキスト（コード/日付/slug/キャラ名/色名）
+      if (text) {
+        const c = w.char || null;
+        const base = [
+          w.code || "",
+          w.publishedAt || "",
+          w.slug || "",
+          c?.title || "",
+          c?.titleYomi || "",
+          c?.mainColorLabel || "",
+        ].join(" ").toLowerCase();
+
+        if (!base.includes(text)) return false;
+      }
+
+      // シリーズ
+      if (activeSeries.length > 0) {
+        const s = w.char?.series || null;
+        if (!s || !activeSeries.includes(s)) return false;
+      }
+
+      // 色
+      if (activeColors.length > 0) {
+        const groups = getColorGroupsForChar(w.char);
+        if (!groups?.some(g => activeColors.includes(g))) return false;
+      }
+
+      // 期間（展示だけ）
+      if ((from || to) && !w.publishedAt) return false;
+      if (from && w.publishedAt < from) return false;
+      if (to && w.publishedAt > to) return false;
+
+      return true;
+    });
+  }
+
   function refresh() {
     const filtered = applyFilter();
-    const sorted = applySort(filtered);
-    currentList = sorted;
+    currentList = applySort(filtered);
     renderList(currentList);
   }
 
   // ========================
-  // 検索UI
+  // search overlay（index.js寄せ：active統一）
   // ========================
-  function setupSearchUI() {
+  function setupSearchOverlay() {
     const overlay = document.getElementById("search-overlay");
     const openBtn = document.getElementById("search-open");
     const closeBtn = document.getElementById("search-close");
     const input = document.getElementById("search-input");
     const decideBtn = document.getElementById("search-decide");
     const resetBtn = document.getElementById("search-reset");
+
     const seriesOptions = document.getElementById("filter-series-options");
     const colorOptionsWrap = document.getElementById("filter-color-options");
     const dateFrom = document.getElementById("filter-date-from");
@@ -349,9 +349,8 @@ function renderList(list) {
 
     if (!overlay || !openBtn || !closeBtn || !input || !decideBtn || !resetBtn) return;
 
-    // シリーズ options
-    if (seriesOptions) {
-      seriesOptions.innerHTML = "";
+    // optionsは増殖防止（index.jsと同じ考え）
+    if (seriesOptions && seriesOptions.childElementCount === 0) {
       const usedSeries = Array.from(new Set(chars.map(c => c.series))).sort();
       usedSeries.forEach(key => {
         const data = seriesMap[key];
@@ -371,9 +370,7 @@ function renderList(list) {
       });
     }
 
-    // 色 options
-    if (colorOptionsWrap) {
-      colorOptionsWrap.innerHTML = "";
+    if (colorOptionsWrap && colorOptionsWrap.childElementCount === 0) {
       COLOR_GROUPS.forEach(cg => {
         const div = document.createElement("div");
         div.className = `color-option color-${cg.key}`;
@@ -384,23 +381,30 @@ function renderList(list) {
           <span class="color-label">${cg.label}</span>
         `;
 
+        // index.js準拠：active
         div.addEventListener("click", () => div.classList.toggle("active"));
         colorOptionsWrap.appendChild(div);
       });
     }
 
-    // open/close
-    openBtn.addEventListener("click", () => {
+    const open = () => {
       overlay.classList.add("is-open");
       input.focus();
+    };
+    const close = () => overlay.classList.remove("is-open");
+
+    openBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      open();
     });
 
-    closeBtn.addEventListener("click", () => {
-      overlay.classList.remove("is-open");
+    closeBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      close();
     });
 
     overlay.addEventListener("click", (e) => {
-      if (e.target === overlay) overlay.classList.remove("is-open");
+      if (e.target === overlay) close();
     });
 
     // decide
@@ -409,23 +413,23 @@ function renderList(list) {
 
       filterState.series.clear();
       if (seriesOptions) {
-        seriesOptions.querySelectorAll('input[type="checkbox"]:checked').forEach(cb => {
-          filterState.series.add(cb.value);
-        });
+        seriesOptions
+          .querySelectorAll('input[type="checkbox"]:checked')
+          .forEach(cb => filterState.series.add(cb.value));
       }
 
       filterState.colors.clear();
       if (colorOptionsWrap) {
-        colorOptionsWrap.querySelectorAll(".color-option.active").forEach(el => {
-          if (el.dataset.color) filterState.colors.add(el.dataset.color);
-        });
+        colorOptionsWrap
+          .querySelectorAll(".color-option.active")
+          .forEach(el => el.dataset.color && filterState.colors.add(el.dataset.color));
       }
 
       filterState.dateFrom = dateFrom?.value ? dateFrom.value : null;
       filterState.dateTo = dateTo?.value ? dateTo.value : null;
 
       refresh();
-      overlay.classList.remove("is-open");
+      close();
     });
 
     // reset
@@ -453,67 +457,100 @@ function renderList(list) {
   }
 
   // ========================
-  // ソートUI（ポップアップ）
+  // sort overlay（index.jsの設計に寄せる：active統一）
   // ========================
-  function setupSortUI() {
+  function setupSortOverlay() {
+    const sortOpenBtn = document.getElementById("sort-open");
     const overlay = document.getElementById("sort-overlay");
-    const openBtn = document.getElementById("sort-open");
     const closeBtn = document.getElementById("sort-close");
-    const applyBtn = document.getElementById("sort-apply");
-    const resetBtn = document.getElementById("sort-reset");
-    const options = document.querySelectorAll(".sort-option");
+    if (!sortOpenBtn || !overlay) return;
 
-    if (!overlay || !openBtn || !closeBtn || !applyBtn || !resetBtn || options.length === 0) return;
+    const optionEls = overlay.querySelectorAll("[data-sort]");
+    const applyBtn = overlay.querySelector("#sort-apply");
+    const resetBtn = overlay.querySelector("#sort-reset");
 
-    let pendingSort = currentSort;
+    const open = () => overlay.classList.add("is-open");
+    const close = () => overlay.classList.remove("is-open");
 
-    function markActive() {
-      options.forEach(btn => {
-        const v = btn.dataset.sort;
-        if (v === pendingSort) btn.classList.add("is-active");     // ← CSSに合わせる
-        else btn.classList.remove("is-active");                    // ← CSSに合わせる
+    function syncSortUiState() {
+      optionEls.forEach(el => {
+        const key = el.dataset.sort;
+        const isActive = key === sortMode;
+        if (el.classList.contains("sort-option")) {
+          el.classList.toggle("active", isActive); // ← active固定
+        }
       });
     }
 
-    openBtn.addEventListener("click", () => {
-      pendingSort = currentSort;
-      markActive();
-      overlay.classList.add("is-open");
+    function readSelectedMode() {
+      const activeBtn = overlay.querySelector(".sort-option.active[data-sort]");
+      if (activeBtn) return activeBtn.dataset.sort;
+      return sortMode;
+    }
+
+    sortOpenBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      open();
+      syncSortUiState();
     });
 
-    closeBtn.addEventListener("click", () => overlay.classList.remove("is-open"));
+    if (closeBtn) {
+      closeBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        close();
+      });
+    }
+
     overlay.addEventListener("click", (e) => {
-      if (e.target === overlay) overlay.classList.remove("is-open");
+      if (e.target === overlay) close();
     });
 
-    options.forEach(btn => {
-      btn.addEventListener("click", () => {
-        pendingSort = btn.dataset.sort || "publishedAt-asc";
-        markActive();
+    document.addEventListener("keydown", (e) => {
+      if (e.key !== "Escape") return;
+      if (overlay.classList.contains("is-open")) close();
+    });
+
+    optionEls.forEach(el => {
+      el.addEventListener("click", () => {
+        const key = el.dataset.sort;
+        if (!key) return;
+
+        // ボタン形式：activeを1つだけ
+        if (el.classList.contains("sort-option")) {
+          optionEls.forEach(x => x.classList.remove("active"));
+          el.classList.add("active");
+        }
       });
     });
 
-    applyBtn.addEventListener("click", () => {
-      currentSort = pendingSort || "publishedAt-asc";
-      refresh();
-      overlay.classList.remove("is-open");
-    });
+    if (applyBtn) {
+      applyBtn.addEventListener("click", () => {
+        const next = readSelectedMode();
+        sortMode = next || "publishedAt-asc";
+        refresh();
+        close();
+      });
+    }
 
-    resetBtn.addEventListener("click", () => {
-      pendingSort = "publishedAt-asc";
-      currentSort = "publishedAt-asc";
-      markActive();
-      refresh();
-    });
+    if (resetBtn) {
+      resetBtn.addEventListener("click", () => {
+        sortMode = "publishedAt-asc"; // 展示デフォルト
+        optionEls.forEach(x => x.classList.remove("active"));
+        const defBtn = overlay.querySelector('.sort-option[data-sort="publishedAt-asc"]');
+        if (defBtn) defBtn.classList.add("active");
+        refresh();
+        close();
+      });
+    }
   }
 
   // ========================
-  // データ読み込み
+  // load
   // ========================
   Promise.all([
     fetch("data/characters.json").then(r => r.json()),
     fetch("data/series.json").then(r => r.json()),
-    fetch("data/exhibitions.json").then(r => r.json())
+    fetch("data/exhibitions.json").then(r => r.json()),
   ])
     .then(([charsData, seriesMapData, exhibitionsData]) => {
       chars = Array.isArray(charsData) ? charsData : [];
@@ -525,6 +562,7 @@ function renderList(list) {
         const parsed = parseWorkFromFilename(w.file);
         const char = parsed.code ? getCharByCode(parsed.code) : null;
 
+        // 表示：キャラtitle優先、補助でslug
         const displayTitle = char?.title
           ? (parsed.slug ? `${char.title} / ${parsed.slug}` : char.title)
           : (parsed.slug || parsed.file);
@@ -537,11 +575,12 @@ function renderList(list) {
         };
       });
 
-      currentSort = "publishedAt-asc";
+      // 初期：公開日 古い→新しい
+      sortMode = "publishedAt-asc";
 
       refresh();
-      setupSearchUI();
-      setupSortUI();
+      setupSearchOverlay();
+      setupSortOverlay();
     })
     .catch(e => {
       console.error("読み込みエラー:", e);
