@@ -3047,22 +3047,23 @@ body>.bubbles-body span:nth-child(9) {
   margin-top: 0;
 }
 /* =========================
-   EXHIBITION grid（横3固定 + 正方形）
-   ※JSのDOM：a.exhibit-card > div.exhibit-cell > div.exhibit-frame > img.exhibit-img
+   EXHIBITION grid（横3固定 + 正方形セル）
+   ※上書きしやすいように :where() で特異性を下げています
    ========================= */
 
-.page-exhibition .exhibition-grid{
+:where(.page-exhibition) :where(.exhibition-grid){
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr)); /* 常に3列 */
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 18px;
+
   width: min(1100px, 100%);
   margin: 0 auto;
-  padding: 0 22px;           /* 外側の横余白 */
+  padding: 0 22px;
   box-sizing: border-box;
 }
 
 /* クリック範囲 */
-.page-exhibition .exhibit-card{
+:where(.page-exhibition) :where(.exhibit-card){
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -3071,17 +3072,17 @@ body>.bubbles-body span:nth-child(9) {
 }
 
 /* 不変の見えない正方形セル */
-.page-exhibition .exhibit-cell{
+:where(.page-exhibition) :where(.exhibit-cell){
   width: 100%;
-  aspect-ratio: 1 / 1;       /* 正方形固定 */
+  aspect-ratio: 1 / 1;
   display: grid;
   place-items: center;
-  overflow: hidden;          /* はみ出し防止 */
-  background: transparent;   /* マット層なし */
+  overflow: hidden;
+  background: transparent;
 }
 
 /* 可変フレーム（中身のサイズは画像に追従） */
-.page-exhibition .exhibit-frame{
+:where(.page-exhibition) :where(.exhibit-frame){
   max-width: 100%;
   max-height: 100%;
   display: grid;
@@ -3089,15 +3090,14 @@ body>.bubbles-body span:nth-child(9) {
 }
 
 /* ★縮小の本体：セルに収める */
-.page-exhibition img.exhibit-img{
+:where(.page-exhibition) :where(img.exhibit-img){
   max-width: 100%;
   max-height: 100%;
   width: auto;
   height: auto;
-  object-fit: contain;       /* 切らない */
+  object-fit: contain;
   display: block;
 
-  /* 額縁＝画像に直付け */
   border: 4px solid var(--frame-color, #88aacc);
   border-radius: 16px;
   background: transparent;
@@ -3106,33 +3106,33 @@ body>.bubbles-body span:nth-child(9) {
 }
 
 /* メタ情報 */
-.page-exhibition .exhibit-meta{
+:where(.page-exhibition) :where(.exhibit-meta){
   display: flex;
   flex-direction: column;
   gap: 2px;
   padding: 0 2px 2px;
 }
 
-.page-exhibition .exhibit-code{
+:where(.page-exhibition) :where(.exhibit-code){
   font-size: 12px;
   opacity: 0.75;
   letter-spacing: 0.02em;
 }
 
-.page-exhibition .exhibit-title{
+:where(.page-exhibition) :where(.exhibit-title){
   font-size: 13px;
   font-weight: 600;
   line-height: 1.35;
 }
 
-.page-exhibition .exhibit-date{
+:where(.page-exhibition) :where(.exhibit-date){
   font-size: 12px;
   opacity: 0.75;
 }
 
 /* hover（PCだけ） */
 @media (hover: hover) and (pointer: fine) {
-  .page-exhibition .exhibit-card:hover img.exhibit-img{
+  :where(.page-exhibition) :where(.exhibit-card:hover) :where(img.exhibit-img){
     transform: translateY(-2px);
     box-shadow: 0 14px 34px rgba(0, 0, 0, 0.12);
   }
@@ -3140,11 +3140,11 @@ body>.bubbles-body span:nth-child(9) {
 
 /* 小さい画面でも3列固定：余白とgapだけ縮める */
 @media (max-width: 768px) {
-  .page-exhibition .exhibition-grid{
+  :where(.page-exhibition) :where(.exhibition-grid){
     gap: 10px;
     padding: 0 12px;
   }
-  .page-exhibition img.exhibit-img{
+  :where(.page-exhibition) :where(img.exhibit-img){
     border-width: 3px;
     border-radius: 14px;
   }
