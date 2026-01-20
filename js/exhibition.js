@@ -8,10 +8,9 @@ document.addEventListener("DOMContentLoaded", () => {
   // ========================
   let chars = [];
   let seriesMap = {};
-  let originalWorks = []; // パース済みの展示作品
-  let currentList = [];   // フィルタ後
+  let originalWorks = []; // パース済み展示作品
+  let currentList = [];   // フィルタ・ソート後
 
-  // フィルタ状態（展示だけ期間あり）
   const filterState = {
     text: "",
     series: new Set(),
@@ -44,13 +43,24 @@ document.addEventListener("DOMContentLoaded", () => {
   // ========================
   // utils
   // ========================
+  function fetchJson(url) {
+    return fetch(url).then(r => {
+      if (!r.ok) throw new Error(`fetch failed: ${url} (${r.status})`);
+      return r.json();
+    });
+  }
+
   function normalizeWorksJson(raw) {
     if (!raw) return [];
     if (Array.isArray(raw)) {
-      return raw.map(x => (typeof x === "string" ? { file: x } : x)).filter(x => x?.file);
+      return raw
+        .map(x => (typeof x === "string" ? { file: x } : x))
+        .filter(x => x?.file);
     }
     if (Array.isArray(raw.items)) {
-      return raw.items.map(x => (typeof x === "string" ? { file: x } : x)).filter(x => x?.file);
+      return raw.items
+        .map(x => (typeof x === "string" ? { file: x } : x))
+        .filter(x => x?.file);
     }
     return [];
   }
@@ -59,6 +69,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function parseWorkFromFilename(file) {
     const name = (file || "").split("/").pop() || "";
     const m = name.match(/^(\d{3})_(\d{4}-\d{2}-\d{2})_(.+)\.(webp|png|jpg|jpeg)$/i);
+
     if (!m) {
       return {
         file: name,
@@ -69,6 +80,7 @@ document.addEventListener("DOMContentLoaded", () => {
         isValid: false,
       };
     }
+
     return {
       file: name,
       code: m[1],
@@ -81,6 +93,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function getCharByCode(code) {
     if (!code) return null;
+    // index.js寄せ：find を基本にする
     return chars.find(c => c.code === code) || null;
   }
 
@@ -113,13 +126,13 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ========================
-  // 色系統（キャラ→グループ）
+  // 色系統（キャラ → グループ）
   // ========================
   function getColorGroupsForChar(c) {
     const groups = new Set();
 
     if (Array.isArray(c?.colors) && c.colors.length > 0) {
-      let hasValidHex = false;
+      let hasValid = false;
 
       c.colors.forEach(hex => {
         if (typeof hex !== "string") return;
@@ -129,11 +142,11 @@ document.addEventListener("DOMContentLoaded", () => {
         const g = detectColorGroupFromHex(trimmed);
         if (g) {
           groups.add(g);
-          hasValidHex = true;
+          hasValid = true;
         }
       });
 
-      if (!hasValidHex) groups.add("mono");
+      if (!hasValid) groups.add("mono");
     } else {
       groups.add("mono");
     }
@@ -154,13 +167,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const min = Math.min(r, g, b);
     const d = max - min;
 
-    let h, s, l;
-    l = (max + min) / 2;
+    let h = 0, s = 0;
+    const l = (max + min) / 2;
 
-    if (d === 0) {
-      s = 0;
-      h = 0;
-    } else {
+    if (d !== 0) {
       s = d / (1 - Math.abs(2 * l - 1));
       switch (max) {
         case r: h = ((g - b) / d) % 6; break;
@@ -171,6 +181,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (h < 0) h += 360;
     }
 
+    // 低彩度 or 極端な明度は「白黒」扱い
     if (s < 0.12 || l < 0.08 || l > 0.92) return "mono";
 
     if (h >= 345 || h < 10)  return "red";
@@ -185,10 +196,12 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ========================
-  // render（DOMは .exhibit-image > img に固定）
+  // render（DOMは exhibition.html / CSS 側の都合で固定）
   // ========================
   function renderList(list) {
     container.innerHTML = "";
+
+    const frag = document.createDocumentFragment();
 
     list.forEach(w => {
       const c = w.char || null;
@@ -200,7 +213,7 @@ document.addEventListener("DOMContentLoaded", () => {
       card.target = "_blank";
       card.rel = "noopener";
 
-      // 画像の縁色はCSS varで渡す（= 画像に直付け）
+      // 枠色（CSS var）
       card.style.setProperty("--frame-color", frameColor);
 
       // 画像
@@ -248,8 +261,10 @@ document.addEventListener("DOMContentLoaded", () => {
       meta.appendChild(title);
 
       card.appendChild(meta);
-      container.appendChild(card);
+      frag.appendChild(card);
     });
+
+    container.appendChild(frag);
   }
 
   // ========================
@@ -262,6 +277,7 @@ document.addEventListener("DOMContentLoaded", () => {
       case "publishedAt-desc":
         arr.sort((a, b) => (b.publishedAt || "").localeCompare(a.publishedAt || ""));
         break;
+
       case "title":
         arr.sort((a, b) => {
           const at = (a.char?.titleYomi || a.char?.title || a.slug || "").toString();
@@ -269,9 +285,11 @@ document.addEventListener("DOMContentLoaded", () => {
           return at.localeCompare(bt, "ja");
         });
         break;
+
       case "code":
         arr.sort((a, b) => (a.code || "").localeCompare(b.code || ""));
         break;
+
       case "publishedAt-asc":
       default:
         arr.sort((a, b) => (a.publishedAt || "").localeCompare(b.publishedAt || ""));
@@ -313,7 +331,7 @@ document.addEventListener("DOMContentLoaded", () => {
       // 色
       if (activeColors.length > 0) {
         const groups = getColorGroupsForChar(w.char);
-        if (!groups?.some(g => activeColors.includes(g))) return false;
+        if (!groups.some(g => activeColors.includes(g))) return false;
       }
 
       // 期間（展示だけ）
@@ -332,7 +350,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ========================
-  // search overlay（index.js寄せ：active統一）
+  // search overlay（index.js寄せ：is-open + active）
   // ========================
   function setupSearchOverlay() {
     const overlay = document.getElementById("search-overlay");
@@ -347,9 +365,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const dateFrom = document.getElementById("filter-date-from");
     const dateTo = document.getElementById("filter-date-to");
 
+    // index.jsと同様：必要要素が揃わないなら何もしない
     if (!overlay || !openBtn || !closeBtn || !input || !decideBtn || !resetBtn) return;
 
-    // optionsは増殖防止（index.jsと同じ考え）
+    // optionsは増殖防止（index.jsと同じ思想）
     if (seriesOptions && seriesOptions.childElementCount === 0) {
       const usedSeries = Array.from(new Set(chars.map(c => c.series))).sort();
       usedSeries.forEach(key => {
@@ -381,7 +400,7 @@ document.addEventListener("DOMContentLoaded", () => {
           <span class="color-label">${cg.label}</span>
         `;
 
-        // index.js準拠：active
+        // index.js準拠：active トグル
         div.addEventListener("click", () => div.classList.toggle("active"));
         colorOptionsWrap.appendChild(div);
       });
@@ -391,7 +410,10 @@ document.addEventListener("DOMContentLoaded", () => {
       overlay.classList.add("is-open");
       input.focus();
     };
-    const close = () => overlay.classList.remove("is-open");
+
+    const close = () => {
+      overlay.classList.remove("is-open");
+    };
 
     openBtn.addEventListener("click", (e) => {
       e.preventDefault();
@@ -405,6 +427,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     overlay.addEventListener("click", (e) => {
       if (e.target === overlay) close();
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key !== "Escape") return;
+      if (overlay.classList.contains("is-open")) close();
     });
 
     // decide
@@ -439,12 +466,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
       filterState.series.clear();
       if (seriesOptions) {
-        seriesOptions.querySelectorAll('input[type="checkbox"]').forEach(cb => (cb.checked = false));
+        seriesOptions
+          .querySelectorAll('input[type="checkbox"]')
+          .forEach(cb => (cb.checked = false));
       }
 
       filterState.colors.clear();
       if (colorOptionsWrap) {
-        colorOptionsWrap.querySelectorAll(".color-option").forEach(el => el.classList.remove("active"));
+        colorOptionsWrap
+          .querySelectorAll(".color-option")
+          .forEach(el => el.classList.remove("active"));
       }
 
       if (dateFrom) dateFrom.value = "";
@@ -457,41 +488,43 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ========================
-  // sort overlay（index.jsの設計に寄せる：active統一）
+  // sort overlay（index.js寄せ：is-open + active）
   // ========================
   function setupSortOverlay() {
     const sortOpenBtn = document.getElementById("sort-open");
     const overlay = document.getElementById("sort-overlay");
     const closeBtn = document.getElementById("sort-close");
+
     if (!sortOpenBtn || !overlay) return;
 
-    const optionEls = overlay.querySelectorAll("[data-sort]");
+    const optionEls = overlay.querySelectorAll(".sort-option[data-sort]");
     const applyBtn = overlay.querySelector("#sort-apply");
     const resetBtn = overlay.querySelector("#sort-reset");
 
-    const open = () => overlay.classList.add("is-open");
-    const close = () => overlay.classList.remove("is-open");
+    const open = () => {
+      overlay.classList.add("is-open");
+      syncSortUiState();
+    };
+
+    const close = () => {
+      overlay.classList.remove("is-open");
+    };
 
     function syncSortUiState() {
       optionEls.forEach(el => {
         const key = el.dataset.sort;
-        const isActive = key === sortMode;
-        if (el.classList.contains("sort-option")) {
-          el.classList.toggle("active", isActive); // ← active固定
-        }
+        el.classList.toggle("active", key === sortMode);
       });
     }
 
     function readSelectedMode() {
       const activeBtn = overlay.querySelector(".sort-option.active[data-sort]");
-      if (activeBtn) return activeBtn.dataset.sort;
-      return sortMode;
+      return activeBtn?.dataset.sort || sortMode;
     }
 
     sortOpenBtn.addEventListener("click", (e) => {
       e.preventDefault();
       open();
-      syncSortUiState();
     });
 
     if (closeBtn) {
@@ -510,23 +543,17 @@ document.addEventListener("DOMContentLoaded", () => {
       if (overlay.classList.contains("is-open")) close();
     });
 
+    // 選択：activeを1つだけ
     optionEls.forEach(el => {
       el.addEventListener("click", () => {
-        const key = el.dataset.sort;
-        if (!key) return;
-
-        // ボタン形式：activeを1つだけ
-        if (el.classList.contains("sort-option")) {
-          optionEls.forEach(x => x.classList.remove("active"));
-          el.classList.add("active");
-        }
+        optionEls.forEach(x => x.classList.remove("active"));
+        el.classList.add("active");
       });
     });
 
     if (applyBtn) {
       applyBtn.addEventListener("click", () => {
-        const next = readSelectedMode();
-        sortMode = next || "publishedAt-asc";
+        sortMode = readSelectedMode() || "publishedAt-asc";
         refresh();
         close();
       });
@@ -548,9 +575,9 @@ document.addEventListener("DOMContentLoaded", () => {
   // load
   // ========================
   Promise.all([
-    fetch("data/characters.json").then(r => r.json()),
-    fetch("data/series.json").then(r => r.json()),
-    fetch("data/exhibitions.json").then(r => r.json()),
+    fetchJson("data/characters.json"),
+    fetchJson("data/series.json"),
+    fetchJson("data/exhibitions.json"),
   ])
     .then(([charsData, seriesMapData, exhibitionsData]) => {
       chars = Array.isArray(charsData) ? charsData : [];
