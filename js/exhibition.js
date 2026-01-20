@@ -187,63 +187,68 @@ document.addEventListener("DOMContentLoaded", () => {
   // ========================
   // レンダリング（CSSに合わせる版）
   // ========================
-  function renderList(list) {
-    container.innerHTML = "";
+function renderList(list) {
+  container.innerHTML = "";
 
-    list.forEach(w => {
-      const c = w.char || null;
-      const frameColor = pickFrameColorFromChar(c);
+  list.forEach(w => {
+    const c = w.char || null;
+    const frameColor = pickFrameColorFromChar(c);
 
-      const a = document.createElement("a");
-      a.className = "exhibit-card";
-      a.href = `${EXHIBITION_DIR}/${w.file}`;
-      a.target = "_blank";
-      a.rel = "noopener";
+    const a = document.createElement("a");
+    a.className = "exhibit-card";
+    a.href = `${EXHIBITION_DIR}/${w.file}`;
+    a.target = "_blank";
+    a.rel = "noopener";
+    a.style.setProperty("--frame-color", frameColor);
 
-      // 額縁（固定セル）
-      const frame = document.createElement("div");
-      frame.className = "exhibit-frame";
-      frame.style.setProperty("--frame-color", frameColor);
+    // 外セル（見えない枠）
+    const cell = document.createElement("div");
+    cell.className = "exhibit-cell";
 
-      const img = document.createElement("img");
-      img.className = "exhibit-img";
-      img.alt = w.displayTitle || "EXHIBITION";
-      img.loading = "lazy";
+    // 可変の額縁
+    const frame = document.createElement("div");
+    frame.className = "exhibit-frame";
 
-      img.addEventListener("error", () => {
-        img.src = "images/ui/card-placeholder.png";
-        a.classList.add("is-placeholder");
-      });
+    const img = document.createElement("img");
+    img.className = "exhibit-img";
+    img.alt = w.displayTitle || "EXHIBITION";
+    img.loading = "lazy";
 
-      img.src = `${EXHIBITION_DIR}/${w.file}`;
-
-      frame.appendChild(img);
-      a.appendChild(frame);
-
-      // メタ
-      const meta = document.createElement("div");
-      meta.className = "exhibit-meta";
-
-      const codeDiv = document.createElement("div");
-      codeDiv.className = "exhibit-code";
-      codeDiv.textContent = w.code || "---";
-
-      const titleDiv = document.createElement("div");
-      titleDiv.className = "exhibit-title";
-      titleDiv.textContent = w.displayTitle || (w.slug || w.file);
-
-      const dateDiv = document.createElement("div");
-      dateDiv.className = "exhibit-date";
-      dateDiv.textContent = w.publishedAt || "----/--/--";
-
-      meta.appendChild(codeDiv);
-      meta.appendChild(titleDiv);
-      meta.appendChild(dateDiv);
-
-      a.appendChild(meta);
-      container.appendChild(a);
+    img.addEventListener("error", () => {
+      img.src = "images/ui/card-placeholder.png";
+      a.classList.add("is-placeholder");
     });
-  }
+
+    img.src = `${EXHIBITION_DIR}/${w.file}`;
+
+    frame.appendChild(img);
+    cell.appendChild(frame);
+    a.appendChild(cell);
+
+    // メタ
+    const meta = document.createElement("div");
+    meta.className = "exhibit-meta";
+
+    const code = document.createElement("div");
+    code.className = "exhibit-code";
+    code.textContent = w.code || "---";
+
+    const title = document.createElement("div");
+    title.className = "exhibit-title";
+    title.textContent = w.displayTitle || (w.slug || w.file);
+
+    const date = document.createElement("div");
+    date.className = "exhibit-date";
+    date.textContent = w.publishedAt || "----/--/--";
+
+    meta.appendChild(code);
+    meta.appendChild(title);
+    meta.appendChild(date);
+
+    a.appendChild(meta);
+    container.appendChild(a);
+  });
+}
 
   // ========================
   // フィルタ + ソート
