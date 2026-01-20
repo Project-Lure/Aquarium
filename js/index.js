@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let seriesMap = {};
   let originalOrder = [];
   let currentList = [];
-  let sortMode = "code"; // "code" or "title"
+  // let sortMode = "code"; // "code" or "title"
 
   // ========================
   // 色系統定義（9グループ）
@@ -81,6 +81,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+/*
   // ========================
   // ソートボタン
   // ========================
@@ -113,6 +114,7 @@ document.addEventListener("DOMContentLoaded", () => {
       renderList(currentList);
     });
   }
+*/
 
 // ========================
 // 色系統をキャラから取得（colors だけを見る）
@@ -206,200 +208,147 @@ function detectColorGroupFromHex(hex) {
   // ========================
   // 検索 UI ＋ 絞り込み
   // ========================
-  function setupSearch() {
-    const overlay = document.getElementById("search-overlay");
-    const openBtn = document.getElementById("search-open");
-    const closeBtn = document.getElementById("search-close");
-    const input = document.getElementById("search-input");
-    const decideBtn = document.getElementById("search-decide");
-    const resetBtn = document.getElementById("search-reset");
-    const seriesOptions = document.getElementById("filter-series-options");
-    const arcOptions = document.getElementById("filter-arc-options");
-    const colorOptionsWrap = document.getElementById("filter-color-options");
+function setupSearch() {
+  const overlay = document.getElementById("search-overlay");
+  const input = document.getElementById("search-input");
+  const decideBtn = document.getElementById("search-decide");
+  const resetBtn = document.getElementById("search-reset");
+  const seriesOptions = document.getElementById("filter-series-options");
+  const arcOptions = document.getElementById("filter-arc-options");
+  const colorOptionsWrap = document.getElementById("filter-color-options");
 
-    if (!overlay || !openBtn || !closeBtn || !input ||
-        !decideBtn || !resetBtn ||
-        !seriesOptions || !arcOptions) return;
+  // ※ open/close は loadHeader.js が担当する前提なので、ここでは不要
+  if (!overlay || !input || !decideBtn || !resetBtn || !seriesOptions || !arcOptions) return;
 
-    // シリーズのチェックボックス生成
-    const usedSeries = Array.from(new Set(chars.map(c => c.series))).sort();
+  // ------------------------
+  // チェックボックス生成
+  // ------------------------
+  seriesOptions.innerHTML = "";
+  arcOptions.innerHTML = "";
 
-    usedSeries.forEach(key => {
-      const data = seriesMap[key];
-      if (!data) return;
-      const label = document.createElement("label");
-      label.className = "filter-chip";
-      const cb = document.createElement("input");
-      cb.type = "checkbox";
-      cb.value = key;
-      cb.checked = false;
-      label.appendChild(cb);
-      label.append(data.nameJa);
-      seriesOptions.appendChild(label);
-    });
+  const usedSeries = Array.from(new Set(chars.map(c => c.series))).sort();
+  usedSeries.forEach(key => {
+    const data = seriesMap[key];
+    if (!data) return;
+    const label = document.createElement("label");
+    label.className = "filter-chip";
+    const cb = document.createElement("input");
+    cb.type = "checkbox";
+    cb.value = key;
+    cb.checked = false;
+    label.appendChild(cb);
+    label.append(data.nameJa);
+    seriesOptions.appendChild(label);
+  });
 
-    // アークのチェックボックス生成
-    const usedArcsSet = new Set();
-    chars.forEach(c => {
-      if (c.arc?.ex) usedArcsSet.add(c.arc.ex);
-      if (c.arc?.core) usedArcsSet.add(c.arc.core);
-    });
+  const usedArcsSet = new Set();
+  chars.forEach(c => {
+    if (c.arc?.ex) usedArcsSet.add(c.arc.ex);
+    if (c.arc?.core) usedArcsSet.add(c.arc.core);
+  });
 
-    Array.from(usedArcsSet).sort().forEach(code => {
-      const data = arcList[code];
-      if (!data) return;
-      const label = document.createElement("label");
-      label.className = "filter-chip";
-      const cb = document.createElement("input");
-      cb.type = "checkbox";
-      cb.value = code;
-      cb.checked = false;
-      label.appendChild(cb);
-      label.append(`${data.icon} ${data.name}`);
-      arcOptions.appendChild(label);
-    });
+  Array.from(usedArcsSet).sort().forEach(code => {
+    const data = arcList[code];
+    if (!data) return;
+    const label = document.createElement("label");
+    label.className = "filter-chip";
+    const cb = document.createElement("input");
+    cb.type = "checkbox";
+    cb.value = code;
+    cb.checked = false;
+    label.appendChild(cb);
+    label.append(`${data.icon} ${data.name}`);
+    arcOptions.appendChild(label);
+  });
 
-    // 色フィルタ（3×3）の生成：◾️に色を塗る形式
-    if (colorOptionsWrap) {
-      colorOptionsWrap.innerHTML = "";
-      COLOR_GROUPS.forEach(cg => {
-        const div = document.createElement("div");
-        div.className = `color-option color-${cg.key}`;
-        div.dataset.color = cg.key;
-
-        div.innerHTML = `
-          <span class="color-badge"></span>
-          <span class="color-label">${cg.label}</span>
-        `;
-
-        div.addEventListener("click", () => {
-          div.classList.toggle("active");
-        });
-
-        colorOptionsWrap.appendChild(div);
-      });
-    }
-
-    // 実際の絞り込み処理
-    function applyFilterAndRender() {
-      const text = input.value.trim().toLowerCase();
-
-      const activeSeries = Array.from(
-        seriesOptions.querySelectorAll('input[type="checkbox"]:checked')
-      ).map(el => el.value);
-
-      const activeArcs = Array.from(
-        arcOptions.querySelectorAll('input[type="checkbox"]:checked')
-      ).map(el => el.value);
-
-      const activeColors = colorOptionsWrap
-        ? Array.from(colorOptionsWrap.querySelectorAll(".color-option.active"))
-            .map(el => el.dataset.color)
-        : [];
-
-      const filtered = originalOrder.filter(c => {
-        // テキスト検索
-        if (text) {
-          const base = (
-            (c.code || "") + " " +
-            (c.title || "") + " " +
-            (c.titleYomi || "") + " " +
-            (c.mainColorLabel || "")
-          ).toString().toLowerCase();
-          if (!base.includes(text)) return false;
-        }
-
-        // シリーズフィルタ
-        if (activeSeries.length > 0 && !activeSeries.includes(c.series)) {
-          return false;
-        }
-
-        // アークフィルタ
-        if (activeArcs.length > 0) {
-          const arcCodes = [];
-          if (c.arc?.ex) arcCodes.push(c.arc.ex);
-          if (c.arc?.core) arcCodes.push(c.arc.core);
-          if (!arcCodes.some(code => activeArcs.includes(code))) {
-            return false;
-          }
-        }
-
-      // 色フィルタ
-      if (activeColors.length > 0) {
-        // 複数色に対応：["red","green"] など複数グループを返す
-        const groups = getColorGroupsForChar(c);
-
-        // どれか1つでも一致していれば通す
-        if (!groups || !groups.some(g => activeColors.includes(g))) {
-          return false;
-        }
-      }
-
-        return true;
-      });
-
-      currentList = filtered;
-      renderList(currentList);
-    }
-
-    // モーダルの開閉
-    openBtn.addEventListener("click", () => {
-      overlay.classList.add("is-open");
-      input.focus();
-    });
-
-    closeBtn.addEventListener("click", () => {
-      overlay.classList.remove("is-open");
-    });
-
-    overlay.addEventListener("click", (e) => {
-      if (e.target === overlay) {
-        overlay.classList.remove("is-open");
-      }
-    });
-
-    // 絞り込む
-    decideBtn.addEventListener("click", () => {
-      applyFilterAndRender();
-      overlay.classList.remove("is-open");
-    });
-
-    // リセット
-    resetBtn.addEventListener("click", () => {
-      input.value = "";
-      seriesOptions.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
-      arcOptions.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
-      if (colorOptionsWrap) {
-        colorOptionsWrap.querySelectorAll(".color-option")
-          .forEach(el => el.classList.remove("active"));
-      }
-      currentList = [...originalOrder];
-      sortMode = "code";
-      renderList(currentList);
+  // 色フィルタ（ある場合のみ）
+  if (colorOptionsWrap) {
+    colorOptionsWrap.innerHTML = "";
+    COLOR_GROUPS.forEach(cg => {
+      const div = document.createElement("div");
+      div.className = `color-option color-${cg.key}`;
+      div.dataset.color = cg.key;
+      div.innerHTML = `
+        <span class="color-badge"></span>
+        <span class="color-label">${cg.label}</span>
+      `;
+      div.addEventListener("click", () => div.classList.toggle("active"));
+      colorOptionsWrap.appendChild(div);
     });
   }
 
-  // ========================
-  // データ読み込み
-  // ========================
-  Promise.all([
-    fetch("data/characters.json").then(r => r.json()),
-    fetch("data/arcList.json").then(r => r.json()),
-    fetch("data/series.json").then(r => r.json())
-  ])
-    .then(([charsData, arcListData, seriesMapData]) => {
-      chars = charsData;
-      arcList = arcListData;
-      seriesMap = seriesMapData;
+  // ------------------------
+  // 絞り込み本体
+  // ------------------------
+  function applyFilterAndRender() {
+    const text = input.value.trim().toLowerCase();
 
-      originalOrder = [...chars];
-      currentList = [...originalOrder];
-      renderList(currentList);
+    const activeSeries = Array.from(
+      seriesOptions.querySelectorAll('input[type="checkbox"]:checked')
+    ).map(el => el.value);
 
-      setupSort();
-      setupSearch();
-    })
-    .catch(e => {
-      console.error("読み込みエラー:", e);
+    const activeArcs = Array.from(
+      arcOptions.querySelectorAll('input[type="checkbox"]:checked')
+    ).map(el => el.value);
+
+    const activeColors = colorOptionsWrap
+      ? Array.from(colorOptionsWrap.querySelectorAll(".color-option.active"))
+          .map(el => el.dataset.color)
+      : [];
+
+    const filtered = originalOrder.filter(c => {
+      // テキスト検索
+      if (text) {
+        const base = (
+          (c.code || "") + " " +
+          (c.title || "") + " " +
+          (c.titleYomi || "") + " " +
+          (c.mainColorLabel || "")
+        ).toString().toLowerCase();
+        if (!base.includes(text)) return false;
+      }
+
+      // シリーズ
+      if (activeSeries.length > 0 && !activeSeries.includes(c.series)) return false;
+
+      // アーク
+      if (activeArcs.length > 0) {
+        const arcCodes = [];
+        if (c.arc?.ex) arcCodes.push(c.arc.ex);
+        if (c.arc?.core) arcCodes.push(c.arc.core);
+        if (!arcCodes.some(code => activeArcs.includes(code))) return false;
+      }
+
+      // 色
+      if (activeColors.length > 0) {
+        const groups = getColorGroupsForChar(c);
+        if (!groups || !groups.some(g => activeColors.includes(g))) return false;
+      }
+
+      return true;
     });
-});
+
+    currentList = filtered;
+    renderList(currentList);
+  }
+
+  // 決定 → 絞り込み → 閉じる
+  decideBtn.addEventListener("click", () => {
+    applyFilterAndRender();
+    overlay.classList.remove("is-open"); // 閉じる（loadHeader.js と競合しない）
+  });
+
+  // リセット
+  resetBtn.addEventListener("click", () => {
+    input.value = "";
+    seriesOptions.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
+    arcOptions.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
+    if (colorOptionsWrap) {
+      colorOptionsWrap.querySelectorAll(".color-option")
+        .forEach(el => el.classList.remove("active"));
+    }
+    currentList = [...originalOrder];
+    // sortMode = "code";
+    renderList(currentList);
+  });
+}
