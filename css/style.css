@@ -1039,6 +1039,172 @@ body {
 }
 
 /* =========================
+   並び替えポップアップ（SORT）
+   検索ポップアップと同じ設計に合わせる
+   ========================= */
+#sort-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(4px);
+  z-index: 3000; /* search と同レイヤー */
+}
+
+#sort-overlay.is-open {
+  display: flex;
+}
+
+#sort-modal {
+  background: var(--modal-bg);
+  width: 90%;
+  max-width: 480px;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: var(--modal-shadow);
+  box-sizing: border-box;
+
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  transform: scale(0.9);
+  opacity: 0;
+  transition: 0.18s ease;
+}
+
+#sort-overlay.is-open #sort-modal {
+  transform: scale(1);
+  opacity: 1;
+}
+
+#sort-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#sort-close {
+  border: none;
+  background: transparent;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+/* =========================
+   並び替えの選択肢
+   ========================= */
+.sort-options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sort-option {
+  width: 100%;
+  padding: 12px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(0, 80, 140, 0.18);
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--text-main);
+  cursor: pointer;
+  box-sizing: border-box;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease,
+    border-color 0.15s ease,
+    box-shadow 0.15s ease,
+    transform 0.15s ease;
+}
+
+/* 選択状態（JSで .active を付ける想定） */
+.sort-option.active {
+  background: linear-gradient(90deg, var(--header-grad-left), var(--header-grad-right));
+  color: #fff;
+  border-color: transparent;
+  box-shadow: 0 0 0 2px rgba(0, 80, 160, 0.15);
+}
+
+/* 右側にチェック表示（CSSだけで出す） */
+.sort-option.active::after {
+  content: "✓";
+  font-weight: 700;
+  opacity: 0.95;
+}
+
+/* hover（PCのみ） */
+@media (hover: hover) and (pointer: fine) {
+  .sort-option:hover {
+    transform: scale(1.01);
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.12);
+  }
+}
+
+/* =========================
+   ボタン行（search-btn-row と同系）
+   ========================= */
+.sort-btn-row {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.sort-apply-btn {
+  flex: 1;
+  padding: 10px;
+  background: linear-gradient(90deg, var(--header-grad-left), var(--header-grad-right));
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.sort-reset-btn {
+  flex: 1;
+  padding: 10px;
+  background: #d7e6f5;
+  color: var(--text-main);
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* =====================================
+   SORTモーダル：スマホ時の高さ＆ボタン操作性改善
+   ===================================== */
+@media (max-width: 768px) {
+
+  #sort-modal {
+    max-height: calc(100vh - 40px);
+    width: calc(100% - 24px);
+    margin: 12px auto;
+    padding: 12px 14px 10px;
+    overflow-y: auto;
+    box-sizing: border-box;
+  }
+
+  .sort-btn-row {
+    margin-top: 14px;
+    padding-bottom: 4px;
+    gap: 8px;
+  }
+
+  .sort-reset-btn,
+  .sort-apply-btn {
+    min-height: 44px;
+    font-size: 14px;
+  }
+}
+
+/* =========================
    HOME用：PICKUP（予告編特化・強め）
    表示：画像／タイトル／キャッチコピーのみ
    そのまま全行コピペで上書き用
