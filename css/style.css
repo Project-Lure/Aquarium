@@ -3046,41 +3046,21 @@ body>.bubbles-body span:nth-child(9) {
 .official-page .section-card.about-section:first-of-type {
   margin-top: 0;
 }
-
 /* =========================
-   EXHIBITION grid（最大3〜4列）
+   EXHIBITION grid（横3固定 + 正方形）
    ========================= */
 
 .exhibition-grid{
   display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr)); /* 常に3列 */
   gap: 18px;
-  /* まずは3列を基準にして、広い画面で4列へ */
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  max-width: 1100px;          /* 3列のときの見た目安定 */
+  width: min(1100px, 100%);  /* 横の最大を抑える（デカい画面で間延びしない） */
   margin: 0 auto;
-  padding: 0 18px;
+  padding: 0 22px;           /* 外側の横余白 */
+  box-sizing: border-box;
 }
 
-/* 広い画面は4列 */
-@media (min-width: 1100px){
-  .exhibition-grid{
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    max-width: 1400px;
-  }
-}
-
-/* スマホは2列 */
-@media (max-width: 768px){
-  .exhibition-grid{
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 12px;
-    padding: 0 12px;
-  }
-}
-
-/* =========================
-   外セル（見えない枠）：余白と整列だけ担当
-   ========================= */
+/* 1セル（見えない外枠）：正方形固定 */
 .exhibit-card{
   display: flex;
   flex-direction: column;
@@ -3089,65 +3069,46 @@ body>.bubbles-body span:nth-child(9) {
   color: inherit;
 }
 
-.exhibit-cell{
-  /* “枠”は見せない */
-  background: transparent;
-  border: none;
-
-  /* セルの高さは一定にして整列させる（重要） */
-  aspect-ratio: 3 / 4;
-
-  /* 中央配置 */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  /* 横に余白を作りたい → セル内で左右余白 */
-  padding: 14px 18px;   /* 横余白多め */
-  box-sizing: border-box;
+.exhibit-image{
+  aspect-ratio: 1 / 1;       /* 正方形 */
+  display: grid;
+  place-items: center;        /* 中央に置く */
+  overflow: hidden;           /* はみ出し防止 */
 }
 
-/* =========================
-   可変の額縁（ここだけ枠が付く）
-   ========================= */
-.exhibit-frame{
-  border: 3px solid var(--frame-color, #88aacc);
-  border-radius: 14px;
-  padding: 10px;
-  box-sizing: border-box;
-
-  /* これが“画像に追従する可変枠” */
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-
-  background: rgba(10, 20, 30, 0.35); /* 白抜け防止（必要なら消してOK） */
-}
-
-/* 画像：切らない＆枠内に収める */
-.exhibit-img{
-  display: block;
-  width: auto;
-  height: auto;
-
-  /* セル（3/4）の中で最大まで使う：拡大率を揃える要 */
+/* ★額縁は「画像に直付け」 */
+.exhibit-image img{
   max-width: 100%;
   max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;        /* 切らない */
 
-  object-fit: contain;
+  border: 4px solid var(--frame-color, #88aacc);
+  border-radius: 16px;
+
+  background: transparent;    /* マット層を作らない */
+  display: block;
 }
 
-/* メタ情報 */
+/* メタ情報（下部） */
 .exhibit-meta{
   display: flex;
   flex-direction: column;
   gap: 2px;
-  padding: 0 4px 2px;
+  padding: 0 2px 2px;
 }
 
-.exhibit-code, .exhibit-date{
+.exhibit-meta-line{
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
+}
+
+.exhibit-code{
   font-size: 12px;
   opacity: 0.75;
+  letter-spacing: 0.02em;
 }
 
 .exhibit-title{
@@ -3156,11 +3117,27 @@ body>.bubbles-body span:nth-child(9) {
   line-height: 1.35;
 }
 
+.exhibit-date{
+  font-size: 12px;
+  opacity: 0.75;
+}
+
 /* hover（PCだけ） */
-@media (hover: hover) and (pointer: fine){
-  .exhibit-card:hover .exhibit-frame{
+@media (hover: hover) and (pointer: fine) {
+  .exhibit-card:hover .exhibit-image img{
     transform: translateY(-2px);
-    box-shadow: 0 14px 34px rgba(0,0,0,0.12);
-    transition: 0.15s ease;
+    box-shadow: 0 14px 34px rgba(0, 0, 0, 0.12);
+  }
+}
+
+/* 小さい画面でも3列固定：余白とgapだけ縮める */
+@media (max-width: 768px) {
+  .exhibition-grid{
+    gap: 10px;
+    padding: 0 12px;
+  }
+  .exhibit-image img{
+    border-width: 3px;
+    border-radius: 14px;
   }
 }
