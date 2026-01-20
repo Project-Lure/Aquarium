@@ -81,7 +81,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-/*
   // ========================
   // ソートボタン
   // ========================
@@ -114,7 +113,6 @@ document.addEventListener("DOMContentLoaded", () => {
       renderList(currentList);
     });
   }
-*/
 
 // ========================
 // 色系統をキャラから取得（colors だけを見る）
@@ -348,7 +346,7 @@ function setupSearch() {
         .forEach(el => el.classList.remove("active"));
     }
     currentList = [...originalOrder];
-    // sortMode = "code";
+    sortMode = "code";
     renderList(currentList);
   });
 }
