@@ -38,20 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
     { key: "green",  label: "緑"   }
   ];
 
-  // ========================
-  // 作品データの前提（重要）
-  // ========================
-  // 展示画像はディレクトリをブラウザから列挙できないので、
-  // 作品一覧は JSON で持ちます。
-  //
-  // data/exhibitions.json の例（どちらでもOK）：
-  // 1) ["000_2026-01-14_newyear.webp", "001_2026-01-20_xxx.webp", ...]
-  // 2) [{ "file":"000_2026-01-14_newyear.webp" }, { "file":"..." }, ...]
-  //
-  // 命名規則：{code}_{publishedAt}_{slug}.webp
-  // code は先頭3桁（000〜ZZZは想定外。数字3桁に寄せます）
-  // publishedAt は YYYY-MM-DD
-  // slug は任意（検索用）
+  // 画像ディレクトリ
   const EXHIBITION_DIR = "images/exhibition";
 
   // ========================
@@ -60,10 +47,8 @@ document.addEventListener("DOMContentLoaded", () => {
   function normalizeWorksJson(raw) {
     if (!raw) return [];
     if (Array.isArray(raw)) {
-      // ["file.webp", ...] or [{file:"..."}, ...]
       return raw.map(x => (typeof x === "string" ? { file: x } : x)).filter(x => x?.file);
     }
-    // { items: [...] } みたいなのも許容
     if (Array.isArray(raw.items)) {
       return raw.items.map(x => (typeof x === "string" ? { file: x } : x)).filter(x => x?.file);
     }
@@ -99,8 +84,22 @@ document.addEventListener("DOMContentLoaded", () => {
     return chars.find(c => c.code === code) || null;
   }
 
+  function isValidHex(hex) {
+    const t = (hex || "").trim();
+    return /^#?([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/.test(t);
+  }
+
+  function normalizeHex(hex) {
+    let c = (hex || "").trim();
+    if (!c.startsWith("#")) c = "#" + c;
+    if (c.length === 4) {
+      const r = c[1], g = c[2], b = c[3];
+      c = `#${r}${r}${g}${g}${b}${b}`;
+    }
+    return c;
+  }
+
   function pickFrameColorFromChar(c) {
-    // キャラの colors の先頭の有効Hexを使う（なければグレー）
     const fallback = "#bfbfbf";
     if (!c || !Array.isArray(c.colors)) return fallback;
 
@@ -111,22 +110,6 @@ document.addEventListener("DOMContentLoaded", () => {
       if (isValidHex(t)) return normalizeHex(t);
     }
     return fallback;
-  }
-
-  function isValidHex(hex) {
-    const t = hex.trim();
-    return /^#?([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/.test(t);
-  }
-
-  function normalizeHex(hex) {
-    let c = hex.trim();
-    if (!c.startsWith("#")) c = "#" + c;
-    if (c.length === 4) {
-      // #abc -> #aabbcc
-      const r = c[1], g = c[2], b = c[3];
-      c = `#${r}${r}${g}${g}${b}${b}`;
-    }
-    return c;
   }
 
   // ========================
@@ -202,7 +185,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ========================
-  // レンダリング
+  // レンダリング（CSSに合わせる版）
   // ========================
   function renderList(list) {
     container.innerHTML = "";
@@ -211,20 +194,19 @@ document.addEventListener("DOMContentLoaded", () => {
       const c = w.char || null;
       const frameColor = pickFrameColorFromChar(c);
 
-      // 画像へ直接リンク（必要なら後で detail modal に差し替え）
       const a = document.createElement("a");
       a.className = "exhibit-card";
       a.href = `${EXHIBITION_DIR}/${w.file}`;
       a.target = "_blank";
       a.rel = "noopener";
 
-      // 枠色：CSS側で var(--frame-color) を使う想定
-      a.style.setProperty("--frame-color", frameColor);
-
-      const imgWrap = document.createElement("div");
-      imgWrap.className = "exhibit-image";
+      // 額縁（固定セル）
+      const frame = document.createElement("div");
+      frame.className = "exhibit-frame";
+      frame.style.setProperty("--frame-color", frameColor);
 
       const img = document.createElement("img");
+      img.className = "exhibit-img";
       img.alt = w.displayTitle || "EXHIBITION";
       img.loading = "lazy";
 
@@ -234,33 +216,29 @@ document.addEventListener("DOMContentLoaded", () => {
       });
 
       img.src = `${EXHIBITION_DIR}/${w.file}`;
-      imgWrap.appendChild(img);
-      a.appendChild(imgWrap);
 
-      // 下のメタ（必要最低限：日付 + キャラ名）
+      frame.appendChild(img);
+      a.appendChild(frame);
+
+      // メタ
       const meta = document.createElement("div");
       meta.className = "exhibit-meta";
 
-      const line1 = document.createElement("div");
-      line1.className = "exhibit-meta-line";
+      const codeDiv = document.createElement("div");
+      codeDiv.className = "exhibit-code";
+      codeDiv.textContent = w.code || "---";
 
-      const date = document.createElement("span");
-      date.className = "exhibit-date";
-      date.textContent = w.publishedAt || "----/--/--";
+      const titleDiv = document.createElement("div");
+      titleDiv.className = "exhibit-title";
+      titleDiv.textContent = w.displayTitle || (w.slug || w.file);
 
-      const code = document.createElement("span");
-      code.className = "exhibit-code";
-      code.textContent = w.code || "---";
+      const dateDiv = document.createElement("div");
+      dateDiv.className = "exhibit-date";
+      dateDiv.textContent = w.publishedAt || "----/--/--";
 
-      line1.appendChild(date);
-      line1.appendChild(code);
-
-      const line2 = document.createElement("div");
-      line2.className = "exhibit-title";
-      line2.textContent = w.displayTitle || (w.slug || w.file);
-
-      meta.appendChild(line1);
-      meta.appendChild(line2);
+      meta.appendChild(codeDiv);
+      meta.appendChild(titleDiv);
+      meta.appendChild(dateDiv);
 
       a.appendChild(meta);
       container.appendChild(a);
@@ -274,11 +252,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const text = (filterState.text || "").trim().toLowerCase();
     const activeSeries = Array.from(filterState.series);
     const activeColors = Array.from(filterState.colors);
-    const from = filterState.dateFrom; // "YYYY-MM-DD" or null
-    const to = filterState.dateTo;     // "YYYY-MM-DD" or null
+    const from = filterState.dateFrom;
+    const to = filterState.dateTo;
 
     const filtered = originalWorks.filter(w => {
-      // テキスト検索：コード、キャラ名、作品slug、日付
       if (text) {
         const c = w.char || null;
         const base = [
@@ -293,26 +270,22 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!base.includes(text)) return false;
       }
 
-      // シリーズ
       if (activeSeries.length > 0) {
         const s = w.char?.series || null;
         if (!s || !activeSeries.includes(s)) return false;
       }
 
-      // 色（キャラの colors を基準）
       if (activeColors.length > 0) {
         const groups = getColorGroupsForChar(w.char);
         if (!groups?.some(g => activeColors.includes(g))) return false;
       }
 
-      // 期間（展示だけ）
       if (from && w.publishedAt) {
         if (w.publishedAt < from) return false;
       }
       if (to && w.publishedAt) {
         if (w.publishedAt > to) return false;
       }
-      // 日付が無い作品が混じった場合：期間指定中は落とす（仕様を明確化）
       if ((from || to) && !w.publishedAt) return false;
 
       return true;
@@ -429,7 +402,6 @@ document.addEventListener("DOMContentLoaded", () => {
     decideBtn.addEventListener("click", () => {
       filterState.text = input.value || "";
 
-      // series
       filterState.series.clear();
       if (seriesOptions) {
         seriesOptions.querySelectorAll('input[type="checkbox"]:checked').forEach(cb => {
@@ -437,7 +409,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
       }
 
-      // colors
       filterState.colors.clear();
       if (colorOptionsWrap) {
         colorOptionsWrap.querySelectorAll(".color-option.active").forEach(el => {
@@ -445,7 +416,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
       }
 
-      // dates（展示のみ）
       filterState.dateFrom = dateFrom?.value ? dateFrom.value : null;
       filterState.dateTo = dateTo?.value ? dateTo.value : null;
 
@@ -495,12 +465,11 @@ document.addEventListener("DOMContentLoaded", () => {
     function markActive() {
       options.forEach(btn => {
         const v = btn.dataset.sort;
-        if (v === pendingSort) btn.classList.add("active");
-        else btn.classList.remove("active");
+        if (v === pendingSort) btn.classList.add("is-active");     // ← CSSに合わせる
+        else btn.classList.remove("is-active");                    // ← CSSに合わせる
       });
     }
 
-    // open/close
     openBtn.addEventListener("click", () => {
       pendingSort = currentSort;
       markActive();
@@ -512,7 +481,6 @@ document.addEventListener("DOMContentLoaded", () => {
       if (e.target === overlay) overlay.classList.remove("is-open");
     });
 
-    // choose
     options.forEach(btn => {
       btn.addEventListener("click", () => {
         pendingSort = btn.dataset.sort || "publishedAt-asc";
@@ -520,14 +488,12 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
 
-    // apply
     applyBtn.addEventListener("click", () => {
       currentSort = pendingSort || "publishedAt-asc";
       refresh();
       overlay.classList.remove("is-open");
     });
 
-    // reset（展示デフォルト：古い→新しい）
     resetBtn.addEventListener("click", () => {
       pendingSort = "publishedAt-asc";
       currentSort = "publishedAt-asc";
@@ -550,13 +516,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const rawWorks = normalizeWorksJson(exhibitionsData);
 
-      // ファイル名から必要情報をパースして、キャラ情報を結合
       originalWorks = rawWorks.map(w => {
         const parsed = parseWorkFromFilename(w.file);
         const char = parsed.code ? getCharByCode(parsed.code) : null;
 
-        // 表示用タイトル：キャラのタイトルを主に、slugは補助
-        // （ここは好み。slugを見せたくないなら消してOK）
         const displayTitle = char?.title
           ? (parsed.slug ? `${char.title} / ${parsed.slug}` : char.title)
           : (parsed.slug || parsed.file);
@@ -569,13 +532,9 @@ document.addEventListener("DOMContentLoaded", () => {
         };
       });
 
-      // 仕様：古い→新しいで並べる（publishedAt昇順）
       currentSort = "publishedAt-asc";
 
-      // 初期表示
       refresh();
-
-      // UI
       setupSearchUI();
       setupSortUI();
     })
