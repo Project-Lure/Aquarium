@@ -3048,7 +3048,9 @@ body>.bubbles-body span:nth-child(9) {
 }
 /* =========================
    EXHIBITION grid（横3固定 + 正方形）
+   ※JSのDOM：a.exhibit-card > div.exhibit-cell > div.exhibit-frame > img.exhibit-img
    ========================= */
+
 .page-exhibition .exhibition-grid{
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr)); /* 常に3列 */
@@ -3059,7 +3061,7 @@ body>.bubbles-body span:nth-child(9) {
   box-sizing: border-box;
 }
 
-/* 1セル */
+/* クリック範囲 */
 .page-exhibition .exhibit-card{
   display: flex;
   flex-direction: column;
@@ -3068,22 +3070,34 @@ body>.bubbles-body span:nth-child(9) {
   color: inherit;
 }
 
-/* 正方形の見えない枠 */
-.page-exhibition .exhibit-image{
+/* 不変の見えない正方形セル */
+.page-exhibition .exhibit-cell{
   width: 100%;
-  aspect-ratio: 1 / 1;       /* 正方形 */
-  overflow: hidden;
+  aspect-ratio: 1 / 1;       /* 正方形固定 */
+  display: grid;
+  place-items: center;
+  overflow: hidden;          /* はみ出し防止 */
   background: transparent;   /* マット層なし */
 }
 
-/* ★画像を必ず枠に収める（縮小の本体） */
-.page-exhibition .exhibit-image img{
-  width: 100%;
-  height: 100%;
+/* 可変フレーム（中身のサイズは画像に追従） */
+.page-exhibition .exhibit-frame{
+  max-width: 100%;
+  max-height: 100%;
+  display: grid;
+  place-items: center;
+}
+
+/* ★縮小の本体：セルに収める */
+.page-exhibition img.exhibit-img{
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
   object-fit: contain;       /* 切らない */
   display: block;
 
-  /* 額縁＝画像の周り（可変）に直付け */
+  /* 額縁＝画像に直付け */
   border: 4px solid var(--frame-color, #88aacc);
   border-radius: 16px;
   background: transparent;
@@ -3097,12 +3111,6 @@ body>.bubbles-body span:nth-child(9) {
   flex-direction: column;
   gap: 2px;
   padding: 0 2px 2px;
-}
-
-.page-exhibition .exhibit-meta-line{
-  display: flex;
-  gap: 10px;
-  align-items: baseline;
 }
 
 .page-exhibition .exhibit-code{
@@ -3124,7 +3132,7 @@ body>.bubbles-body span:nth-child(9) {
 
 /* hover（PCだけ） */
 @media (hover: hover) and (pointer: fine) {
-  .page-exhibition .exhibit-card:hover .exhibit-image img{
+  .page-exhibition .exhibit-card:hover img.exhibit-img{
     transform: translateY(-2px);
     box-shadow: 0 14px 34px rgba(0, 0, 0, 0.12);
   }
@@ -3136,7 +3144,7 @@ body>.bubbles-body span:nth-child(9) {
     gap: 10px;
     padding: 0 12px;
   }
-  .page-exhibition .exhibit-image img{
+  .page-exhibition img.exhibit-img{
     border-width: 3px;
     border-radius: 14px;
   }
