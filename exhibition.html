@@ -82,14 +82,17 @@
           <h3>検索・並び替え</h3>
           <p>
             右上の検索・並び替えボタンから、<br>
-            シリーズ・色系統などで絞り込むことができます。
+            シリーズ・色系統・期間などで絞り込むことができます。
+          </p>
+          <p class="help-note">
+            期間は「YYYY-MM-DD」形式です（例：2026-01-14）。
           </p>
         </section>
       </div>
     </div>
   </div>
 
-  <!-- 検索ポップアップ（HOMEと共通） -->
+  <!-- 検索ポップアップ（EXHIBITION用：期間フィルタ追加） -->
   <div id="search-overlay" aria-hidden="true">
     <div id="search-modal" role="dialog" aria-modal="true" aria-labelledby="search-title">
       <div id="search-header">
@@ -102,7 +105,7 @@
         <input
           id="search-input"
           type="text"
-          placeholder="タイトル / キャラクター / 色名"
+          placeholder="タイトル / キャラクター / 色名 / コード"
         >
       </div>
 
@@ -116,6 +119,28 @@
         <div class="color-filter-grid" id="filter-color-options"></div>
       </div>
 
+      <!-- ▼ 期間フィルタ（展示だけ） -->
+      <div class="filter-group">
+        <div class="filter-group-title">期間（公開日）</div>
+
+        <!-- 既存CSSに合わせて、追加CSSなしでも崩れにくい構造にしています -->
+        <div class="filter-options" style="gap: 10px;">
+          <label style="display:flex; flex-direction:column; gap:6px; min-width: 140px;">
+            <span style="font-size:12px; opacity:.8;">From</span>
+            <input id="filter-date-from" type="date">
+          </label>
+
+          <label style="display:flex; flex-direction:column; gap:6px; min-width: 140px;">
+            <span style="font-size:12px; opacity:.8;">To</span>
+            <input id="filter-date-to" type="date">
+          </label>
+        </div>
+
+        <p class="help-note" style="margin-top:8px;">
+          Fromのみ：以降 / Toのみ：以前 / 両方：範囲指定
+        </p>
+      </div>
+
       <div class="search-btn-row">
         <button id="search-reset" class="search-reset-btn" type="button">リセット</button>
         <button id="search-decide" class="search-decide-btn" type="button">絞り込む</button>
@@ -123,7 +148,7 @@
     </div>
   </div>
 
-  <!-- 並び替えポップアップ -->
+  <!-- 並び替えポップアップ（展示向けに日付降順を追加） -->
   <div id="sort-overlay" aria-hidden="true">
     <div id="sort-modal" role="dialog" aria-modal="true" aria-labelledby="sort-title">
       <div id="sort-header">
@@ -132,11 +157,24 @@
       </div>
 
       <div class="sort-options">
-        <button type="button" class="sort-option" data-sort="default">
-          登場順（デフォルト）
+        <!-- 展示の標準：古い→新しい（昇順） -->
+        <button type="button" class="sort-option" data-sort="publishedAt-asc">
+          公開日順（古い→新しい）
         </button>
+
+        <!-- よく欲しくなる：新しい→古い -->
+        <button type="button" class="sort-option" data-sort="publishedAt-desc">
+          公開日順（新しい→古い）
+        </button>
+
+        <!-- 作品タイトル（slugや作品名を持つなら効く） -->
         <button type="button" class="sort-option" data-sort="title">
           タイトル順
+        </button>
+
+        <!-- キャラコード順（同一キャラが散らばるのが嫌なら有効） -->
+        <button type="button" class="sort-option" data-sort="code">
+          キャラコード順
         </button>
       </div>
 
