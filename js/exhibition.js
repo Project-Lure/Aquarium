@@ -662,7 +662,22 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     }
   }
+  
+  function setupAntiSaveHints(){
+    // 右クリック（contextmenu）抑止：展示画像だけ
+    document.addEventListener("contextmenu", (e) => {
+      const img = e.target.closest(".exhibit-image img, #exhibit-modal-img");
+      if (img) e.preventDefault();
+    });
 
+    // 画像ドラッグで保存を抑止
+    document.addEventListener("dragstart", (e) => {
+      const img = e.target.closest(".exhibit-image img, #exhibit-modal-img");
+      if (img) e.preventDefault();
+    });
+  }
+
+  setupAntiSaveHints();
   // ========================
   // load
   // ========================
