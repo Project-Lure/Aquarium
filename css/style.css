@@ -3069,14 +3069,26 @@ body>.bubbles-body span:nth-child(9) {
   color: inherit;
 }
 
-.exhibit-image{
-  width: 100%;                /* ★追加：セル幅をグリッドに合わせる */
-  aspect-ratio: 1 / 1;        /* 正方形 */
-  display: grid;
-  place-items: center;
+/* ★EXHIBITION：画像は必ず正方形枠に収める */
+.page-exhibition .exhibit-image{
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  display: block;      /* gridでもいいけど、まず安定優先 */
   overflow: hidden;
+  background: transparent;
 }
 
+/* ★ここが本命：縮小されない問題を止める */
+.page-exhibition .exhibit-image img{
+  width: 100%;
+  height: 100%;
+  object-fit: contain;     /* 切らずに収める */
+  display: block;
+
+  border: 4px solid var(--frame-color, #88aacc);
+  border-radius: 16px;
+  background: transparent;
+}
 /* ★額縁は「画像に直付け」 */
 .exhibit-image img{
   max-width: 100%;
@@ -3121,11 +3133,7 @@ body>.bubbles-body span:nth-child(9) {
 .exhibit-date{
   font-size: 12px;
   opacity: 0.75;
-}
-.page-exhibition .exhibit-image,
-.page-exhibition .exhibit-image img{
-  background: transparent !important;
-}
+
 .exhibit-image img{
   transition: transform .18s ease, box-shadow .18s ease;
 }
