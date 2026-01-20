@@ -164,6 +164,31 @@
     </div>
   </div>
 
+  <!-- ▼ 並び替えポップアップ（追加） -->
+  <div id="sort-overlay" aria-hidden="true">
+    <div id="sort-modal" role="dialog" aria-modal="true" aria-labelledby="sort-title">
+      <div id="sort-header">
+        <span id="sort-title">並び替え</span>
+        <button id="sort-close" type="button" aria-label="並び替えを閉じる">&times;</button>
+      </div>
+
+      <!-- 選択UI：ボタン式（data-sort を JS が読む） -->
+      <div class="sort-options">
+        <button type="button" class="sort-option" data-sort="code">
+          コード順（デフォルト）
+        </button>
+        <button type="button" class="sort-option" data-sort="title">
+          タイトル順（よみ）
+        </button>
+      </div>
+
+      <div class="sort-btn-row">
+        <button id="sort-reset" class="sort-reset-btn" type="button">リセット</button>
+        <button id="sort-apply" class="sort-apply-btn" type="button">適用</button>
+      </div>
+    </div>
+  </div>
+
   <!-- JSは最後にまとめて -->
   <script src="js/loadHeader.js"></script>
   <script src="js/loadFooter.js"></script>
