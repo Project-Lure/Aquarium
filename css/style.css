@@ -3046,25 +3046,30 @@ body>.bubbles-body span:nth-child(9) {
 .official-page .section-card.about-section:first-of-type {
   margin-top: 0;
 }
-/* =========================
-   EXHIBITION grid（横3固定 + 正方形セル）
-   ・上書きしやすいように :where() で特異性を下げる
-   ・枠は img に直付け（可変）
-   ========================= */
+/* =========================================================
+   EXHIBITION 上書き（JS: .exhibit-image > img に合わせる）
+   目的：
+   - 横3固定
+   - セル正方形（見えない枠）
+   - 画像は比率維持でセル内に収める
+   - 額縁は「画像そのもの」に直付け（＝二重枠を作らない）
+   - 外枠（固定枠）は見えない
+   ※ style.css の末尾に貼る
+   ========================================================= */
 
-:where(.page-exhibition) :where(#card-list.exhibition-grid){
+:where(.page-exhibition) :where(.exhibition-grid){
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr)); /* 常に3列 */
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 18px;
 
   width: min(1100px, 100%);
   margin: 0 auto;
-  padding: 0 22px;           /* 外側の横余白 */
+  padding: 0 22px;
   box-sizing: border-box;
 }
 
-/* クリック範囲（aタグ想定） */
-:where(.page-exhibition) :where(a.exhibit-card){
+/* クリック範囲（カード） */
+:where(.page-exhibition) :where(.exhibit-card){
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -3072,47 +3077,58 @@ body>.bubbles-body span:nth-child(9) {
   color: inherit;
 }
 
-/* 不変の“見えない”正方形セル（ここには枠を付けない） */
-:where(.page-exhibition) :where(.exhibit-cell){
+/* ここが「見えない正方形セル」：JSの .exhibit-image に割り当てる */
+:where(.page-exhibition) :where(.exhibit-image){
   width: 100%;
-  aspect-ratio: 1 / 1;       /* 正方形 */
+  aspect-ratio: 1 / 1;
   display: grid;
   place-items: center;
-  overflow: hidden;          /* はみ出し防止 */
-  background: transparent;   /* マット層なし */
+
+  overflow: hidden;
+  background: transparent; /* 外枠は見せない */
 }
 
-/* 可変フレーム（中身＝画像のサイズに追従させるための中継） */
-:where(.page-exhibition) :where(.exhibit-frame){
-  max-width: 100%;
-  max-height: 100%;
-  display: grid;
-  place-items: center;
-  background: transparent;   /* 余計な下地を作らない */
-}
-
-/* ★画像：セルに収める本体。枠は画像に直付け */
-:where(.page-exhibition) :where(img.exhibit-img){
+/* 画像はセルに収める（縦長も潰さず縮小）＋額縁は画像に直付け */
+:where(.page-exhibition) :where(.exhibit-image img){
   max-width: 100%;
   max-height: 100%;
   width: auto;
   height: auto;
-  object-fit: contain;       /* 切らない */
+
+  object-fit: contain;
   display: block;
 
+  /* 額縁（可変）：画像の周りに付く */
   border: 4px solid var(--frame-color, #88aacc);
   border-radius: 16px;
+
+  /* 二重枠の原因を潰す */
   background: transparent;
+  padding: 0;
+  box-shadow: none;
 
   transition: transform .18s ease, box-shadow .18s ease;
 }
 
-/* メタ情報 */
+/* メタ */
 :where(.page-exhibition) :where(.exhibit-meta){
   display: flex;
   flex-direction: column;
   gap: 2px;
   padding: 0 2px 2px;
+}
+
+/* 日付＋コード横並び（JS: .exhibit-meta-line がある） */
+:where(.page-exhibition) :where(.exhibit-meta-line){
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 10px;
+}
+
+:where(.page-exhibition) :where(.exhibit-date){
+  font-size: 12px;
+  opacity: 0.75;
 }
 
 :where(.page-exhibition) :where(.exhibit-code){
@@ -3127,14 +3143,9 @@ body>.bubbles-body span:nth-child(9) {
   line-height: 1.35;
 }
 
-:where(.page-exhibition) :where(.exhibit-date){
-  font-size: 12px;
-  opacity: 0.75;
-}
-
-/* hover（PCだけ） */
+/* hover（PCのみ） */
 @media (hover: hover) and (pointer: fine) {
-  :where(.page-exhibition) :where(a.exhibit-card:hover) :where(img.exhibit-img){
+  :where(.page-exhibition) :where(.exhibit-card:hover) :where(.exhibit-image img){
     transform: translateY(-2px);
     box-shadow: 0 14px 34px rgba(0, 0, 0, 0.12);
   }
@@ -3142,33 +3153,19 @@ body>.bubbles-body span:nth-child(9) {
 
 /* 小さい画面でも3列固定：余白とgapだけ縮める */
 @media (max-width: 768px) {
-  :where(.page-exhibition) :where(#card-list.exhibition-grid){
+  :where(.page-exhibition) :where(.exhibition-grid){
     gap: 10px;
     padding: 0 12px;
   }
-  :where(.page-exhibition) :where(img.exhibit-img){
+  :where(.page-exhibition) :where(.exhibit-image img){
     border-width: 3px;
     border-radius: 14px;
   }
 }
 
-
-/* =========================
-   SORT（既存CSSとJS差異の吸収）
-   ・JSが .is-active でも .active でも見た目が一致するよう両対応
-   ========================= */
-
-:where(.sort-option).active,
-:where(.sort-option).is-active{
-  background: linear-gradient(90deg, var(--header-grad-left), var(--header-grad-right));
-  color: #fff;
-  border-color: transparent;
-  box-shadow: 0 0 0 2px rgba(0, 80, 160, 0.15);
-}
-
-:where(.sort-option).active::after,
-:where(.sort-option).is-active::after{
-  content: "✓";
-  font-weight: 700;
-  opacity: 0.95;
+/* もし旧CSSが残って二重枠に見える場合の保険：
+   exhibit-image 側で枠・背景を絶対に作らない */
+:where(.page-exhibition) :where(.exhibit-image){
+  border: none !important;
+  box-shadow: none !important;
 }
