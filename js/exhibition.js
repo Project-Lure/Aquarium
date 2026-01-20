@@ -93,7 +93,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function getCharByCode(code) {
     if (!code) return null;
-    // index.js寄せ：find を基本にする
     return chars.find(c => c.code === code) || null;
   }
 
@@ -196,11 +195,103 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ========================
-  // render（DOMは exhibition.html / CSS 側の都合で固定）
+  // modal（DOMを1回だけ作る）
+  // ========================
+  function ensureExhibitModal() {
+    let overlay = document.getElementById("exhibit-overlay");
+    if (overlay) return overlay;
+
+    overlay = document.createElement("div");
+    overlay.id = "exhibit-overlay";
+    overlay.innerHTML = `
+      <div id="exhibit-modal" role="dialog" aria-modal="true">
+        <div id="exhibit-modal-header">
+          <button id="exhibit-close" type="button">×</button>
+        </div>
+
+        <div id="exhibit-modal-body">
+          <div class="exhibit-modal-image">
+            <img id="exhibit-modal-img" alt="">
+          </div>
+
+          <div class="exhibit-modal-meta">
+            <div class="exhibit-modal-row">
+              <span class="exhibit-modal-code" id="exhibit-modal-code"></span>
+              <span class="exhibit-modal-date" id="exhibit-modal-date"></span>
+            </div>
+
+            <div class="exhibit-modal-title" id="exhibit-modal-title"></div>
+
+            <div class="exhibit-modal-credit">
+              <a id="exhibit-modal-credit" href="#" target="_blank" rel="noopener"></a>
+            </div>
+
+            <a class="exhibit-modal-link" id="exhibit-modal-link" href="#">キャラ詳細へ</a>
+          </div>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(overlay);
+
+    const close = () => overlay.classList.remove("is-open");
+
+    overlay.addEventListener("click", (e) => {
+      if (e.target === overlay) close();
+    });
+
+    overlay.querySelector("#exhibit-close")?.addEventListener("click", close);
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && overlay.classList.contains("is-open")) close();
+    });
+
+    return overlay;
+  }
+
+  function openExhibitModal(work) {
+    const overlay = ensureExhibitModal();
+
+    const img = overlay.querySelector("#exhibit-modal-img");
+    const codeEl = overlay.querySelector("#exhibit-modal-code");
+    const dateEl = overlay.querySelector("#exhibit-modal-date");
+    const titleEl = overlay.querySelector("#exhibit-modal-title");
+    const creditEl = overlay.querySelector("#exhibit-modal-credit");
+    const linkEl = overlay.querySelector("#exhibit-modal-link");
+
+    // image
+    img.src = `${EXHIBITION_DIR}/${work.file}`;
+    img.alt = work.displayTitle || "EXHIBITION";
+
+    // meta
+    codeEl.textContent = work.code || "---";
+    dateEl.textContent = work.publishedAt || "----/--/--";
+    titleEl.textContent = work.displayTitle || (work.slug || work.file);
+
+    // credit（固定：URLがある時だけ表示）
+    if (work.credit && work.creditUrl) {
+      creditEl.textContent = `Credit: ${work.credit}`;
+      creditEl.href = work.creditUrl;
+      creditEl.style.display = "";
+    } else {
+      creditEl.style.display = "none";
+    }
+
+    // character link（キャラが紐づく場合のみ）
+    if (work.code) {
+      linkEl.href = `character.html?code=${encodeURIComponent(work.code)}`;
+      linkEl.style.display = "";
+    } else {
+      linkEl.style.display = "none";
+    }
+
+    overlay.classList.add("is-open");
+  }
+
+  // ========================
+  // render
   // ========================
   function renderList(list) {
     container.innerHTML = "";
-
     const frag = document.createDocumentFragment();
 
     list.forEach(w => {
@@ -209,9 +300,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const card = document.createElement("a");
       card.className = "exhibit-card";
-      card.href = `${EXHIBITION_DIR}/${w.file}`;
-      card.target = "_blank";
-      card.rel = "noopener";
+      card.href = "#";
+      card.addEventListener("click", (e) => {
+        e.preventDefault();
+        openExhibitModal(w);
+      });
 
       // 枠色（CSS var）
       card.style.setProperty("--frame-color", frameColor);
@@ -235,7 +328,7 @@ document.addEventListener("DOMContentLoaded", () => {
       imgWrap.appendChild(img);
       card.appendChild(imgWrap);
 
-      // メタ
+      // メタ（※CSSで非表示にする想定でも、DOMは残す）
       const meta = document.createElement("div");
       meta.className = "exhibit-meta";
 
@@ -275,7 +368,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     switch (sortMode) {
       case "publishedAt-desc":
-        arr.sort((a, b) => (b.publishedAt || "").localeCompare(a.publishedAt || ""));
+        arr.sort((a, b) =>a => (b.publishedAt || "").localeCompare(a.publishedAt || ""));
         break;
 
       case "title":
@@ -350,7 +443,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ========================
-  // search overlay（index.js寄せ：is-open + active）
+  // search overlay
   // ========================
   function setupSearchOverlay() {
     const overlay = document.getElementById("search-overlay");
@@ -365,10 +458,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const dateFrom = document.getElementById("filter-date-from");
     const dateTo = document.getElementById("filter-date-to");
 
-    // index.jsと同様：必要要素が揃わないなら何もしない
     if (!overlay || !openBtn || !closeBtn || !input || !decideBtn || !resetBtn) return;
 
-    // optionsは増殖防止（index.jsと同じ思想）
+    // series chips（増殖防止）
     if (seriesOptions && seriesOptions.childElementCount === 0) {
       const usedSeries = Array.from(new Set(chars.map(c => c.series))).sort();
       usedSeries.forEach(key => {
@@ -389,6 +481,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     }
 
+    // color options（増殖防止）
     if (colorOptionsWrap && colorOptionsWrap.childElementCount === 0) {
       COLOR_GROUPS.forEach(cg => {
         const div = document.createElement("div");
@@ -400,7 +493,6 @@ document.addEventListener("DOMContentLoaded", () => {
           <span class="color-label">${cg.label}</span>
         `;
 
-        // index.js準拠：active トグル
         div.addEventListener("click", () => div.classList.toggle("active"));
         colorOptionsWrap.appendChild(div);
       });
@@ -488,7 +580,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ========================
-  // sort overlay（index.js寄せ：is-open + active）
+  // sort overlay
   // ========================
   function setupSortOverlay() {
     const sortOpenBtn = document.getElementById("sort-open");
@@ -561,7 +653,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (resetBtn) {
       resetBtn.addEventListener("click", () => {
-        sortMode = "publishedAt-asc"; // 展示デフォルト
+        sortMode = "publishedAt-asc";
         optionEls.forEach(x => x.classList.remove("active"));
         const defBtn = overlay.querySelector('.sort-option[data-sort="publishedAt-asc"]');
         if (defBtn) defBtn.classList.add("active");
@@ -589,7 +681,6 @@ document.addEventListener("DOMContentLoaded", () => {
         const parsed = parseWorkFromFilename(w.file);
         const char = parsed.code ? getCharByCode(parsed.code) : null;
 
-        // 表示：キャラtitle優先、補助でslug
         const displayTitle = char?.title
           ? (parsed.slug ? `${char.title} / ${parsed.slug}` : char.title)
           : (parsed.slug || parsed.file);
@@ -599,10 +690,11 @@ document.addEventListener("DOMContentLoaded", () => {
           char,
           displayTitle,
           series: char?.series || null,
+          credit: w.credit || "",
+          creditUrl: w.creditUrl || ""
         };
       });
 
-      // 初期：公開日 古い→新しい
       sortMode = "publishedAt-asc";
 
       refresh();
