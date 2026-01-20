@@ -3,11 +3,29 @@
 <head>
   <meta charset="utf-8">
   <title>EXHIBITION｜ぎじえプロジェクト</title>
+
+  <!-- ▼ OGP 基本設定 -->
+  <meta property="og:site_name" content="ぎじえプロジェクト / Project LURE">
+  <meta property="og:title" content="EXHIBITION｜ぎじえプロジェクト">
+  <meta property="og:description" content="ぎじえ水族館（EXHIBITION）。Project LUREの一枚絵・展示作品を一覧で閲覧できます。">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://project-lure.github.io/Aquarium/exhibition.html">
+  <meta property="og:image" content="https://project-lure.github.io/Aquarium/images/ui/logo-horizontal.png">
+
+  <!-- ▼ Twitterカード -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="EXHIBITION｜ぎじえプロジェクト">
+  <meta name="twitter:description" content="ぎじえ水族館。キャラクターたちの一枚絵展示ページ。">
+  <meta name="twitter:image" content="https://project-lure.github.io/Aquarium/images/ui/logo-horizontal.png">
+
+  <!-- スマホ対応 -->
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 
+  <!-- 共通スタイル -->
   <link rel="stylesheet" href="css/style.css?v=4">
   <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
   <link rel="icon" type="image/png" href="images/ui/logo-circle.png">
   <script src="js/loadHeadIcons.js"></script>
 </head>
@@ -17,54 +35,121 @@
   <!-- ヘッダー -->
   <div id="header-container"></div>
 
-  <!-- 背景バブル -->
   <div class="bubbles bubbles-body">
     <span></span><span></span><span></span><span></span><span></span>
     <span></span><span></span><span></span><span></span>
   </div>
 
-  <!-- メイン -->
-  <main class="l-main exhibition-main">
+  <!-- 本体 -->
+  <main class="l-main page-exhibition-main">
 
-    <!-- 導入 -->
-    <section class="about-intro">
-      <h1>EXHIBITION</h1>
-      <p>
-        ぎじえプロジェクトに関連するイラスト・ビジュアルを展示するページです。<br>
-        作品は制作順・シリーズを横断して並びます。
-      </p>
-    </section>
+    <!-- ページヘッダー -->
+    <header class="page-header">
+      <h1 class="page-title">EXHIBITION</h1>
+      <p class="page-subtitle">ぎじえ水族館</p>
+    </header>
 
-    <!-- 展示グリッド -->
-    <section class="exhibition-section">
-
-      <div class="exhibition-grid" id="exhibition-grid">
-
-        <!-- ▼ 展示カード（JSで量産する想定） -->
-        <article class="exhibit-card">
-          <div class="exhibit-frame">
-            <div class="exhibit-item">
-              <img src="images/sample/sample01.png" alt="">
-            </div>
-          </div>
-          <div class="exhibit-meta">
-            <div class="exhibit-title">作品タイトル</div>
-            <div class="exhibit-note">Series 0 / No.000</div>
-          </div>
-        </article>
-        <!-- ▲ ここまで1点 -->
-
-      </div>
-
-    </section>
+    <!-- 展示一覧 -->
+    <div id="card-list" class="exhibition-grid"></div>
 
   </main>
 
   <!-- フッター -->
   <div id="footer-container"></div>
 
+  <!-- ヘルプオーバーレイ（EXHIBITION用） -->
+  <div id="help-overlay" aria-hidden="true">
+    <div id="help-modal" role="dialog" aria-modal="true" aria-labelledby="help-title">
+      <header id="help-header">
+        <h2 id="help-title">展示ページの見方</h2>
+        <button id="help-close" type="button" aria-label="ヘルプを閉じる">&times;</button>
+      </header>
+
+      <div id="help-body">
+        <section class="help-section">
+          <h3>展示作品について</h3>
+          <p>
+            このページでは、キャラクターごとの一枚絵や<br>
+            記念イラストなどを展示しています。
+          </p>
+          <p class="help-note">
+            画像サイズや縦横比は作品ごとに異なりますが、<br>
+            縦横比を保ったまま整列表示されます。
+          </p>
+        </section>
+
+        <section class="help-section">
+          <h3>検索・並び替え</h3>
+          <p>
+            右上の検索・並び替えボタンから、<br>
+            シリーズ・色系統などで絞り込むことができます。
+          </p>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <!-- 検索ポップアップ（HOMEと共通） -->
+  <div id="search-overlay" aria-hidden="true">
+    <div id="search-modal" role="dialog" aria-modal="true" aria-labelledby="search-title">
+      <div id="search-header">
+        <span id="search-title">展示作品検索</span>
+        <button id="search-close" type="button" aria-label="検索を閉じる">&times;</button>
+      </div>
+
+      <div class="search-bar">
+        <span class="search-icon">🔍</span>
+        <input
+          id="search-input"
+          type="text"
+          placeholder="タイトル / キャラクター / 色名"
+        >
+      </div>
+
+      <div class="filter-group">
+        <div class="filter-group-title">シリーズ</div>
+        <div class="filter-options" id="filter-series-options"></div>
+      </div>
+
+      <div class="filter-group">
+        <div class="filter-group-title">色系統</div>
+        <div class="color-filter-grid" id="filter-color-options"></div>
+      </div>
+
+      <div class="search-btn-row">
+        <button id="search-reset" class="search-reset-btn" type="button">リセット</button>
+        <button id="search-decide" class="search-decide-btn" type="button">絞り込む</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 並び替えポップアップ -->
+  <div id="sort-overlay" aria-hidden="true">
+    <div id="sort-modal" role="dialog" aria-modal="true" aria-labelledby="sort-title">
+      <div id="sort-header">
+        <span id="sort-title">並び替え</span>
+        <button id="sort-close" type="button" aria-label="並び替えを閉じる">&times;</button>
+      </div>
+
+      <div class="sort-options">
+        <button type="button" class="sort-option" data-sort="default">
+          登場順（デフォルト）
+        </button>
+        <button type="button" class="sort-option" data-sort="title">
+          タイトル順
+        </button>
+      </div>
+
+      <div class="sort-btn-row">
+        <button id="sort-reset" class="sort-reset-btn" type="button">リセット</button>
+        <button id="sort-apply" class="sort-apply-btn" type="button">適用</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- JS -->
   <script src="js/loadHeader.js"></script>
   <script src="js/loadFooter.js"></script>
-  <!-- 将来：exhibition.js -->
+  <script src="js/exhibition.js"></script>
 </body>
 </html>
