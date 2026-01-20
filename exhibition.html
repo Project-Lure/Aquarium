@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <title>EXHIBITION｜ぎじえプロジェクト</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
+  <link rel="stylesheet" href="css/style.css?v=4">
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="icon" type="image/png" href="images/ui/logo-circle.png">
+  <script src="js/loadHeadIcons.js"></script>
+</head>
+
+<body class="exhibition-page">
+
+  <!-- ヘッダー -->
+  <div id="header-container"></div>
+
+  <!-- 背景バブル -->
+  <div class="bubbles bubbles-body">
+    <span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span>
+  </div>
+
+  <!-- メイン -->
+  <main class="l-main exhibition-main">
+
+    <!-- 導入 -->
+    <section class="about-intro">
+      <h1>EXHIBITION</h1>
+      <p>
+        ぎじえプロジェクトに関連するイラスト・ビジュアルを展示するページです。<br>
+        作品は制作順・シリーズを横断して並びます。
+      </p>
+    </section>
+
+    <!-- 展示グリッド -->
+    <section class="exhibition-section">
+
+      <div class="exhibition-grid" id="exhibition-grid">
+
+        <!-- ▼ 展示カード（JSで量産する想定） -->
+        <article class="exhibit-card">
+          <div class="exhibit-frame">
+            <div class="exhibit-item">
+              <img src="images/sample/sample01.png" alt="">
+            </div>
+          </div>
+          <div class="exhibit-meta">
+            <div class="exhibit-title">作品タイトル</div>
+            <div class="exhibit-note">Series 0 / No.000</div>
+          </div>
+        </article>
+        <!-- ▲ ここまで1点 -->
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- フッター -->
+  <div id="footer-container"></div>
+
+  <script src="js/loadHeader.js"></script>
+  <script src="js/loadFooter.js"></script>
+  <!-- 将来：exhibition.js -->
+</body>
+</html>
