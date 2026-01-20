@@ -143,13 +143,22 @@ body {
 
 /* 検索・ヘルプボタンはデフォルト非表示 */
 .header-search-btn,
+.header-sort-btn,
 .header-help-btn {
   display: none !important;
 }
 
-/* 一覧ページだけ表示させる */
+/* HOME（index） */
 .page-index .header-search-btn,
+.page-index .header-sort-btn,
 .page-index .header-help-btn {
+  display: inline-flex !important;
+}
+
+/* EXHIBITION */
+.page-exhibition .header-search-btn,
+.page-exhibition .header-sort-btn,
+.page-exhibition .header-help-btn {
   display: inline-flex !important;
 }
 
