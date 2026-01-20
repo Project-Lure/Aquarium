@@ -3077,31 +3077,35 @@ body>.bubbles-body span:nth-child(9) {
   color: inherit;
 }
 
-/* ここが「見えない正方形セル」：JSの .exhibit-image に割り当てる */
+/* 見えない正方形セル（これは維持でOK） */
 :where(.page-exhibition) :where(.exhibit-image){
   width: 100%;
   aspect-ratio: 1 / 1;
   display: grid;
   place-items: center;
-
-  background: transparent; /* 外枠は見せない */
+  overflow: hidden;
+  background: transparent;
+  border: none !important;
+  box-shadow: none !important;
 }
 
-/* 画像：セル内に100%で収める（border込みで収める） */
+/* ★ここが本丸：imgをセルに引き伸ばさない */
 :where(.page-exhibition) :where(.exhibit-image img){
-  width: 100%;
-  height: 100%;
+  /* 引き伸ばし禁止 */
+  width: auto;
+  height: auto;
+
+  /* セル内に収める（縦横どちらも上限100%） */
+  max-width: 100%;
+  max-height: 100%;
+
   object-fit: contain;
-  box-sizing: border-box; /* ★これが重要：border分も100%内に入れる */
-
-  background: transparent;
   display: block;
+  box-sizing: border-box; /* border分も含めて収める */
 
-  /* 額縁（可変）：画像の周りに付く */
+  /* 額縁＝画像に直付け（画像外周に付く） */
   border: 4px solid var(--frame-color, #88aacc);
   border-radius: 16px;
-
-  /* 二重枠の原因を潰す */
   background: transparent;
   padding: 0;
   box-shadow: none;
