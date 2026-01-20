@@ -3170,3 +3170,200 @@ body>.bubbles-body span:nth-child(9) {
   border: none !important;
   box-shadow: none !important;
 }
+
+/* =========================
+   EXHIBITION modal
+   ========================= */
+
+/* overlay（閉じてる時は存在するが見えない・触れない） */
+#exhibit-overlay{
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+
+  display: grid;
+  place-items: center;
+
+  padding: 20px;
+  box-sizing: border-box;
+
+  background: rgba(0, 0, 0, 0.62);
+
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity .18s ease, visibility .18s ease;
+}
+
+/* open */
+#exhibit-overlay.is-open{
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+/* modal本体 */
+#exhibit-modal{
+  width: min(920px, 100%);
+  max-height: min(86vh, 920px);
+  overflow: auto;
+
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(6px);
+
+  box-shadow: 0 30px 80px rgba(0,0,0,0.25);
+  border: 1px solid rgba(0,0,0,0.06);
+}
+
+/* header */
+#exhibit-modal-header{
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+
+  padding: 12px 12px 0;
+}
+
+#exhibit-close{
+  appearance: none;
+  border: 0;
+  background: rgba(0,0,0,0.06);
+  color: rgba(0,0,0,0.75);
+
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+
+  cursor: pointer;
+  font-size: 22px;
+  line-height: 1;
+  transition: transform .12s ease, background .12s ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  #exhibit-close:hover{
+    background: rgba(0,0,0,0.10);
+    transform: translateY(-1px);
+  }
+}
+
+/* body（基本は縦：上に画像・下に情報） */
+#exhibit-modal-body{
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+
+  padding: 0 18px 18px;
+  box-sizing: border-box;
+}
+
+/* image block */
+#exhibit-modal-body .exhibit-modal-image{
+  display: grid;
+  place-items: center;
+
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+/* =========================
+   EXHIBITION modal image（額縁なし）
+   ========================= */
+
+#exhibit-modal-img{
+  max-width: 100%;
+  max-height: 70vh;
+  width: auto;
+  height: auto;
+
+  object-fit: contain;
+  display: block;
+
+  /* 額縁・装飾は一切付けない */
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+/* meta */
+#exhibit-modal-body .exhibit-modal-meta{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  padding: 0 4px 6px;
+}
+
+/* code/date row */
+#exhibit-modal-body .exhibit-modal-row{
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 10px;
+
+  font-size: 12px;
+  opacity: 0.82;
+  letter-spacing: 0.02em;
+}
+
+/* title */
+#exhibit-modal-body .exhibit-modal-title{
+  font-size: 15px;
+  font-weight: 650;
+  line-height: 1.4;
+}
+
+/* credit */
+#exhibit-modal-body .exhibit-modal-credit{
+  font-size: 13px;
+  opacity: 0.85;
+}
+
+#exhibit-modal-body .exhibit-modal-credit a{
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* link */
+#exhibit-modal-link{
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  text-decoration: none;
+  color: rgba(0,0,0,0.78);
+
+  padding: 10px 12px;
+  border-radius: 12px;
+
+  border: 1px solid rgba(0,0,0,0.10);
+  background: rgba(0,0,0,0.03);
+  width: fit-content;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  #exhibit-modal-link:hover{
+    background: rgba(0,0,0,0.06);
+  }
+}
+
+/* small screens */
+@media (max-width: 520px){
+  #exhibit-modal{
+    border-radius: 16px;
+  }
+  #exhibit-modal-body{
+    padding: 0 14px 14px;
+    gap: 12px;
+  }
+  #exhibit-modal-img{
+    border-width: 5px;
+    border-radius: 16px;
+  }
+}
