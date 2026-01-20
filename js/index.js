@@ -1,12 +1,19 @@
+// js/index.js
+
 document.addEventListener("DOMContentLoaded", () => {
   const container = document.getElementById("card-list");
+  if (!container) return;
 
   let chars = [];
   let arcList = {};
   let seriesMap = {};
   let originalOrder = [];
   let currentList = [];
-  let sortMode = "code"; // "code" or "title"
+
+  // ソート状態
+  // "code" = 元の並び（characters.json の順）
+  // "title" = タイトル読み（titleYomi）順
+  let sortMode = "code";
 
   // ========================
   // 色系統定義（9グループ）
@@ -16,28 +23,25 @@ document.addEventListener("DOMContentLoaded", () => {
     { key: "red",    label: "赤"   },
     { key: "orange", label: "橙"   },
     { key: "purple", label: "紫"   },
-    { key: "mono",   label: "白黒" }, // 真ん中に置きたい無彩色
+    { key: "mono",   label: "白黒" }, // 無彩色
     { key: "yellow", label: "黄"   },
     { key: "blue",   label: "青"   },
     { key: "cyan",   label: "水"   },
     { key: "green",  label: "緑"   }
-
-
   ];
 
   // ========================
   // 一覧描画
   // ========================
-
   function renderList(list) {
-    container.innerHTML = ""; // 一旦クリア
+    container.innerHTML = "";
 
     list.forEach(c => {
       const card = document.createElement("a");
       card.className = "card";
       card.href = `character.html?code=${c.code}`;
 
-      // ---- 画像部分 ----
+      // 画像
       const imgWrap = document.createElement("div");
       imgWrap.className = "card-image";
 
@@ -60,7 +64,7 @@ document.addEventListener("DOMContentLoaded", () => {
       imgWrap.appendChild(img);
       card.appendChild(imgWrap);
 
-      // ---- メタ情報 ----
+      // メタ
       const meta = document.createElement("div");
       meta.className = "card-meta";
 
@@ -76,135 +80,246 @@ document.addEventListener("DOMContentLoaded", () => {
       meta.appendChild(titleDiv);
 
       card.appendChild(meta);
-
       container.appendChild(card);
     });
   }
 
   // ========================
-  // ソートボタン
+  // 元順に戻すための indexMap
   // ========================
-  function setupSort() {
-    const sortToggleBtn = document.getElementById("sort-open");
-    if (!sortToggleBtn) return;
-
-    sortToggleBtn.textContent = "タイトル順";
-
-    sortToggleBtn.addEventListener("click", () => {
-      if (sortMode === "code") {
-        // タイトル読みでソート
-        currentList = [...currentList].sort((a, b) => {
-          const ay = (a.titleYomi || a.title || "").toString();
-          const by = (b.titleYomi || b.title || "").toString();
-          return ay.localeCompare(by, "ja");
-        });
-        sortMode = "title";
-        sortToggleBtn.textContent = "コード順";
-      } else {
-        // 元の順番に戻す
-        const indexMap = new Map();
-        originalOrder.forEach((c, i) => indexMap.set(c.code, i));
-        currentList = [...currentList].sort(
-          (a, b) => (indexMap.get(a.code) ?? 0) - (indexMap.get(b.code) ?? 0)
-        );
-        sortMode = "code";
-        sortToggleBtn.textContent = "タイトル順";
-      }
-      renderList(currentList);
-    });
+  function buildIndexMap() {
+    const indexMap = new Map();
+    originalOrder.forEach((c, i) => indexMap.set(c.code, i));
+    return indexMap;
   }
 
-// ========================
-// 色系統をキャラから取得（colors だけを見る）
-// ========================
-function getColorGroupsForChar(c) {
-  const groups = new Set();
+  // ========================
+  // ソート適用（currentList に対して）
+  // ========================
+  function applySortInPlace() {
+    if (sortMode === "title") {
+      currentList = [...currentList].sort((a, b) => {
+        const ay = (a.titleYomi || a.title || "").toString();
+        const by = (b.titleYomi || b.title || "").toString();
+        return ay.localeCompare(by, "ja");
+      });
+      return;
+    }
 
-  if (Array.isArray(c.colors) && c.colors.length > 0) {
-    let hasValidHex = false;
+    // "code" = 元順（characters.json の順）へ
+    const indexMap = buildIndexMap();
+    currentList = [...currentList].sort(
+      (a, b) => (indexMap.get(a.code) ?? 0) - (indexMap.get(b.code) ?? 0)
+    );
+  }
 
-    c.colors.forEach(hex => {
-      if (typeof hex !== "string") return;
-      const trimmed = hex.trim();
-      if (!trimmed) return;              // 空文字はスキップ（後で mono 扱い）
+  // ========================
+  // ソートUI（sort-overlay：開閉＋選択）
+  // ========================
+  function setupSortOverlay() {
+    const sortOpenBtn = document.getElementById("sort-open");
+    const overlay = document.getElementById("sort-overlay");
+    const closeBtn = document.getElementById("sort-close");
 
-      const g = detectColorGroupFromHex(trimmed);
-      if (g) {
-        groups.add(g);
-        hasValidHex = true;
-      }
+    // UI が無いページでは何もしない
+    if (!sortOpenBtn || !overlay) return;
+
+    // オプション（ラジオ or ボタン）を想定
+    // どちらでも拾えるように data-sort を優先
+    const optionEls = overlay.querySelectorAll("[data-sort]");
+    const applyBtn = overlay.querySelector("#sort-apply");
+    const resetBtn = overlay.querySelector("#sort-reset");
+
+    const open = () => overlay.classList.add("is-open");
+    const close = () => overlay.classList.remove("is-open");
+
+    // 開く
+    sortOpenBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      open();
+      syncSortUiState(); // 現在の sortMode をUIに反映
     });
 
-    // colors はあるが、全部空文字 or 不正 → mono 扱い
-    if (!hasValidHex) {
+    // 閉じる（×）
+    if (closeBtn) {
+      closeBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        close();
+      });
+    }
+
+    // 背景クリックで閉じる
+    overlay.addEventListener("click", (e) => {
+      if (e.target === overlay) close();
+    });
+
+    // Esc で閉じる（search と競合してもOK：sortが開いてたら閉じる）
+    document.addEventListener("keydown", (e) => {
+      if (e.key !== "Escape") return;
+      if (overlay.classList.contains("is-open")) close();
+    });
+
+    // UI同期（ラジオ or active クラス）
+    function syncSortUiState() {
+      if (!optionEls || optionEls.length === 0) return;
+
+      optionEls.forEach(el => {
+        const key = el.dataset.sort;
+        const isActive = key === sortMode;
+
+        // ボタン形式
+        if (el.classList.contains("sort-option")) {
+          el.classList.toggle("active", isActive);
+        }
+
+        // input ラジオ形式
+        if (el.tagName === "INPUT" && el.type === "radio") {
+          el.checked = isActive;
+        }
+      });
+    }
+
+    // 選択を読む
+    function readSelectedMode() {
+      // 1) radio があれば優先
+      const checkedRadio = overlay.querySelector('input[type="radio"][name="sort-mode"]:checked');
+      if (checkedRadio && checkedRadio.value) return checkedRadio.value;
+
+      // 2) active の sort-option
+      const activeBtn = overlay.querySelector(".sort-option.active[data-sort]");
+      if (activeBtn) return activeBtn.dataset.sort;
+
+      // 3) とりあえず sortMode を返す
+      return sortMode;
+    }
+
+    // option をクリックで切り替え（ボタン形式対応）
+    if (optionEls && optionEls.length) {
+      optionEls.forEach(el => {
+        el.addEventListener("click", () => {
+          const key = el.dataset.sort;
+          if (!key) return;
+
+          // ボタン形式：active を切り替え
+          if (el.classList.contains("sort-option")) {
+            optionEls.forEach(x => x.classList.remove("active"));
+            el.classList.add("active");
+          }
+
+          // radio 形式：value をセット（input なら勝手に checked になる）
+        });
+      });
+    }
+
+    // 適用
+    if (applyBtn) {
+      applyBtn.addEventListener("click", () => {
+        const next = readSelectedMode();
+        if (next === "code" || next === "title") {
+          sortMode = next;
+        }
+        applySortInPlace();
+        renderList(currentList);
+        close();
+      });
+    } else {
+      // apply ボタンが無い設計の場合：選択した瞬間に即適用したいならここを有効化
+      // （今は安全側で何もしない）
+    }
+
+    // リセット（= code）
+    if (resetBtn) {
+      resetBtn.addEventListener("click", () => {
+        sortMode = "code";
+        applySortInPlace();
+        renderList(currentList);
+        close();
+      });
+    }
+  }
+
+  // ========================
+  // 色系統をキャラから取得（colors だけを見る）
+  // ========================
+  function getColorGroupsForChar(c) {
+    const groups = new Set();
+
+    if (Array.isArray(c.colors) && c.colors.length > 0) {
+      let hasValidHex = false;
+
+      c.colors.forEach(hex => {
+        if (typeof hex !== "string") return;
+        const trimmed = hex.trim();
+        if (!trimmed) return;
+
+        const g = detectColorGroupFromHex(trimmed);
+        if (g) {
+          groups.add(g);
+          hasValidHex = true;
+        }
+      });
+
+      if (!hasValidHex) groups.add("mono");
+    } else {
       groups.add("mono");
     }
-  } else {
-    // colors 自体がない or 空配列 → 透明扱いで mono
-    groups.add("mono");
+
+    return Array.from(groups);
   }
 
-  return Array.from(groups);
-}
-
-// 16進カラー → 9グループ
-function detectColorGroupFromHex(hex) {
-  let c = hex.trim().replace("#", "");
-  if (c.length === 3) {
-    c = c.split("").map(ch => ch + ch).join("");
-  }
-  if (c.length !== 6) return null;
-
-  const r = parseInt(c.slice(0, 2), 16) / 255;
-  const g = parseInt(c.slice(2, 4), 16) / 255;
-  const b = parseInt(c.slice(4, 6), 16) / 255;
-
-  const max = Math.max(r, g, b);
-  const min = Math.min(r, g, b);
-  const d   = max - min;
-
-  let h, s, l;
-  l = (max + min) / 2;
-
-  if (d === 0) {
-    s = 0;
-    h = 0;
-  } else {
-    s = d / (1 - Math.abs(2 * l - 1));
-    switch (max) {
-      case r:
-        h = ((g - b) / d) % 6;
-        break;
-      case g:
-        h = (b - r) / d + 2;
-        break;
-      default:
-        h = (r - g) / d + 4;
+  function detectColorGroupFromHex(hex) {
+    let c = hex.trim().replace("#", "");
+    if (c.length === 3) {
+      c = c.split("").map(ch => ch + ch).join("");
     }
-    h *= 60;
-    if (h < 0) h += 360;
+    if (c.length !== 6) return null;
+
+    const r = parseInt(c.slice(0, 2), 16) / 255;
+    const g = parseInt(c.slice(2, 4), 16) / 255;
+    const b = parseInt(c.slice(4, 6), 16) / 255;
+
+    const max = Math.max(r, g, b);
+    const min = Math.min(r, g, b);
+    const d = max - min;
+
+    let h, s, l;
+    l = (max + min) / 2;
+
+    if (d === 0) {
+      s = 0;
+      h = 0;
+    } else {
+      s = d / (1 - Math.abs(2 * l - 1));
+      switch (max) {
+        case r:
+          h = ((g - b) / d) % 6;
+          break;
+        case g:
+          h = (b - r) / d + 2;
+          break;
+        default:
+          h = (r - g) / d + 4;
+      }
+      h *= 60;
+      if (h < 0) h += 360;
+    }
+
+    if (s < 0.12 || l < 0.08 || l > 0.92) return "mono";
+
+    if (h >= 345 || h < 10)  return "red";
+    if (h >= 10  && h < 35)  return "orange";
+    if (h >= 35  && h < 65)  return "yellow";
+    if (h >= 65  && h < 150) return "green";
+    if (h >= 150 && h < 195) return "cyan";
+    if (h >= 195 && h < 240) return "blue";
+    if (h >= 240 && h < 285) return "purple";
+    if (h >= 285 && h < 345) return "pink";
+
+    return null;
   }
-
-  // 無彩色判定：かなり彩度が低い or 極端に暗い/明るい
-  if (s < 0.12 || l < 0.08 || l > 0.92) {
-    return "mono";
-  }
-
-  // hue でざっくり 8分割
-  if (h >= 345 || h < 10)  return "red";
-  if (h >= 10  && h < 35)  return "orange";
-  if (h >= 35  && h < 65)  return "yellow";
-  if (h >= 65  && h < 150) return "green";
-  if (h >= 150 && h < 195) return "cyan";
-  if (h >= 195 && h < 240) return "blue";
-  if (h >= 240 && h < 285) return "purple";
-  if (h >= 285 && h < 345) return "pink";
-
-  return null;
-}
 
   // ========================
-  // 検索 UI ＋ 絞り込み
+  // 検索 UI ＋ 絞り込み（search-overlay）
   // ========================
   function setupSearch() {
     const overlay = document.getElementById("search-overlay");
@@ -221,47 +336,48 @@ function detectColorGroupFromHex(hex) {
         !decideBtn || !resetBtn ||
         !seriesOptions || !arcOptions) return;
 
-    // シリーズのチェックボックス生成
-    const usedSeries = Array.from(new Set(chars.map(c => c.series))).sort();
+    // 初回のみ生成したいので、二重生成防止
+    // すでに何か入ってたら生成しない（labelが残ってると増殖するため）
+    if (seriesOptions.childElementCount === 0) {
+      const usedSeries = Array.from(new Set(chars.map(c => c.series))).sort();
+      usedSeries.forEach(key => {
+        const data = seriesMap[key];
+        if (!data) return;
+        const label = document.createElement("label");
+        label.className = "filter-chip";
+        const cb = document.createElement("input");
+        cb.type = "checkbox";
+        cb.value = key;
+        cb.checked = false;
+        label.appendChild(cb);
+        label.append(data.nameJa);
+        seriesOptions.appendChild(label);
+      });
+    }
 
-    usedSeries.forEach(key => {
-      const data = seriesMap[key];
-      if (!data) return;
-      const label = document.createElement("label");
-      label.className = "filter-chip";
-      const cb = document.createElement("input");
-      cb.type = "checkbox";
-      cb.value = key;
-      cb.checked = false;
-      label.appendChild(cb);
-      label.append(data.nameJa);
-      seriesOptions.appendChild(label);
-    });
+    if (arcOptions.childElementCount === 0) {
+      const usedArcsSet = new Set();
+      chars.forEach(c => {
+        if (c.arc?.ex) usedArcsSet.add(c.arc.ex);
+        if (c.arc?.core) usedArcsSet.add(c.arc.core);
+      });
 
-    // アークのチェックボックス生成
-    const usedArcsSet = new Set();
-    chars.forEach(c => {
-      if (c.arc?.ex) usedArcsSet.add(c.arc.ex);
-      if (c.arc?.core) usedArcsSet.add(c.arc.core);
-    });
+      Array.from(usedArcsSet).sort().forEach(code => {
+        const data = arcList[code];
+        if (!data) return;
+        const label = document.createElement("label");
+        label.className = "filter-chip";
+        const cb = document.createElement("input");
+        cb.type = "checkbox";
+        cb.value = code;
+        cb.checked = false;
+        label.appendChild(cb);
+        label.append(`${data.icon} ${data.name}`);
+        arcOptions.appendChild(label);
+      });
+    }
 
-    Array.from(usedArcsSet).sort().forEach(code => {
-      const data = arcList[code];
-      if (!data) return;
-      const label = document.createElement("label");
-      label.className = "filter-chip";
-      const cb = document.createElement("input");
-      cb.type = "checkbox";
-      cb.value = code;
-      cb.checked = false;
-      label.appendChild(cb);
-      label.append(`${data.icon} ${data.name}`);
-      arcOptions.appendChild(label);
-    });
-
-    // 色フィルタ（3×3）の生成：◾️に色を塗る形式
-    if (colorOptionsWrap) {
-      colorOptionsWrap.innerHTML = "";
+    if (colorOptionsWrap && colorOptionsWrap.childElementCount === 0) {
       COLOR_GROUPS.forEach(cg => {
         const div = document.createElement("div");
         div.className = `color-option color-${cg.key}`;
@@ -280,7 +396,6 @@ function detectColorGroupFromHex(hex) {
       });
     }
 
-    // 実際の絞り込み処理
     function applyFilterAndRender() {
       const text = input.value.trim().toLowerCase();
 
@@ -298,7 +413,7 @@ function detectColorGroupFromHex(hex) {
         : [];
 
       const filtered = originalOrder.filter(c => {
-        // テキスト検索
+        // テキスト
         if (text) {
           const base = (
             (c.code || "") + " " +
@@ -309,12 +424,12 @@ function detectColorGroupFromHex(hex) {
           if (!base.includes(text)) return false;
         }
 
-        // シリーズフィルタ
+        // シリーズ
         if (activeSeries.length > 0 && !activeSeries.includes(c.series)) {
           return false;
         }
 
-        // アークフィルタ
+        // アーク
         if (activeArcs.length > 0) {
           const arcCodes = [];
           if (c.arc?.ex) arcCodes.push(c.arc.ex);
@@ -324,25 +439,25 @@ function detectColorGroupFromHex(hex) {
           }
         }
 
-      // 色フィルタ
-      if (activeColors.length > 0) {
-        // 複数色に対応：["red","green"] など複数グループを返す
-        const groups = getColorGroupsForChar(c);
-
-        // どれか1つでも一致していれば通す
-        if (!groups || !groups.some(g => activeColors.includes(g))) {
-          return false;
+        // 色
+        if (activeColors.length > 0) {
+          const groups = getColorGroupsForChar(c);
+          if (!groups || !groups.some(g => activeColors.includes(g))) {
+            return false;
+          }
         }
-      }
 
         return true;
       });
 
       currentList = filtered;
+
+      // フィルタ後にも現在の sortMode を適用して整合性を保つ
+      applySortInPlace();
       renderList(currentList);
     }
 
-    // モーダルの開閉
+    // open/close
     openBtn.addEventListener("click", () => {
       overlay.classList.add("is-open");
       input.focus();
@@ -353,12 +468,10 @@ function detectColorGroupFromHex(hex) {
     });
 
     overlay.addEventListener("click", (e) => {
-      if (e.target === overlay) {
-        overlay.classList.remove("is-open");
-      }
+      if (e.target === overlay) overlay.classList.remove("is-open");
     });
 
-    // 絞り込む
+    // 絞り込み
     decideBtn.addEventListener("click", () => {
       applyFilterAndRender();
       overlay.classList.remove("is-open");
@@ -373,8 +486,11 @@ function detectColorGroupFromHex(hex) {
         colorOptionsWrap.querySelectorAll(".color-option")
           .forEach(el => el.classList.remove("active"));
       }
+
       currentList = [...originalOrder];
+      // リセットは「コード順（元順）」に戻す方が自然
       sortMode = "code";
+      applySortInPlace();
       renderList(currentList);
     });
   }
@@ -394,10 +510,15 @@ function detectColorGroupFromHex(hex) {
 
       originalOrder = [...chars];
       currentList = [...originalOrder];
+
+      // 初期表示：元順（code）
+      sortMode = "code";
+      applySortInPlace();
       renderList(currentList);
 
-      setupSort();
+      // search / sort
       setupSearch();
+      setupSortOverlay();
     })
     .catch(e => {
       console.error("読み込みエラー:", e);
