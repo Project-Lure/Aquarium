@@ -39,6 +39,10 @@ function initHeader() {
   const searchOverlay  = document.getElementById('search-overlay');
   const searchCloseBtn = searchOverlay ? document.getElementById('search-close') : null;
 
+  const sortOpenBtn  = document.getElementById('sort-open');
+  const sortOverlay  = document.getElementById('sort-overlay');
+  const sortCloseBtn = sortOverlay ? document.getElementById('sort-close') : null;
+  
   const helpOpenBtn  = document.getElementById('help-open');
   const helpOverlay  = document.getElementById('help-overlay');
   const helpCloseBtn = helpOverlay ? document.getElementById('help-close') : null;
@@ -134,7 +138,42 @@ function initHeader() {
       }
     });
   }
+  
+  // ==========
+  // 並び替えモーダル
+  // ==========
+  const openSort = () => {
+    if (!sortOverlay) return;
+    sortOverlay.classList.add('is-open');
+  };
 
+  const closeSort = () => {
+    if (!sortOverlay) return;
+    sortOverlay.classList.remove('is-open');
+  };
+
+  if (sortOpenBtn && sortOverlay) {
+    sortOpenBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      openSort();
+    });
+  }
+
+  if (sortCloseBtn) {
+    sortCloseBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      closeSort();
+    });
+  }
+
+  if (sortOverlay) {
+    sortOverlay.addEventListener('click', (e) => {
+      if (e.target === sortOverlay) {
+        closeSort();
+      }
+    });
+  }
+  
   // ==========
   // ヘルプモーダル
   // ==========
@@ -180,10 +219,17 @@ function initHeader() {
       closeSearch();
       return;
     }
+
+    if (sortOverlay && sortOverlay.classList.contains('is-open')) {
+      closeSort();
+      return;
+    }
+    
     if (helpOverlay && helpOverlay.classList.contains('is-open')) {
       closeHelp();
       return;
     }
+    
     if (nav && nav.classList.contains('is-open')) {
       closeNav();
     }
