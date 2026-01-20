@@ -1,0 +1,586 @@
+// exhibition.js
+document.addEventListener("DOMContentLoaded", () => {
+  const container = document.getElementById("card-list");
+  if (!container) return;
+
+  // ========================
+  // 状態
+  // ========================
+  let chars = [];
+  let seriesMap = {};
+  let originalWorks = []; // 展示作品の原データ（パース済み）
+  let currentList = [];   // フィルタ後 + ソート後の表示用
+
+  // 検索条件（展示だけ期間あり）
+  const filterState = {
+    text: "",
+    series: new Set(),
+    colors: new Set(),
+    dateFrom: null, // "YYYY-MM-DD" or null
+    dateTo: null,   // "YYYY-MM-DD" or null
+  };
+
+  // ソート（展示のデフォルト：古い→新しい）
+  let currentSort = "publishedAt-asc"; // "publishedAt-asc" | "publishedAt-desc" | "title" | "code"
+
+  // ========================
+  // 色系統定義（9グループ）
+  // ========================
+  const COLOR_GROUPS = [
+    { key: "pink",   label: "桃"   },
+    { key: "red",    label: "赤"   },
+    { key: "orange", label: "橙"   },
+    { key: "purple", label: "紫"   },
+    { key: "mono",   label: "白黒" },
+    { key: "yellow", label: "黄"   },
+    { key: "blue",   label: "青"   },
+    { key: "cyan",   label: "水"   },
+    { key: "green",  label: "緑"   }
+  ];
+
+  // ========================
+  // 作品データの前提（重要）
+  // ========================
+  // 展示画像はディレクトリをブラウザから列挙できないので、
+  // 作品一覧は JSON で持ちます。
+  //
+  // data/exhibitions.json の例（どちらでもOK）：
+  // 1) ["000_2026-01-14_newyear.webp", "001_2026-01-20_xxx.webp", ...]
+  // 2) [{ "file":"000_2026-01-14_newyear.webp" }, { "file":"..." }, ...]
+  //
+  // 命名規則：{code}_{publishedAt}_{slug}.webp
+  // code は先頭3桁（000〜ZZZは想定外。数字3桁に寄せます）
+  // publishedAt は YYYY-MM-DD
+  // slug は任意（検索用）
+  const EXHIBITION_DIR = "images/exhibition";
+
+  // ========================
+  // utils
+  // ========================
+  function normalizeWorksJson(raw) {
+    if (!raw) return [];
+    if (Array.isArray(raw)) {
+      // ["file.webp", ...] or [{file:"..."}, ...]
+      return raw.map(x => (typeof x === "string" ? { file: x } : x)).filter(x => x?.file);
+    }
+    // { items: [...] } みたいなのも許容
+    if (Array.isArray(raw.items)) {
+      return raw.items.map(x => (typeof x === "string" ? { file: x } : x)).filter(x => x?.file);
+    }
+    return [];
+  }
+
+  function parseWorkFromFilename(file) {
+    const name = (file || "").split("/").pop() || "";
+    // 例: 000_2026-01-14_some-slug.webp
+    const m = name.match(/^(\d{3})_(\d{4}-\d{2}-\d{2})_(.+)\.(webp|png|jpg|jpeg)$/i);
+    if (!m) {
+      return {
+        file: name,
+        code: null,
+        publishedAt: null,
+        slug: name.replace(/\.[^.]+$/, ""),
+        ext: (name.split(".").pop() || "").toLowerCase(),
+        isValid: false,
+      };
+    }
+    return {
+      file: name,
+      code: m[1],
+      publishedAt: m[2],
+      slug: m[3],
+      ext: m[4].toLowerCase(),
+      isValid: true,
+    };
+  }
+
+  function getCharByCode(code) {
+    if (!code) return null;
+    return chars.find(c => c.code === code) || null;
+  }
+
+  function pickFrameColorFromChar(c) {
+    // キャラの colors の先頭の有効Hexを使う（なければグレー）
+    const fallback = "#bfbfbf";
+    if (!c || !Array.isArray(c.colors)) return fallback;
+
+    for (const hex of c.colors) {
+      if (typeof hex !== "string") continue;
+      const t = hex.trim();
+      if (!t) continue;
+      if (isValidHex(t)) return normalizeHex(t);
+    }
+    return fallback;
+  }
+
+  function isValidHex(hex) {
+    const t = hex.trim();
+    return /^#?([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/.test(t);
+  }
+
+  function normalizeHex(hex) {
+    let c = hex.trim();
+    if (!c.startsWith("#")) c = "#" + c;
+    if (c.length === 4) {
+      // #abc -> #aabbcc
+      const r = c[1], g = c[2], b = c[3];
+      c = `#${r}${r}${g}${g}${b}${b}`;
+    }
+    return c;
+  }
+
+  // ========================
+  // 色系統（キャラ→グループ）
+  // ========================
+  function getColorGroupsForChar(c) {
+    const groups = new Set();
+
+    if (Array.isArray(c?.colors) && c.colors.length > 0) {
+      let hasValidHex = false;
+
+      c.colors.forEach(hex => {
+        if (typeof hex !== "string") return;
+        const trimmed = hex.trim();
+        if (!trimmed) return;
+
+        const g = detectColorGroupFromHex(trimmed);
+        if (g) {
+          groups.add(g);
+          hasValidHex = true;
+        }
+      });
+
+      if (!hasValidHex) groups.add("mono");
+    } else {
+      groups.add("mono");
+    }
+
+    return Array.from(groups);
+  }
+
+  function detectColorGroupFromHex(hex) {
+    let c = hex.trim().replace("#", "");
+    if (c.length === 3) c = c.split("").map(ch => ch + ch).join("");
+    if (c.length !== 6) return null;
+
+    const r = parseInt(c.slice(0, 2), 16) / 255;
+    const g = parseInt(c.slice(2, 4), 16) / 255;
+    const b = parseInt(c.slice(4, 6), 16) / 255;
+
+    const max = Math.max(r, g, b);
+    const min = Math.min(r, g, b);
+    const d = max - min;
+
+    let h, s, l;
+    l = (max + min) / 2;
+
+    if (d === 0) {
+      s = 0;
+      h = 0;
+    } else {
+      s = d / (1 - Math.abs(2 * l - 1));
+      switch (max) {
+        case r: h = ((g - b) / d) % 6; break;
+        case g: h = (b - r) / d + 2; break;
+        default: h = (r - g) / d + 4;
+      }
+      h *= 60;
+      if (h < 0) h += 360;
+    }
+
+    if (s < 0.12 || l < 0.08 || l > 0.92) return "mono";
+
+    if (h >= 345 || h < 10)  return "red";
+    if (h >= 10  && h < 35)  return "orange";
+    if (h >= 35  && h < 65)  return "yellow";
+    if (h >= 65  && h < 150) return "green";
+    if (h >= 150 && h < 195) return "cyan";
+    if (h >= 195 && h < 240) return "blue";
+    if (h >= 240 && h < 285) return "purple";
+    if (h >= 285 && h < 345) return "pink";
+    return null;
+  }
+
+  // ========================
+  // レンダリング
+  // ========================
+  function renderList(list) {
+    container.innerHTML = "";
+
+    list.forEach(w => {
+      const c = w.char || null;
+      const frameColor = pickFrameColorFromChar(c);
+
+      // 画像へ直接リンク（必要なら後で detail modal に差し替え）
+      const a = document.createElement("a");
+      a.className = "exhibit-card";
+      a.href = `${EXHIBITION_DIR}/${w.file}`;
+      a.target = "_blank";
+      a.rel = "noopener";
+
+      // 枠色：CSS側で var(--frame-color) を使う想定
+      a.style.setProperty("--frame-color", frameColor);
+
+      const imgWrap = document.createElement("div");
+      imgWrap.className = "exhibit-image";
+
+      const img = document.createElement("img");
+      img.alt = w.displayTitle || "EXHIBITION";
+      img.loading = "lazy";
+
+      img.addEventListener("error", () => {
+        img.src = "images/ui/card-placeholder.png";
+        a.classList.add("is-placeholder");
+      });
+
+      img.src = `${EXHIBITION_DIR}/${w.file}`;
+      imgWrap.appendChild(img);
+      a.appendChild(imgWrap);
+
+      // 下のメタ（必要最低限：日付 + キャラ名）
+      const meta = document.createElement("div");
+      meta.className = "exhibit-meta";
+
+      const line1 = document.createElement("div");
+      line1.className = "exhibit-meta-line";
+
+      const date = document.createElement("span");
+      date.className = "exhibit-date";
+      date.textContent = w.publishedAt || "----/--/--";
+
+      const code = document.createElement("span");
+      code.className = "exhibit-code";
+      code.textContent = w.code || "---";
+
+      line1.appendChild(date);
+      line1.appendChild(code);
+
+      const line2 = document.createElement("div");
+      line2.className = "exhibit-title";
+      line2.textContent = w.displayTitle || (w.slug || w.file);
+
+      meta.appendChild(line1);
+      meta.appendChild(line2);
+
+      a.appendChild(meta);
+      container.appendChild(a);
+    });
+  }
+
+  // ========================
+  // フィルタ + ソート
+  // ========================
+  function applyFilter() {
+    const text = (filterState.text || "").trim().toLowerCase();
+    const activeSeries = Array.from(filterState.series);
+    const activeColors = Array.from(filterState.colors);
+    const from = filterState.dateFrom; // "YYYY-MM-DD" or null
+    const to = filterState.dateTo;     // "YYYY-MM-DD" or null
+
+    const filtered = originalWorks.filter(w => {
+      // テキスト検索：コード、キャラ名、作品slug、日付
+      if (text) {
+        const c = w.char || null;
+        const base = [
+          w.code || "",
+          w.publishedAt || "",
+          w.slug || "",
+          c?.title || "",
+          c?.titleYomi || "",
+          c?.mainColorLabel || "",
+        ].join(" ").toLowerCase();
+
+        if (!base.includes(text)) return false;
+      }
+
+      // シリーズ
+      if (activeSeries.length > 0) {
+        const s = w.char?.series || null;
+        if (!s || !activeSeries.includes(s)) return false;
+      }
+
+      // 色（キャラの colors を基準）
+      if (activeColors.length > 0) {
+        const groups = getColorGroupsForChar(w.char);
+        if (!groups?.some(g => activeColors.includes(g))) return false;
+      }
+
+      // 期間（展示だけ）
+      if (from && w.publishedAt) {
+        if (w.publishedAt < from) return false;
+      }
+      if (to && w.publishedAt) {
+        if (w.publishedAt > to) return false;
+      }
+      // 日付が無い作品が混じった場合：期間指定中は落とす（仕様を明確化）
+      if ((from || to) && !w.publishedAt) return false;
+
+      return true;
+    });
+
+    return filtered;
+  }
+
+  function applySort(list) {
+    const arr = [...list];
+
+    switch (currentSort) {
+      case "publishedAt-desc":
+        arr.sort((a, b) => (b.publishedAt || "").localeCompare(a.publishedAt || ""));
+        break;
+      case "title":
+        arr.sort((a, b) => {
+          const at = (a.char?.titleYomi || a.char?.title || a.slug || "").toString();
+          const bt = (b.char?.titleYomi || b.char?.title || b.slug || "").toString();
+          return at.localeCompare(bt, "ja");
+        });
+        break;
+      case "code":
+        arr.sort((a, b) => (a.code || "").localeCompare(b.code || ""));
+        break;
+      case "publishedAt-asc":
+      default:
+        arr.sort((a, b) => (a.publishedAt || "").localeCompare(b.publishedAt || ""));
+        break;
+    }
+
+    return arr;
+  }
+
+  function refresh() {
+    const filtered = applyFilter();
+    const sorted = applySort(filtered);
+    currentList = sorted;
+    renderList(currentList);
+  }
+
+  // ========================
+  // 検索UI
+  // ========================
+  function setupSearchUI() {
+    const overlay = document.getElementById("search-overlay");
+    const openBtn = document.getElementById("search-open");
+    const closeBtn = document.getElementById("search-close");
+    const input = document.getElementById("search-input");
+    const decideBtn = document.getElementById("search-decide");
+    const resetBtn = document.getElementById("search-reset");
+    const seriesOptions = document.getElementById("filter-series-options");
+    const colorOptionsWrap = document.getElementById("filter-color-options");
+    const dateFrom = document.getElementById("filter-date-from");
+    const dateTo = document.getElementById("filter-date-to");
+
+    if (!overlay || !openBtn || !closeBtn || !input || !decideBtn || !resetBtn) return;
+
+    // シリーズ options
+    if (seriesOptions) {
+      seriesOptions.innerHTML = "";
+      const usedSeries = Array.from(new Set(chars.map(c => c.series))).sort();
+      usedSeries.forEach(key => {
+        const data = seriesMap[key];
+        if (!data) return;
+
+        const label = document.createElement("label");
+        label.className = "filter-chip";
+
+        const cb = document.createElement("input");
+        cb.type = "checkbox";
+        cb.value = key;
+        cb.checked = false;
+
+        label.appendChild(cb);
+        label.append(data.nameJa || key);
+        seriesOptions.appendChild(label);
+      });
+    }
+
+    // 色 options
+    if (colorOptionsWrap) {
+      colorOptionsWrap.innerHTML = "";
+      COLOR_GROUPS.forEach(cg => {
+        const div = document.createElement("div");
+        div.className = `color-option color-${cg.key}`;
+        div.dataset.color = cg.key;
+
+        div.innerHTML = `
+          <span class="color-badge"></span>
+          <span class="color-label">${cg.label}</span>
+        `;
+
+        div.addEventListener("click", () => div.classList.toggle("active"));
+        colorOptionsWrap.appendChild(div);
+      });
+    }
+
+    // open/close
+    openBtn.addEventListener("click", () => {
+      overlay.classList.add("is-open");
+      input.focus();
+    });
+
+    closeBtn.addEventListener("click", () => {
+      overlay.classList.remove("is-open");
+    });
+
+    overlay.addEventListener("click", (e) => {
+      if (e.target === overlay) overlay.classList.remove("is-open");
+    });
+
+    // decide
+    decideBtn.addEventListener("click", () => {
+      filterState.text = input.value || "";
+
+      // series
+      filterState.series.clear();
+      if (seriesOptions) {
+        seriesOptions.querySelectorAll('input[type="checkbox"]:checked').forEach(cb => {
+          filterState.series.add(cb.value);
+        });
+      }
+
+      // colors
+      filterState.colors.clear();
+      if (colorOptionsWrap) {
+        colorOptionsWrap.querySelectorAll(".color-option.active").forEach(el => {
+          if (el.dataset.color) filterState.colors.add(el.dataset.color);
+        });
+      }
+
+      // dates（展示のみ）
+      filterState.dateFrom = dateFrom?.value ? dateFrom.value : null;
+      filterState.dateTo = dateTo?.value ? dateTo.value : null;
+
+      refresh();
+      overlay.classList.remove("is-open");
+    });
+
+    // reset
+    resetBtn.addEventListener("click", () => {
+      input.value = "";
+      filterState.text = "";
+
+      filterState.series.clear();
+      if (seriesOptions) {
+        seriesOptions.querySelectorAll('input[type="checkbox"]').forEach(cb => (cb.checked = false));
+      }
+
+      filterState.colors.clear();
+      if (colorOptionsWrap) {
+        colorOptionsWrap.querySelectorAll(".color-option").forEach(el => el.classList.remove("active"));
+      }
+
+      if (dateFrom) dateFrom.value = "";
+      if (dateTo) dateTo.value = "";
+      filterState.dateFrom = null;
+      filterState.dateTo = null;
+
+      refresh();
+    });
+  }
+
+  // ========================
+  // ソートUI（ポップアップ）
+  // ========================
+  function setupSortUI() {
+    const overlay = document.getElementById("sort-overlay");
+    const openBtn = document.getElementById("sort-open");
+    const closeBtn = document.getElementById("sort-close");
+    const applyBtn = document.getElementById("sort-apply");
+    const resetBtn = document.getElementById("sort-reset");
+    const options = document.querySelectorAll(".sort-option");
+
+    if (!overlay || !openBtn || !closeBtn || !applyBtn || !resetBtn || options.length === 0) return;
+
+    let pendingSort = currentSort;
+
+    function markActive() {
+      options.forEach(btn => {
+        const v = btn.dataset.sort;
+        if (v === pendingSort) btn.classList.add("active");
+        else btn.classList.remove("active");
+      });
+    }
+
+    // open/close
+    openBtn.addEventListener("click", () => {
+      pendingSort = currentSort;
+      markActive();
+      overlay.classList.add("is-open");
+    });
+
+    closeBtn.addEventListener("click", () => overlay.classList.remove("is-open"));
+    overlay.addEventListener("click", (e) => {
+      if (e.target === overlay) overlay.classList.remove("is-open");
+    });
+
+    // choose
+    options.forEach(btn => {
+      btn.addEventListener("click", () => {
+        pendingSort = btn.dataset.sort || "publishedAt-asc";
+        markActive();
+      });
+    });
+
+    // apply
+    applyBtn.addEventListener("click", () => {
+      currentSort = pendingSort || "publishedAt-asc";
+      refresh();
+      overlay.classList.remove("is-open");
+    });
+
+    // reset（展示デフォルト：古い→新しい）
+    resetBtn.addEventListener("click", () => {
+      pendingSort = "publishedAt-asc";
+      currentSort = "publishedAt-asc";
+      markActive();
+      refresh();
+    });
+  }
+
+  // ========================
+  // データ読み込み
+  // ========================
+  Promise.all([
+    fetch("data/characters.json").then(r => r.json()),
+    fetch("data/series.json").then(r => r.json()),
+    fetch("data/exhibitions.json").then(r => r.json())
+  ])
+    .then(([charsData, seriesMapData, exhibitionsData]) => {
+      chars = Array.isArray(charsData) ? charsData : [];
+      seriesMap = seriesMapData || {};
+
+      const rawWorks = normalizeWorksJson(exhibitionsData);
+
+      // ファイル名から必要情報をパースして、キャラ情報を結合
+      originalWorks = rawWorks.map(w => {
+        const parsed = parseWorkFromFilename(w.file);
+        const char = parsed.code ? getCharByCode(parsed.code) : null;
+
+        // 表示用タイトル：キャラのタイトルを主に、slugは補助
+        // （ここは好み。slugを見せたくないなら消してOK）
+        const displayTitle = char?.title
+          ? (parsed.slug ? `${char.title} / ${parsed.slug}` : char.title)
+          : (parsed.slug || parsed.file);
+
+        return {
+          ...parsed,
+          char,
+          displayTitle,
+          series: char?.series || null,
+        };
+      });
+
+      // 仕様：古い→新しいで並べる（publishedAt昇順）
+      currentSort = "publishedAt-asc";
+
+      // 初期表示
+      refresh();
+
+      // UI
+      setupSearchUI();
+      setupSortUI();
+    })
+    .catch(e => {
+      console.error("読み込みエラー:", e);
+      container.innerHTML = "<p style='padding:16px;'>展示データの読み込みに失敗しました。</p>";
+    });
+});
