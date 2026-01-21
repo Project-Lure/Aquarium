@@ -3268,7 +3268,7 @@ body>.bubbles-body span:nth-child(9) {
 }
 
 /* =========================
-   EXHIBITION modal image（額縁なし）
+   EXHIBITION modal image（額縁なし・全端末）
    ========================= */
 
 #exhibit-modal-img{
@@ -3280,11 +3280,10 @@ body>.bubbles-body span:nth-child(9) {
   object-fit: contain;
   display: block;
 
-  /* 額縁・装飾は一切付けない */
-  border: none;
-  border-radius: 0;
-  background: transparent;
-  box-shadow: none;
+  border: none !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
 }
 
 /* meta */
@@ -3292,7 +3291,6 @@ body>.bubbles-body span:nth-child(9) {
   display: flex;
   flex-direction: column;
   gap: 10px;
-
   padding: 0 4px 6px;
 }
 
@@ -3315,10 +3313,11 @@ body>.bubbles-body span:nth-child(9) {
   line-height: 1.4;
 }
 
-/* credit */
+/* credit（右寄せ） */
 #exhibit-modal-body .exhibit-modal-credit{
   font-size: 13px;
   opacity: 0.85;
+  text-align: right;
 }
 
 #exhibit-modal-body .exhibit-modal-credit a{
@@ -3353,44 +3352,46 @@ body>.bubbles-body span:nth-child(9) {
   }
 }
 
-/* small screens */
-@media (max-width: 520px){
-  #exhibit-modal{
-    border-radius: 16px;
-  }
-  #exhibit-modal-body{
-    padding: 0 14px 14px;
-    gap: 12px;
-  }
-  #exhibit-modal-img{
-    border-width: 5px;
-    border-radius: 16px;
-  }
-}
-/* 展示モーダル 注意文 */
-.exhibit-notice {
+/* 注意文（境界線は黒系に揃える） */
+.exhibit-notice{
   margin-top: 16px;
   padding-top: 12px;
-  border-top: 1px solid rgba(255,255,255,0.15);
+  border-top: 1px solid rgba(0,0,0,0.10);
 
   font-size: 12px;
   line-height: 1.6;
   color: rgba(0,0,0,0.75);
 
-  user-select: none;        /* 文字選択抑止 */
+  user-select: none;
   -webkit-user-select: none;
 }
+
 /* =========================
-   Exhibit modal: avoid header overlap (all devices)
+   Exhibit modal: avoid header overlap（全端末で少し下げる）
    ========================= */
 
-#exhibit-overlay {
-  padding-top: 72px;          /* ヘッダ高さ分（必要なら微調整） */
-  box-sizing: border-box;
-  z-index: 9999;              /* ヘッダより前面 */
+/* overlay は触りすぎない（中心計算が崩れるのを避ける） */
+#exhibit-overlay{
+  z-index: 9999;
 }
 
-/* モーダル本体が画面外にはみ出ないように */
-#exhibit-modal {
-  max-height: calc(100vh - 72px);
+/* モーダルを少し下げる + 画面内に収める */
+#exhibit-modal{
+  margin-top: 36px; /* ここだけ好みで微調整 */
+  max-height: calc(100vh - 48px);
+  overflow: auto;   /* はみ出したら中でスクロール */
+  -webkit-overflow-scrolling: touch;
+}
+
+/* small screens */
+@media (max-width: 520px){
+  #exhibit-modal{
+    border-radius: 16px;
+    margin-top: 28px; /* スマホは少し控えめ */
+    max-height: calc(100vh - 36px);
+  }
+  #exhibit-modal-body{
+    padding: 0 14px 14px;
+    gap: 12px;
+  }
 }
