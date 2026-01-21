@@ -227,6 +227,11 @@ document.addEventListener("DOMContentLoaded", () => {
             </div>
 
             <a class="exhibit-modal-link" id="exhibit-modal-link" href="#">キャラ詳細へ</a>
+
+            <!-- ▼ ここに注意文ブロックを追加する -->
+            <div class="exhibit-notice">
+              無断転載・保存禁止
+            </div>
           </div>
         </div>
       </div>
@@ -317,6 +322,8 @@ document.addEventListener("DOMContentLoaded", () => {
       img.alt = w.displayTitle || "EXHIBITION";
       img.loading = "lazy";
 
+      img.draggable = false;
+      
       img.addEventListener("error", () => {
         img.src = "images/ui/card-placeholder.png";
         card.classList.add("is-placeholder");
@@ -368,7 +375,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     switch (sortMode) {
       case "publishedAt-desc":
-        arr.sort((a, b) =>a => (b.publishedAt || "").localeCompare(a.publishedAt || ""));
+        arr.sort((a, b) => (b.publishedAt || "").localeCompare(a.publishedAt || ""));
         break;
 
       case "title":
