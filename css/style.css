@@ -3082,36 +3082,37 @@ body>.bubbles-body span:nth-child(9) {
 }
 
 /* 正方形セル：中身を中央配置 */
+/* ▼ 縦長が切れない版（一覧だけ） */
 .page-exhibition #card-list .exhibit-image{
   width: 100% !important;
   aspect-ratio: 1 / 1 !important;
   display: grid !important;
   place-items: center !important;
+
+  /* ここで切らない（画像そのものはcontainで収める） */
   overflow: hidden !important;
 
-  background: transparent !important;
-  border: none !important;
-  box-shadow: none !important;
+  /* 枠ぶんの逃げを作る：borderがある場合に効く */
+  padding: 6px !important;
+  box-sizing: border-box !important;
 }
 
-/* 画像：長辺が正方形に合う（切らない） */
+
 .page-exhibition #card-list .exhibit-image > img{
+  /* 100%固定をやめる */
+  width: auto !important;
+  height: auto !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+
+  object-fit: contain !important;
+  object-position: center !important;
+
   display: block !important;
   box-sizing: border-box !important;
 
-  /* 「切らずに最大」 */
-  max-width: 100% !important;
-  max-height: 100% !important;
-  width: 100% !important;
-  height: 100% !important;
-  object-fit: contain !important;
-
   border: 4px solid var(--frame-color, #88aacc) !important;
   border-radius: 16px !important;
-  background: transparent !important;
-  box-shadow: none !important;
-
-  transition: transform .18s ease, box-shadow .18s ease;
 }
 
 /* 一覧メタは非表示 */
