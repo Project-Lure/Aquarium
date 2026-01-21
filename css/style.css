@@ -3057,6 +3057,7 @@ body>.bubbles-body span:nth-child(9) {
    ※ style.css の末尾に貼る
    ========================================================= */
 
+/* ===== grid ===== */
 :where(.page-exhibition) :where(.exhibition-grid){
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -3077,7 +3078,7 @@ body>.bubbles-body span:nth-child(9) {
   color: inherit;
 }
 
-/* 見えない正方形セル（これは維持でOK） */
+/* 見えない正方形セル */
 :where(.page-exhibition) :where(.exhibit-image){
   width: 100%;
   aspect-ratio: 1 / 1;
@@ -3095,15 +3096,15 @@ body>.bubbles-body span:nth-child(9) {
   width: auto;
   height: auto;
 
-  /* セル内に収める（縦横どちらも上限100%） */
+  /* セル内に収める */
   max-width: 100%;
   max-height: 100%;
 
   object-fit: contain;
   display: block;
-  box-sizing: border-box; /* border分も含めて収める */
+  box-sizing: border-box;
 
-  /* 額縁＝画像に直付け（画像外周に付く） */
+  /* 額縁＝画像に直付け */
   border: 4px solid var(--frame-color, #88aacc);
   border-radius: 16px;
   background: transparent;
@@ -3113,31 +3114,27 @@ body>.bubbles-body span:nth-child(9) {
   transition: transform .18s ease, box-shadow .18s ease;
 }
 
-/* メタ */
-/* 一覧ではメタ（日時/コード/タイトル）を全部非表示 */
+/* 一覧ではメタ（日時/タイトル）を全部非表示 */
 :where(.page-exhibition) :where(.exhibit-meta){
   display: none !important;
 }
 
-/* 日付＋コード横並び（JS: .exhibit-meta-line がある） */
+/* 残してあるが、非表示前提で定義は維持 */
 :where(.page-exhibition) :where(.exhibit-meta-line){
   display: flex;
   justify-content: space-between;
   align-items: baseline;
   gap: 10px;
 }
-
 :where(.page-exhibition) :where(.exhibit-date){
   font-size: 12px;
   opacity: 0.75;
 }
-
 :where(.page-exhibition) :where(.exhibit-code){
   font-size: 12px;
   opacity: 0.75;
   letter-spacing: 0.02em;
 }
-
 :where(.page-exhibition) :where(.exhibit-title){
   font-size: 13px;
   font-weight: 600;
@@ -3164,8 +3161,7 @@ body>.bubbles-body span:nth-child(9) {
   }
 }
 
-/* もし旧CSSが残って二重枠に見える場合の保険：
-   exhibit-image 側で枠・背景を絶対に作らない */
+/* 二重枠保険 */
 :where(.page-exhibition) :where(.exhibit-image){
   border: none !important;
   box-shadow: none !important;
@@ -3270,7 +3266,6 @@ body>.bubbles-body span:nth-child(9) {
 /* =========================
    EXHIBITION modal image（額縁なし・全端末）
    ========================= */
-
 #exhibit-modal-img{
   max-width: 100%;
   max-height: 70vh;
@@ -3318,6 +3313,7 @@ body>.bubbles-body span:nth-child(9) {
   font-size: 13px;
   opacity: 0.85;
   text-align: right;
+  margin-left: auto;
 }
 
 #exhibit-modal-body .exhibit-modal-credit a{
@@ -3379,7 +3375,7 @@ body>.bubbles-body span:nth-child(9) {
 #exhibit-modal{
   margin-top: 36px; /* ここだけ好みで微調整 */
   max-height: calc(100vh - 48px);
-  overflow: auto;   /* はみ出したら中でスクロール */
+  overflow: auto;
   -webkit-overflow-scrolling: touch;
 }
 
@@ -3393,5 +3389,75 @@ body>.bubbles-body span:nth-child(9) {
   #exhibit-modal-body{
     padding: 0 14px 14px;
     gap: 12px;
+  }
+}
+
+/* =========================================================
+   追加：画像上に「タイトル + 日付」を載せる（JS側 overlay 用）
+   - JSが .exhibit-modal-overlay を生成している前提
+   - 既存を壊さず上書きで追加
+   ========================================================= */
+
+#exhibit-modal-body .exhibit-modal-image{
+  position: relative; /* overlayの基準 */
+}
+
+#exhibit-modal-body .exhibit-modal-overlay{
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  top: 10px;
+  z-index: 2;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+
+  padding: 10px 10px;
+  border-radius: 14px;
+
+  background: rgba(255,255,255,0.72);
+  backdrop-filter: blur(6px);
+
+  pointer-events: none; /* 画像操作を邪魔しない */
+  box-sizing: border-box;
+}
+
+#exhibit-modal-body .exhibit-modal-overlay-title{
+  font-size: 13px;
+  font-weight: 650;
+  line-height: 1.35;
+  color: rgba(0,0,0,0.82);
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+#exhibit-modal-body .exhibit-modal-overlay-date{
+  font-size: 12px;
+  letter-spacing: 0.02em;
+  color: rgba(0,0,0,0.68);
+  flex: 0 0 auto;
+  white-space: nowrap;
+}
+
+/* スマホ：overlayを少し小さく */
+@media (max-width: 520px){
+  #exhibit-modal-body .exhibit-modal-overlay{
+    left: 8px;
+    right: 8px;
+    top: 8px;
+    padding: 9px 9px;
+    border-radius: 12px;
+  }
+  #exhibit-modal-body .exhibit-modal-overlay-title{
+    font-size: 12.5px;
+  }
+  #exhibit-modal-body .exhibit-modal-overlay-date{
+    font-size: 11.5px;
   }
 }
