@@ -196,8 +196,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // ========================
   // modal（DOMを1回だけ作る）
+  // 方針：
   // - コードは表示しない（内部利用のみ）
-  // - タイトル/日付は「画像の上」に出す想定（CSSでoverlayを整える）
+  // - タイトル/日付は「モーダル上部（header）」に表示
   // ========================
   function ensureExhibitModal() {
     let overlay = document.getElementById("exhibit-overlay");
@@ -208,17 +209,15 @@ document.addEventListener("DOMContentLoaded", () => {
     overlay.innerHTML = `
       <div id="exhibit-modal" role="dialog" aria-modal="true">
         <div id="exhibit-modal-header">
-          <button id="exhibit-close" type="button">×</button>
+          <div class="exhibit-modal-head">
+            <div class="exhibit-modal-head-title" id="exhibit-modal-head-title"></div>
+            <div class="exhibit-modal-head-date" id="exhibit-modal-head-date"></div>
+          </div>
+          <button id="exhibit-close" type="button" aria-label="close">×</button>
         </div>
 
         <div id="exhibit-modal-body">
           <div class="exhibit-modal-image">
-            <!-- 画像上オーバーレイ（タイトル/日付） -->
-            <div class="exhibit-modal-overlay">
-              <div class="exhibit-modal-overlay-title" id="exhibit-modal-title"></div>
-              <div class="exhibit-modal-overlay-date" id="exhibit-modal-date"></div>
-            </div>
-
             <img id="exhibit-modal-img" alt="">
           </div>
 
@@ -257,8 +256,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const overlay = ensureExhibitModal();
 
     const img = overlay.querySelector("#exhibit-modal-img");
-    const dateEl = overlay.querySelector("#exhibit-modal-date");
-    const titleEl = overlay.querySelector("#exhibit-modal-title");
+    const headTitleEl = overlay.querySelector("#exhibit-modal-head-title");
+    const headDateEl = overlay.querySelector("#exhibit-modal-head-date");
     const creditEl = overlay.querySelector("#exhibit-modal-credit");
     const linkEl = overlay.querySelector("#exhibit-modal-link");
 
@@ -267,11 +266,11 @@ document.addEventListener("DOMContentLoaded", () => {
     img.alt = work.displayTitle || "EXHIBITION";
     img.draggable = false;
 
-    // overlay meta (title/date)
-    dateEl.textContent = work.publishedAt || "----/--/--";
-    titleEl.textContent = work.displayTitle || "";
+    // header meta (title/date)
+    headTitleEl.textContent = work.displayTitle || "";
+    headDateEl.textContent = work.publishedAt || "----/--/--";
 
-    // credit（固定：URLがある時だけ表示）
+    // credit（URLがある時だけ表示）
     if (work.credit && work.creditUrl) {
       creditEl.textContent = `Credit: ${work.credit}`;
       creditEl.href = work.creditUrl;
@@ -293,7 +292,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // ========================
   // render
-  // - 一覧側は「日付 + タイトル」だけ（コードは出さない）
+  // - 一覧側メタはDOMに残す（CSSで非表示想定）
   // ========================
   function renderList(list) {
     container.innerHTML = "";
@@ -334,7 +333,7 @@ document.addEventListener("DOMContentLoaded", () => {
       imgWrap.appendChild(img);
       card.appendChild(imgWrap);
 
-      // メタ（※CSSで非表示にする想定でも、DOMは残す）
+      // メタ（CSSで非表示想定でもDOMは残す）
       const meta = document.createElement("div");
       meta.className = "exhibit-meta";
 
