@@ -3396,3 +3396,44 @@ body>.bubbles-body span:nth-child(9) {
     border-radius: 14px !important;
   }
 }
+/* ===== 追加：B運用の額縁を“セル側”に移す（事故減らす） ===== */
+
+/* 正方形セルを“額縁の本体”にする */
+.page-exhibition #card-list .exhibit-image{
+  position: relative !important;
+  border-radius: 16px !important;
+  overflow: hidden !important; /* 画像はここでクリップ（角ズレ防止） */
+  padding: 0 !important;       /* 既存のpaddingがあるなら事故るので0推奨 */
+}
+
+/* 額縁（セルの上に被せる）：画像比率に影響しない */
+.page-exhibition #card-list .exhibit-image::after{
+  content: "" !important;
+  position: absolute !important;
+  inset: 0 !important;
+  border-radius: 16px !important;
+  box-shadow: inset 0 0 0 4px var(--frame-color, #88aacc) !important;
+  pointer-events: none !important;
+}
+
+/* imgは“中身”に徹して枠を外す（既存outlineを無効化） */
+.page-exhibition #card-list .exhibit-image > img{
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+
+  border: 0 !important;
+  outline: 0 !important;
+  border-radius: 0 !important;
+  display: block !important;
+}
+
+@media (max-width: 768px){
+  .page-exhibition #card-list .exhibit-image{
+    border-radius: 14px !important;
+  }
+  .page-exhibition #card-list .exhibit-image::after{
+    border-radius: 14px !important;
+    box-shadow: inset 0 0 0 3px var(--frame-color, #88aacc) !important;
+  }
+}
