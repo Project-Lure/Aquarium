@@ -3375,7 +3375,7 @@ body>.bubbles-body span:nth-child(9) {
 
   font-size: 12px;
   line-height: 1.6;
-  color: rgba(255,255,255,0.75);
+  color: rgba(0,0,0,0.75);
 
   user-select: none;        /* 文字選択抑止 */
   -webkit-user-select: none;
