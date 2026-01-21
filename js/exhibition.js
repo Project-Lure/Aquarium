@@ -272,7 +272,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // credit（URLがある時だけ表示）
     if (work.credit && work.creditUrl) {
-      creditEl.textContent = `Illustration by: ${work.credit}`;
+      creditEl.textContent = `Illustration by ${work.credit}`;
       creditEl.href = work.creditUrl;
       creditEl.style.display = "";
     } else {
