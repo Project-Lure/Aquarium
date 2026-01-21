@@ -3379,3 +3379,20 @@ body>.bubbles-body span:nth-child(9) {
     gap: 12px;
   }
 }
+/* ▼一覧は“見栄え優先”にする（インスタ方式） */
+.page-exhibition #card-list .exhibit-image > img{
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+
+  border: 0 !important;
+  outline: 4px solid var(--frame-color, #88aacc) !important;
+  outline-offset: 0 !important;
+  border-radius: 16px !important;
+}
+@media (max-width: 768px){
+  .page-exhibition #card-list .exhibit-image > img{
+    outline-width: 3px !important;
+    border-radius: 14px !important;
+  }
+}
