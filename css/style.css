@@ -3138,7 +3138,27 @@ body>.bubbles-body span:nth-child(9) {
     border-radius: 14px !important;
   }
 }
+/* ===== 追加：正方形グリッドが小さくなりすぎるのを防ぐ ===== */
 
+/* 3列固定は維持しつつ「各セルの最小幅」を保証する */
+.page-exhibition #card-list{
+  /* 1セルが小さくなりすぎるのが原因なので min を設定 */
+  grid-template-columns: repeat(3, minmax(240px, 1fr)) !important;
+}
+
+/* 画面が狭い場合は 2列に落として、セルサイズを確保 */
+@media (max-width: 840px){
+  .page-exhibition #card-list{
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+/* さらに狭い場合は 1列（見切れ・極小化の最終回避） */
+@media (max-width: 520px){
+  .page-exhibition #card-list{
+    grid-template-columns: 1fr !important;
+  }
+}
 /* =========================
    モーダル（#exhibit-overlay 以下）
    ========================= */
