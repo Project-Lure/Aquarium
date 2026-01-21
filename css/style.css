@@ -3062,84 +3062,79 @@ body>.bubbles-body span:nth-child(9) {
    ========================= */
 
 /* 3列固定グリッド */
-:where(.page-exhibition) #card-list{
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 18px;
+.page-exhibition #card-list{
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 18px !important;
 
-  width: min(1100px, 100%);
-  margin: 0 auto;
-  padding: 0 22px;
-  box-sizing: border-box;
+  width: min(1100px, 100%) !important;
+  margin: 0 auto !important;
+  padding: 0 22px !important;
+  box-sizing: border-box !important;
 }
 
 /* カード */
-:where(.page-exhibition) #card-list > .exhibit-card{
-  display: block;               /* 余計な縦gap不要ならblockが安定 */
+.page-exhibition #card-list > .exhibit-card{
+  display: block !important;
+  width: 100% !important;      /* グリッドセルをフルに使う */
   text-decoration: none;
   color: inherit;
 }
 
 /* 正方形セル：中身を中央配置 */
-:where(.page-exhibition) #card-list .exhibit-image{
-  width: 100%;
-  aspect-ratio: 1 / 1;
+.page-exhibition #card-list .exhibit-image{
+  width: 100% !important;
+  aspect-ratio: 1 / 1 !important;
+  display: grid !important;
+  place-items: center !important;
+  overflow: hidden !important;
 
-  display: grid;
-  place-items: center;
-
-  overflow: hidden;             /* はみ出し防止 */
-  background: transparent;
+  background: transparent !important;
   border: none !important;
   box-shadow: none !important;
 }
 
 /* 画像：長辺が正方形に合う（切らない） */
-:where(.page-exhibition) #card-list .exhibit-image > img{
-  display: block;
-  box-sizing: border-box;
+.page-exhibition #card-list .exhibit-image > img{
+  display: block !important;
+  box-sizing: border-box !important;
 
-  /* ここが重要：引き伸ばさず、枠内で最大化 */
-  max-width: 100%;
-  max-height: 100%;
-  width: auto;
-  height: auto;
+  /* 「切らずに最大」 */
+  max-width: 100% !important;
+  max-height: 100% !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain !important;
 
-  /* object-fitは不要（auto運用の方がブレにくい） */
-  object-fit: unset;
-
-  /* 額縁＝画像に直付け */
-  border: 4px solid var(--frame-color, #88aacc);
-  border-radius: 16px;
-  background: transparent;
-  padding: 0;
-  box-shadow: none;
+  border: 4px solid var(--frame-color, #88aacc) !important;
+  border-radius: 16px !important;
+  background: transparent !important;
+  box-shadow: none !important;
 
   transition: transform .18s ease, box-shadow .18s ease;
 }
 
 /* 一覧メタは非表示 */
-:where(.page-exhibition) #card-list .exhibit-meta{
+.page-exhibition #card-list .exhibit-meta{
   display: none !important;
 }
 
-/* hover（PCのみ） */
+
 @media (hover: hover) and (pointer: fine) {
-  :where(.page-exhibition) #card-list > .exhibit-card:hover .exhibit-image > img{
+  .page-exhibition #card-list > .exhibit-card:hover .exhibit-image > img{
     transform: translateY(-2px);
     box-shadow: 0 14px 34px rgba(0, 0, 0, 0.12);
   }
 }
 
-/* 小さい画面：3列維持で詰める */
 @media (max-width: 768px) {
-  :where(.page-exhibition) #card-list{
-    gap: 10px;
-    padding: 0 12px;
+  .page-exhibition #card-list{
+    gap: 10px !important;
+    padding: 0 12px !important;
   }
-  :where(.page-exhibition) #card-list .exhibit-image > img{
-    border-width: 3px;
-    border-radius: 14px;
+  .page-exhibition #card-list .exhibit-image > img{
+    border-width: 3px !important;
+    border-radius: 14px !important;
   }
 }
 
