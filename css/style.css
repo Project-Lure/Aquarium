@@ -3380,3 +3380,17 @@ body>.bubbles-body span:nth-child(9) {
   user-select: none;        /* 文字選択抑止 */
   -webkit-user-select: none;
 }
+/* =========================
+   Exhibit modal: avoid header overlap (all devices)
+   ========================= */
+
+#exhibit-overlay {
+  padding-top: 72px;          /* ヘッダ高さ分（必要なら微調整） */
+  box-sizing: border-box;
+  z-index: 9999;              /* ヘッダより前面 */
+}
+
+/* モーダル本体が画面外にはみ出ないように */
+#exhibit-modal {
+  max-height: calc(100vh - 72px);
+}
