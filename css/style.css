@@ -3058,10 +3058,10 @@ body>.bubbles-body span:nth-child(9) {
    ========================================================= */
 
 /* =========================
-   一覧（#card-list）
+   一覧（#card-list）※ここだけ差し替え
    ========================= */
 
-/* 3列固定グリッド：このJSは #card-list にカードを直挿しする */
+/* 3列固定グリッド */
 :where(.page-exhibition) #card-list{
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -3073,38 +3073,40 @@ body>.bubbles-body span:nth-child(9) {
   box-sizing: border-box;
 }
 
-/* クリック範囲（カード） */
+/* カード */
 :where(.page-exhibition) #card-list > .exhibit-card{
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+  display: block;               /* 余計な縦gap不要ならblockが安定 */
   text-decoration: none;
   color: inherit;
 }
 
-/* 見えない正方形セル（固定枠は見せない） */
+/* 正方形セル：中身を中央配置 */
 :where(.page-exhibition) #card-list .exhibit-image{
   width: 100%;
   aspect-ratio: 1 / 1;
+
   display: grid;
   place-items: center;
-  overflow: hidden;
 
+  overflow: hidden;             /* はみ出し防止 */
   background: transparent;
   border: none !important;
   box-shadow: none !important;
 }
 
-/* imgをセルに引き伸ばさない（containで収める） */
+/* 画像：長辺が正方形に合う（切らない） */
 :where(.page-exhibition) #card-list .exhibit-image > img{
-  width: auto;
-  height: auto;
-  max-width: 100%;
-  max-height: 100%;
-
-  object-fit: contain;
   display: block;
   box-sizing: border-box;
+
+  /* ここが重要：引き伸ばさず、枠内で最大化 */
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+
+  /* object-fitは不要（auto運用の方がブレにくい） */
+  object-fit: unset;
 
   /* 額縁＝画像に直付け */
   border: 4px solid var(--frame-color, #88aacc);
@@ -3116,7 +3118,7 @@ body>.bubbles-body span:nth-child(9) {
   transition: transform .18s ease, box-shadow .18s ease;
 }
 
-/* 一覧のメタは全部非表示（JSはDOMを残す方針） */
+/* 一覧メタは非表示 */
 :where(.page-exhibition) #card-list .exhibit-meta{
   display: none !important;
 }
@@ -3129,7 +3131,7 @@ body>.bubbles-body span:nth-child(9) {
   }
 }
 
-/* 小さい画面でも3列固定：余白とgapだけ縮める */
+/* 小さい画面：3列維持で詰める */
 @media (max-width: 768px) {
   :where(.page-exhibition) #card-list{
     gap: 10px;
