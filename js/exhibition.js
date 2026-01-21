@@ -19,9 +19,9 @@ document.addEventListener("DOMContentLoaded", () => {
     dateTo: null,   // "YYYY-MM-DD" or null
   };
 
-  // sort（展示デフォルト：古い→新しい）
-  // "publishedAt-asc" | "publishedAt-desc" | "title" | "code"
-  let sortMode = "publishedAt-asc";
+  // sort（展示デフォルト：新しい→古い）
+  // "publishedAt-desc" | "publishedAt-asc" | "title" | "code"
+  let sortMode = "publishedAt-desc";
 
   // ========================
   // 定義
@@ -645,7 +645,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (applyBtn) {
       applyBtn.addEventListener("click", () => {
-        sortMode = readSelectedMode() || "publishedAt-asc";
+        sortMode = readSelectedMode() || "publishedAt-desc";
         refresh();
         close();
       });
@@ -653,9 +653,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (resetBtn) {
       resetBtn.addEventListener("click", () => {
-        sortMode = "publishedAt-asc";
+        sortMode = "publishedAt-desc";
         optionEls.forEach(x => x.classList.remove("active"));
-        const defBtn = overlay.querySelector('.sort-option[data-sort="publishedAt-asc"]');
+        const defBtn = overlay.querySelector('.sort-option[data-sort="publishedAt-desc"]');
         if (defBtn) defBtn.classList.add("active");
         refresh();
         close();
@@ -717,7 +717,7 @@ document.addEventListener("DOMContentLoaded", () => {
         };
       });
 
-      sortMode = "publishedAt-asc";
+      sortMode = "publishedAt-desc";
 
       refresh();
       setupSearchOverlay();
