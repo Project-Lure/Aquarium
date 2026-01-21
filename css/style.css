@@ -3367,3 +3367,16 @@ body>.bubbles-body span:nth-child(9) {
     border-radius: 16px;
   }
 }
+/* 展示モーダル 注意文 */
+.exhibit-notice {
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255,255,255,0.15);
+
+  font-size: 12px;
+  line-height: 1.6;
+  color: rgba(255,255,255,0.75);
+
+  user-select: none;        /* 文字選択抑止 */
+  -webkit-user-select: none;
+}
