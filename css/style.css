@@ -3047,88 +3047,317 @@ body>.bubbles-body span:nth-child(9) {
   margin-top: 0;
 }
 /* =========================================================
-   FIX: タイトル+日付は「モーダル上部」に置く（画像には重ねない）
-   - 既存CSSを壊さず上書き
-   - .exhibit-modal-overlay（画像上の帯）は無効化
+   EXHIBITION 上書き（このJSのDOMに厳密一致）
+   - スコープ：.page-exhibition の中だけ
+   - 一覧：#card-list を3列グリッド化（HTML変更なし）
+   - セル正方形、画像は比率維持でcontain
+   - 額縁は img に直付け（二重枠回避）
+   - 一覧メタは非表示（DOMは残す）
+   - モーダル：ヘッダーにタイトル+日付、ボタンは中央寄せ
+   ※ style.css の末尾に貼る
    ========================================================= */
 
-/* 1) 画像上 overlay を完全に無効化（残ってても表示しない） */
-#exhibit-modal-body .exhibit-modal-overlay{
+/* =========================
+   一覧（#card-list）
+   ========================= */
+
+/* 3列固定グリッド：このJSは #card-list にカードを直挿しする */
+:where(.page-exhibition) #card-list{
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+
+  width: min(1100px, 100%);
+  margin: 0 auto;
+  padding: 0 22px;
+  box-sizing: border-box;
+}
+
+/* クリック範囲（カード） */
+:where(.page-exhibition) #card-list > .exhibit-card{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  text-decoration: none;
+  color: inherit;
+}
+
+/* 見えない正方形セル（固定枠は見せない） */
+:where(.page-exhibition) #card-list .exhibit-image{
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+
+  background: transparent;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* imgをセルに引き伸ばさない（containで収める） */
+:where(.page-exhibition) #card-list .exhibit-image > img{
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+
+  object-fit: contain;
+  display: block;
+  box-sizing: border-box;
+
+  /* 額縁＝画像に直付け */
+  border: 4px solid var(--frame-color, #88aacc);
+  border-radius: 16px;
+  background: transparent;
+  padding: 0;
+  box-shadow: none;
+
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+
+/* 一覧のメタは全部非表示（JSはDOMを残す方針） */
+:where(.page-exhibition) #card-list .exhibit-meta{
   display: none !important;
 }
 
-/* 2) header を「左:タイトル / 右:日付 / 右端:×」レイアウトに上書き */
-#exhibit-modal-header{
-  display: flex;
-  align-items: center;
-  justify-content: space-between; /* 右寄せ固定を解除 */
-  gap: 12px;
-
-  padding: 12px 12px 8px; /* 0 をやめて下に少し余白 */
+/* hover（PCのみ） */
+@media (hover: hover) and (pointer: fine) {
+  :where(.page-exhibition) #card-list > .exhibit-card:hover .exhibit-image > img{
+    transform: translateY(-2px);
+    box-shadow: 0 14px 34px rgba(0, 0, 0, 0.12);
+  }
 }
 
-/* JS側で追加する想定の head ブロック */
-#exhibit-modal-header .exhibit-modal-head{
+/* 小さい画面でも3列固定：余白とgapだけ縮める */
+@media (max-width: 768px) {
+  :where(.page-exhibition) #card-list{
+    gap: 10px;
+    padding: 0 12px;
+  }
+  :where(.page-exhibition) #card-list .exhibit-image > img{
+    border-width: 3px;
+    border-radius: 14px;
+  }
+}
+
+/* =========================
+   モーダル（#exhibit-overlay 以下）
+   ========================= */
+
+/* overlay（閉じてる時は存在するが見えない・触れない） */
+:where(.page-exhibition) #exhibit-overlay{
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+
+  display: grid;
+  place-items: center;
+
+  padding: 20px;
+  box-sizing: border-box;
+
+  background: rgba(0, 0, 0, 0.62);
+
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity .18s ease, visibility .18s ease;
+}
+
+:where(.page-exhibition) #exhibit-overlay.is-open{
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+/* modal本体 */
+:where(.page-exhibition) #exhibit-modal{
+  width: min(920px, 100%);
+  max-height: calc(100vh - 48px);
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+
+  margin-top: 36px;
+
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(6px);
+
+  box-shadow: 0 30px 80px rgba(0,0,0,0.25);
+  border: 1px solid rgba(0,0,0,0.06);
+}
+
+/* header：左にタイトル/日付、右に× */
+:where(.page-exhibition) #exhibit-modal-header{
   display: flex;
-  align-items: baseline;
+  align-items: flex-start;
   justify-content: space-between;
   gap: 12px;
 
-  flex: 1 1 auto;
-  min-width: 0; /* ellipsis用 */
-  padding-left: 6px;
+  padding: 14px 14px 6px;
+  box-sizing: border-box;
 }
 
-/* タイトル（左） */
-#exhibit-modal-header .exhibit-modal-head-title{
-  font-size: 13px;
+/* タイトル/日付ブロック */
+:where(.page-exhibition) #exhibit-modal-header .exhibit-modal-head{
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  min-width: 0; /* 省略のため */
+}
+
+:where(.page-exhibition) #exhibit-modal-head-title{
+  font-size: 15px;
   font-weight: 650;
-  line-height: 1.2;
-  color: rgba(0,0,0,0.82);
+  line-height: 1.35;
+  color: rgba(0,0,0,0.86);
 
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-
-  flex: 1 1 auto;
-  min-width: 0;
 }
 
-/* 日付（右） */
-#exhibit-modal-header .exhibit-modal-head-date{
+:where(.page-exhibition) #exhibit-modal-head-date{
   font-size: 12px;
   letter-spacing: 0.02em;
-  color: rgba(0,0,0,0.60);
+  color: rgba(0,0,0,0.62);
+}
 
+/* close */
+:where(.page-exhibition) #exhibit-close{
+  appearance: none;
+  border: 0;
+  background: rgba(0,0,0,0.06);
+  color: rgba(0,0,0,0.75);
+
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+
+  cursor: pointer;
+  font-size: 22px;
+  line-height: 1;
+  transition: transform .12s ease, background .12s ease;
   flex: 0 0 auto;
-  white-space: nowrap;
 }
 
-/* ×ボタンは右端固定 */
-#exhibit-close{
-  flex: 0 0 auto;
-}
-
-/* 3) キャラ詳細ボタンを中央寄せ */
-#exhibit-modal-link{
-  margin: 4px auto 0;      /* 中央 */
-  justify-content: center; /* 中身も中央 */
-}
-
-/* 4) もし下の meta にタイトル/日付を残しているなら、
-      「二重表示」が気になる場合はここで消せる（任意）
-      → いったん残したいなら、このブロックはコメントアウトしてください */
-#exhibit-modal-body .exhibit-modal-row,
-#exhibit-modal-body .exhibit-modal-title{
-  display: none !important;
-}
-
-/* small screens（ヘッダの詰まり対策） */
-@media (max-width: 520px){
-  #exhibit-modal-header .exhibit-modal-head-title{
-    font-size: 12.5px;
+@media (hover: hover) and (pointer: fine) {
+  :where(.page-exhibition) #exhibit-close:hover{
+    background: rgba(0,0,0,0.10);
+    transform: translateY(-1px);
   }
-  #exhibit-modal-header .exhibit-modal-head-date{
-    font-size: 11.5px;
+}
+
+/* body */
+:where(.page-exhibition) #exhibit-modal-body{
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+
+  padding: 0 18px 18px;
+  box-sizing: border-box;
+}
+
+/* image block */
+:where(.page-exhibition) #exhibit-modal-body .exhibit-modal-image{
+  display: grid;
+  place-items: center;
+
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+/* モーダル画像（額縁なし） */
+:where(.page-exhibition) #exhibit-modal-img{
+  max-width: 100%;
+  max-height: 70vh;
+  width: auto;
+  height: auto;
+
+  object-fit: contain;
+  display: block;
+
+  border: none !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+/* meta */
+:where(.page-exhibition) #exhibit-modal-body .exhibit-modal-meta{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 0 4px 6px;
+}
+
+/* credit（右寄せ維持） */
+:where(.page-exhibition) #exhibit-modal-body .exhibit-modal-credit{
+  font-size: 13px;
+  opacity: 0.85;
+  text-align: right;
+  margin-left: auto;
+}
+
+:where(.page-exhibition) #exhibit-modal-body .exhibit-modal-credit a{
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* キャラ詳細ボタン：中央寄せ */
+:where(.page-exhibition) #exhibit-modal-link{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  text-decoration: none;
+  color: rgba(0,0,0,0.78);
+
+  padding: 10px 12px;
+  border-radius: 12px;
+
+  border: 1px solid rgba(0,0,0,0.10);
+  background: rgba(0,0,0,0.03);
+
+  width: fit-content;
+  margin: 6px auto 0; /* ←中央 */
+}
+
+@media (hover: hover) and (pointer: fine) {
+  :where(.page-exhibition) #exhibit-modal-link:hover{
+    background: rgba(0,0,0,0.06);
+  }
+}
+
+/* 注意文 */
+:where(.page-exhibition) .exhibit-notice{
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(0,0,0,0.10);
+
+  font-size: 12px;
+  line-height: 1.6;
+  color: rgba(0,0,0,0.75);
+
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* small screens */
+@media (max-width: 520px){
+  :where(.page-exhibition) #exhibit-modal{
+    border-radius: 16px;
+    margin-top: 28px;
+    max-height: calc(100vh - 36px);
+  }
+  :where(.page-exhibition) #exhibit-modal-body{
+    padding: 0 14px 14px;
+    gap: 12px;
   }
 }
