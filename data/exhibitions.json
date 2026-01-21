@@ -1,29 +1,11 @@
 [
   {
-    "file": "000_2025-12-31_first-exhibition.webp",
+    "file": "004_2026-01-21_guest01.png",
     "title": "",
-    "credit": "creatorA",
-    "creditUrl": "https://x.com/Project_Lure",
+    "credit": "たそりり",
+    "creditUrl": "https://x.com/ats_lily3",
     "note": "",
     "sensitive": false,
     "hide": true
-  },
-  {
-    "file": "001_2026-01-05_newyear-illustration.webp",
-    "title": "",
-    "credit": "creatorB",
-    "creditUrl": "",
-    "note": "",
-    "sensitive": false,
-    "hide": false
-  },
-  {
-    "file": "000_2026-01-20_second-exhibition.webp",
-    "title": "",
-    "credit": "creatorC",
-    "creditUrl": "",
-    "note": "",
-    "sensitive": false,
-    "hide": false
   }
 ]
