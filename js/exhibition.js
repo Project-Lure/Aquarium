@@ -702,10 +702,10 @@ document.addEventListener("DOMContentLoaded", () => {
       originalWorks = rawWorks.map(w => {
         const parsed = parseWorkFromFilename(w.file);
         const char = parsed.code ? getCharByCode(parsed.code) : null;
-
-        const displayTitle = char?.title
-          ? (parsed.slug ? `${char.title} / ${parsed.slug}` : char.title)
-          : (parsed.slug || parsed.file);
+      
+        const displayTitle = (w.title && String(w.title).trim())
+          ? String(w.title).trim()
+          : (char?.title || "");
 
         return {
           ...parsed,
