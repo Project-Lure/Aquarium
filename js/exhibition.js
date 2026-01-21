@@ -196,6 +196,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // ========================
   // modal（DOMを1回だけ作る）
+  // - コードは表示しない（内部利用のみ）
+  // - タイトル/日付は「画像の上」に出す想定（CSSでoverlayを整える）
   // ========================
   function ensureExhibitModal() {
     let overlay = document.getElementById("exhibit-overlay");
@@ -211,24 +213,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
         <div id="exhibit-modal-body">
           <div class="exhibit-modal-image">
+            <!-- 画像上オーバーレイ（タイトル/日付） -->
+            <div class="exhibit-modal-overlay">
+              <div class="exhibit-modal-overlay-title" id="exhibit-modal-title"></div>
+              <div class="exhibit-modal-overlay-date" id="exhibit-modal-date"></div>
+            </div>
+
             <img id="exhibit-modal-img" alt="">
           </div>
 
           <div class="exhibit-modal-meta">
-            <div class="exhibit-modal-row">
-              <span class="exhibit-modal-code" id="exhibit-modal-code"></span>
-              <span class="exhibit-modal-date" id="exhibit-modal-date"></span>
-            </div>
-
-            <div class="exhibit-modal-title" id="exhibit-modal-title"></div>
-
             <div class="exhibit-modal-credit">
               <a id="exhibit-modal-credit" href="#" target="_blank" rel="noopener"></a>
             </div>
 
             <a class="exhibit-modal-link" id="exhibit-modal-link" href="#">キャラ詳細へ</a>
 
-            <!-- ▼ ここに注意文ブロックを追加する -->
             <div class="exhibit-notice">
               無断転載・保存禁止
             </div>
@@ -257,7 +257,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const overlay = ensureExhibitModal();
 
     const img = overlay.querySelector("#exhibit-modal-img");
-    const codeEl = overlay.querySelector("#exhibit-modal-code");
     const dateEl = overlay.querySelector("#exhibit-modal-date");
     const titleEl = overlay.querySelector("#exhibit-modal-title");
     const creditEl = overlay.querySelector("#exhibit-modal-credit");
@@ -266,11 +265,11 @@ document.addEventListener("DOMContentLoaded", () => {
     // image
     img.src = `${EXHIBITION_DIR}/${work.file}`;
     img.alt = work.displayTitle || "EXHIBITION";
+    img.draggable = false;
 
-    // meta
-    codeEl.textContent = work.code || "---";
+    // overlay meta (title/date)
     dateEl.textContent = work.publishedAt || "----/--/--";
-    titleEl.textContent = work.displayTitle || (work.slug || work.file);
+    titleEl.textContent = work.displayTitle || "";
 
     // credit（固定：URLがある時だけ表示）
     if (work.credit && work.creditUrl) {
@@ -294,6 +293,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // ========================
   // render
+  // - 一覧側は「日付 + タイトル」だけ（コードは出さない）
   // ========================
   function renderList(list) {
     container.innerHTML = "";
@@ -321,9 +321,8 @@ document.addEventListener("DOMContentLoaded", () => {
       const img = document.createElement("img");
       img.alt = w.displayTitle || "EXHIBITION";
       img.loading = "lazy";
-
       img.draggable = false;
-      
+
       img.addEventListener("error", () => {
         img.src = "images/ui/card-placeholder.png";
         card.classList.add("is-placeholder");
@@ -345,17 +344,11 @@ document.addEventListener("DOMContentLoaded", () => {
       const date = document.createElement("span");
       date.className = "exhibit-date";
       date.textContent = w.publishedAt || "----/--/--";
-
-      const code = document.createElement("span");
-      code.className = "exhibit-code";
-      code.textContent = w.code || "---";
-
       line1.appendChild(date);
-      line1.appendChild(code);
 
       const title = document.createElement("div");
       title.className = "exhibit-title";
-      title.textContent = w.displayTitle || (w.slug || w.file);
+      title.textContent = w.displayTitle || "";
 
       meta.appendChild(line1);
       meta.appendChild(title);
@@ -380,8 +373,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
       case "title":
         arr.sort((a, b) => {
-          const at = (a.char?.titleYomi || a.char?.title || a.slug || "").toString();
-          const bt = (b.char?.titleYomi || b.char?.title || b.slug || "").toString();
+          const at = (a.char?.titleYomi || a.char?.title || a.displayTitle || a.slug || "").toString();
+          const bt = (b.char?.titleYomi || b.char?.title || b.displayTitle || b.slug || "").toString();
           return at.localeCompare(bt, "ja");
         });
         break;
@@ -414,6 +407,7 @@ document.addEventListener("DOMContentLoaded", () => {
           w.code || "",
           w.publishedAt || "",
           w.slug || "",
+          w.displayTitle || "",
           c?.title || "",
           c?.titleYomi || "",
           c?.mainColorLabel || "",
@@ -669,8 +663,11 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     }
   }
-  
-  function setupAntiSaveHints(){
+
+  // ========================
+  // anti-save hints（スクショは不可避）
+  // ========================
+  function setupAntiSaveHints() {
     // 右クリック（contextmenu）抑止：展示画像だけ
     document.addEventListener("contextmenu", (e) => {
       const img = e.target.closest(".exhibit-image img, #exhibit-modal-img");
@@ -685,6 +682,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   setupAntiSaveHints();
+
   // ========================
   // load
   // ========================
@@ -702,7 +700,10 @@ document.addEventListener("DOMContentLoaded", () => {
       originalWorks = rawWorks.map(w => {
         const parsed = parseWorkFromFilename(w.file);
         const char = parsed.code ? getCharByCode(parsed.code) : null;
-      
+
+        // 方針：
+        // - 基本：char.title（＝作品タイトル）
+        // - 例外：w.title が入っている場合だけ上書き（将来用の保険）
         const displayTitle = (w.title && String(w.title).trim())
           ? String(w.title).trim()
           : (char?.title || "");
