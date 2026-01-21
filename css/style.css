@@ -3047,417 +3047,88 @@ body>.bubbles-body span:nth-child(9) {
   margin-top: 0;
 }
 /* =========================================================
-   EXHIBITION 上書き（JS: .exhibit-image > img に合わせる）
-   目的：
-   - 横3固定
-   - セル正方形（見えない枠）
-   - 画像は比率維持でセル内に収める
-   - 額縁は「画像そのもの」に直付け（＝二重枠を作らない）
-   - 外枠（固定枠）は見えない
-   ※ style.css の末尾に貼る
+   FIX: タイトル+日付は「モーダル上部」に置く（画像には重ねない）
+   - 既存CSSを壊さず上書き
+   - .exhibit-modal-overlay（画像上の帯）は無効化
    ========================================================= */
 
-/* ===== grid ===== */
-:where(.page-exhibition) :where(.exhibition-grid){
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 18px;
-
-  width: min(1100px, 100%);
-  margin: 0 auto;
-  padding: 0 22px;
-  box-sizing: border-box;
-}
-
-/* クリック範囲（カード） */
-:where(.page-exhibition) :where(.exhibit-card){
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  text-decoration: none;
-  color: inherit;
-}
-
-/* 見えない正方形セル */
-:where(.page-exhibition) :where(.exhibit-image){
-  width: 100%;
-  aspect-ratio: 1 / 1;
-  display: grid;
-  place-items: center;
-  overflow: hidden;
-  background: transparent;
-  border: none !important;
-  box-shadow: none !important;
-}
-
-/* ★ここが本丸：imgをセルに引き伸ばさない */
-:where(.page-exhibition) :where(.exhibit-image img){
-  /* 引き伸ばし禁止 */
-  width: auto;
-  height: auto;
-
-  /* セル内に収める */
-  max-width: 100%;
-  max-height: 100%;
-
-  object-fit: contain;
-  display: block;
-  box-sizing: border-box;
-
-  /* 額縁＝画像に直付け */
-  border: 4px solid var(--frame-color, #88aacc);
-  border-radius: 16px;
-  background: transparent;
-  padding: 0;
-  box-shadow: none;
-
-  transition: transform .18s ease, box-shadow .18s ease;
-}
-
-/* 一覧ではメタ（日時/タイトル）を全部非表示 */
-:where(.page-exhibition) :where(.exhibit-meta){
+/* 1) 画像上 overlay を完全に無効化（残ってても表示しない） */
+#exhibit-modal-body .exhibit-modal-overlay{
   display: none !important;
 }
 
-/* 残してあるが、非表示前提で定義は維持 */
-:where(.page-exhibition) :where(.exhibit-meta-line){
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  gap: 10px;
-}
-:where(.page-exhibition) :where(.exhibit-date){
-  font-size: 12px;
-  opacity: 0.75;
-}
-:where(.page-exhibition) :where(.exhibit-code){
-  font-size: 12px;
-  opacity: 0.75;
-  letter-spacing: 0.02em;
-}
-:where(.page-exhibition) :where(.exhibit-title){
-  font-size: 13px;
-  font-weight: 600;
-  line-height: 1.35;
-}
-
-/* hover（PCのみ） */
-@media (hover: hover) and (pointer: fine) {
-  :where(.page-exhibition) :where(.exhibit-card:hover) :where(.exhibit-image img){
-    transform: translateY(-2px);
-    box-shadow: 0 14px 34px rgba(0, 0, 0, 0.12);
-  }
-}
-
-/* 小さい画面でも3列固定：余白とgapだけ縮める */
-@media (max-width: 768px) {
-  :where(.page-exhibition) :where(.exhibition-grid){
-    gap: 10px;
-    padding: 0 12px;
-  }
-  :where(.page-exhibition) :where(.exhibit-image img){
-    border-width: 3px;
-    border-radius: 14px;
-  }
-}
-
-/* 二重枠保険 */
-:where(.page-exhibition) :where(.exhibit-image){
-  border: none !important;
-  box-shadow: none !important;
-}
-
-/* =========================
-   EXHIBITION modal
-   ========================= */
-
-/* overlay（閉じてる時は存在するが見えない・触れない） */
-#exhibit-overlay{
-  position: fixed;
-  inset: 0;
-  z-index: 1000;
-
-  display: grid;
-  place-items: center;
-
-  padding: 20px;
-  box-sizing: border-box;
-
-  background: rgba(0, 0, 0, 0.62);
-
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-  transition: opacity .18s ease, visibility .18s ease;
-}
-
-/* open */
-#exhibit-overlay.is-open{
-  opacity: 1;
-  visibility: visible;
-  pointer-events: auto;
-}
-
-/* modal本体 */
-#exhibit-modal{
-  width: min(920px, 100%);
-  max-height: min(86vh, 920px);
-  overflow: auto;
-
-  border-radius: 18px;
-  background: rgba(255, 255, 255, 0.92);
-  backdrop-filter: blur(6px);
-
-  box-shadow: 0 30px 80px rgba(0,0,0,0.25);
-  border: 1px solid rgba(0,0,0,0.06);
-}
-
-/* header */
+/* 2) header を「左:タイトル / 右:日付 / 右端:×」レイアウトに上書き */
 #exhibit-modal-header{
   display: flex;
-  justify-content: flex-end;
   align-items: center;
+  justify-content: space-between; /* 右寄せ固定を解除 */
+  gap: 12px;
 
-  padding: 12px 12px 0;
+  padding: 12px 12px 8px; /* 0 をやめて下に少し余白 */
 }
 
-#exhibit-close{
-  appearance: none;
-  border: 0;
-  background: rgba(0,0,0,0.06);
-  color: rgba(0,0,0,0.75);
-
-  width: 38px;
-  height: 38px;
-  border-radius: 12px;
-
-  cursor: pointer;
-  font-size: 22px;
-  line-height: 1;
-  transition: transform .12s ease, background .12s ease;
-}
-
-@media (hover: hover) and (pointer: fine) {
-  #exhibit-close:hover{
-    background: rgba(0,0,0,0.10);
-    transform: translateY(-1px);
-  }
-}
-
-/* body（基本は縦：上に画像・下に情報） */
-#exhibit-modal-body{
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 14px;
-
-  padding: 0 18px 18px;
-  box-sizing: border-box;
-}
-
-/* image block */
-#exhibit-modal-body .exhibit-modal-image{
-  display: grid;
-  place-items: center;
-
-  padding: 10px;
-  box-sizing: border-box;
-}
-
-/* =========================
-   EXHIBITION modal image（額縁なし・全端末）
-   ========================= */
-#exhibit-modal-img{
-  max-width: 100%;
-  max-height: 70vh;
-  width: auto;
-  height: auto;
-
-  object-fit: contain;
-  display: block;
-
-  border: none !important;
-  border-radius: 0 !important;
-  background: transparent !important;
-  box-shadow: none !important;
-}
-
-/* meta */
-#exhibit-modal-body .exhibit-modal-meta{
+/* JS側で追加する想定の head ブロック */
+#exhibit-modal-header .exhibit-modal-head{
   display: flex;
-  flex-direction: column;
-  gap: 10px;
-  padding: 0 4px 6px;
-}
-
-/* code/date row */
-#exhibit-modal-body .exhibit-modal-row{
-  display: flex;
-  justify-content: space-between;
   align-items: baseline;
-  gap: 10px;
-
-  font-size: 12px;
-  opacity: 0.82;
-  letter-spacing: 0.02em;
-}
-
-/* title */
-#exhibit-modal-body .exhibit-modal-title{
-  font-size: 15px;
-  font-weight: 650;
-  line-height: 1.4;
-}
-
-/* credit（右寄せ） */
-#exhibit-modal-body .exhibit-modal-credit{
-  font-size: 13px;
-  opacity: 0.85;
-  text-align: right;
-  margin-left: auto;
-}
-
-#exhibit-modal-body .exhibit-modal-credit a{
-  color: inherit;
-  text-decoration: underline;
-  text-underline-offset: 3px;
-}
-
-/* link */
-#exhibit-modal-link{
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-
-  font-size: 13px;
-  font-weight: 600;
-
-  text-decoration: none;
-  color: rgba(0,0,0,0.78);
-
-  padding: 10px 12px;
-  border-radius: 12px;
-
-  border: 1px solid rgba(0,0,0,0.10);
-  background: rgba(0,0,0,0.03);
-  width: fit-content;
-}
-
-@media (hover: hover) and (pointer: fine) {
-  #exhibit-modal-link:hover{
-    background: rgba(0,0,0,0.06);
-  }
-}
-
-/* 注意文（境界線は黒系に揃える） */
-.exhibit-notice{
-  margin-top: 16px;
-  padding-top: 12px;
-  border-top: 1px solid rgba(0,0,0,0.10);
-
-  font-size: 12px;
-  line-height: 1.6;
-  color: rgba(0,0,0,0.75);
-
-  user-select: none;
-  -webkit-user-select: none;
-}
-
-/* =========================
-   Exhibit modal: avoid header overlap（全端末で少し下げる）
-   ========================= */
-
-/* overlay は触りすぎない（中心計算が崩れるのを避ける） */
-#exhibit-overlay{
-  z-index: 9999;
-}
-
-/* モーダルを少し下げる + 画面内に収める */
-#exhibit-modal{
-  margin-top: 36px; /* ここだけ好みで微調整 */
-  max-height: calc(100vh - 48px);
-  overflow: auto;
-  -webkit-overflow-scrolling: touch;
-}
-
-/* small screens */
-@media (max-width: 520px){
-  #exhibit-modal{
-    border-radius: 16px;
-    margin-top: 28px; /* スマホは少し控えめ */
-    max-height: calc(100vh - 36px);
-  }
-  #exhibit-modal-body{
-    padding: 0 14px 14px;
-    gap: 12px;
-  }
-}
-
-/* =========================================================
-   追加：画像上に「タイトル + 日付」を載せる（JS側 overlay 用）
-   - JSが .exhibit-modal-overlay を生成している前提
-   - 既存を壊さず上書きで追加
-   ========================================================= */
-
-#exhibit-modal-body .exhibit-modal-image{
-  position: relative; /* overlayの基準 */
-}
-
-#exhibit-modal-body .exhibit-modal-overlay{
-  position: absolute;
-  left: 10px;
-  right: 10px;
-  top: 10px;
-  z-index: 2;
-
-  display: flex;
   justify-content: space-between;
-  align-items: flex-start;
-  gap: 10px;
+  gap: 12px;
 
-  padding: 10px 10px;
-  border-radius: 14px;
-
-  background: rgba(255,255,255,0.72);
-  backdrop-filter: blur(6px);
-
-  pointer-events: none; /* 画像操作を邪魔しない */
-  box-sizing: border-box;
+  flex: 1 1 auto;
+  min-width: 0; /* ellipsis用 */
+  padding-left: 6px;
 }
 
-#exhibit-modal-body .exhibit-modal-overlay-title{
+/* タイトル（左） */
+#exhibit-modal-header .exhibit-modal-head-title{
   font-size: 13px;
   font-weight: 650;
-  line-height: 1.35;
+  line-height: 1.2;
   color: rgba(0,0,0,0.82);
 
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  min-width: 0;
+
   flex: 1 1 auto;
+  min-width: 0;
 }
 
-#exhibit-modal-body .exhibit-modal-overlay-date{
+/* 日付（右） */
+#exhibit-modal-header .exhibit-modal-head-date{
   font-size: 12px;
   letter-spacing: 0.02em;
-  color: rgba(0,0,0,0.68);
+  color: rgba(0,0,0,0.60);
+
   flex: 0 0 auto;
   white-space: nowrap;
 }
 
-/* スマホ：overlayを少し小さく */
+/* ×ボタンは右端固定 */
+#exhibit-close{
+  flex: 0 0 auto;
+}
+
+/* 3) キャラ詳細ボタンを中央寄せ */
+#exhibit-modal-link{
+  margin: 4px auto 0;      /* 中央 */
+  justify-content: center; /* 中身も中央 */
+}
+
+/* 4) もし下の meta にタイトル/日付を残しているなら、
+      「二重表示」が気になる場合はここで消せる（任意）
+      → いったん残したいなら、このブロックはコメントアウトしてください */
+#exhibit-modal-body .exhibit-modal-row,
+#exhibit-modal-body .exhibit-modal-title{
+  display: none !important;
+}
+
+/* small screens（ヘッダの詰まり対策） */
 @media (max-width: 520px){
-  #exhibit-modal-body .exhibit-modal-overlay{
-    left: 8px;
-    right: 8px;
-    top: 8px;
-    padding: 9px 9px;
-    border-radius: 12px;
-  }
-  #exhibit-modal-body .exhibit-modal-overlay-title{
+  #exhibit-modal-header .exhibit-modal-head-title{
     font-size: 12.5px;
   }
-  #exhibit-modal-body .exhibit-modal-overlay-date{
+  #exhibit-modal-header .exhibit-modal-head-date{
     font-size: 11.5px;
   }
 }
