@@ -5,7 +5,8 @@
     "credit": "creatorA",
     "creditUrl": "https://x.com/Project_Lure",
     "note": "",
-    "sensitive": false
+    "sensitive": false,
+    "hide": true
   },
   {
     "file": "001_2026-01-05_newyear-illustration.webp",
@@ -13,7 +14,8 @@
     "credit": "creatorB",
     "creditUrl": "",
     "note": "",
-    "sensitive": false
+    "sensitive": false,
+    "hide": false
   },
   {
     "file": "000_2026-01-20_second-exhibition.webp",
@@ -21,6 +23,7 @@
     "credit": "creatorC",
     "creditUrl": "",
     "note": "",
-    "sensitive": false
+    "sensitive": false,
+    "hide": false
   }
 ]
