@@ -319,6 +319,17 @@
     "catchcopy": "「喜んでくれるといいな」"
   },
   {
+    "code": "41V",
+    "title": "First Breath",
+    "titleYomi": "ふぁーすとぶれす",
+    "series": "4",
+    "arc": { "ex": "R", "core": "V" },
+    "theme": "12月",
+    "mainColorLabel": "未定",
+    "colors": [""],
+    "catchcopy": "「……」"
+  },
+  {
     "code": "531",
     "title": "オムライスの作り方",
     "titleYomi": "おむらいすのつくりかた",
