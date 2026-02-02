@@ -253,6 +253,17 @@
     "catchcopy": "見て、魅入って"
   },
   {
+    "code": "200",
+    "title": "カタル／シス",
+    "titleYomi": "かたるしす",
+    "series": "2",
+    "arc": { "ex": "N", "core": "V" },
+    "theme": "ジョーカー",
+    "mainColorLabel": "クチナシ",
+    "colors": ["#E1C66D"],
+    "catchcopy": "語れば最後"
+  },
+  {
     "code": "242",
     "title": "ペンギンの天秤",
     "titleYomi": "ぺんぎんのてんびん",
