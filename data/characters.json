@@ -209,6 +209,17 @@
     "catchcopy": "私だけを見て"
   },
   {
+    "code": "023",
+    "title": "ウソカマコトカ",
+    "titleYomi": "うそかまことか",
+    "series": "0",
+    "arc": { "ex": "F", "core": "O" },
+    "theme": "鬼",
+    "mainColorLabel": "青丹",
+    "colors": [""],
+    "catchcopy": "それが鬼"
+  },
+  {
     "code": "026",
     "title": "オンリーメイド",
     "titleYomi": "おんりーめいど",
