@@ -216,7 +216,7 @@
     "arc": { "ex": "F", "core": "O" },
     "theme": "鬼",
     "mainColorLabel": "青丹",
-    "colors": [""],
+    "colors": ["#838166"],
     "catchcopy": "それが鬼"
   },
   {
